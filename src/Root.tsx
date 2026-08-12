@@ -1,6 +1,8 @@
 import React from 'react';
 import {Composition} from 'remotion';
 import {CANVAS, FPS, TOTAL_FRAMES} from './lib/theme';
+import {LF_CANVAS, LF_TOTAL_FRAMES} from './lib/lf-theme';
+import {LongForm} from './LongForm';
 import {Part1Engine} from './Part1';
 import {Part2ScaleUp} from './Part2';
 import {
@@ -33,6 +35,13 @@ const REEL = {
   height: CANVAS.h,
 } as const;
 
+const LONGFORM = {
+  durationInFrames: LF_TOTAL_FRAMES,
+  fps: FPS,
+  width: LF_CANVAS.w,
+  height: LF_CANVAS.h,
+} as const;
+
 const THUMB = {
   durationInFrames: THUMB_FRAMES,
   fps: FPS,
@@ -44,6 +53,8 @@ export const RemotionRoot: React.FC = () => (
   <>
     <Composition id="Part1Engine" component={Part1Engine} {...REEL} />
     <Composition id="Part2ScaleUp" component={Part2ScaleUp} {...REEL} />
+
+    <Composition id="LongForm" component={LongForm} {...LONGFORM} />
 
     <Composition id="Thumb1EN" component={Thumb1EN} {...THUMB} />
     <Composition id="Thumb1HI" component={Thumb1HI} {...THUMB} />
