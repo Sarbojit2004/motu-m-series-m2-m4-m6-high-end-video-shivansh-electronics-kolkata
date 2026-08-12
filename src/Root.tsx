@@ -3,6 +3,7 @@ import {Composition} from 'remotion';
 import {CANVAS, FPS, TOTAL_FRAMES} from './lib/theme';
 import {LF_CANVAS, LF_TOTAL_FRAMES} from './lib/lf-theme';
 import {LongForm} from './LongForm';
+import {LF_THUMB_FRAMES, LFThumbBN, LFThumbEN, LFThumbHI} from './LFThumbnails';
 import {Part1Engine} from './Part1';
 import {Part2ScaleUp} from './Part2';
 import {
@@ -42,6 +43,13 @@ const LONGFORM = {
   height: LF_CANVAS.h,
 } as const;
 
+const LF_THUMB = {
+  durationInFrames: LF_THUMB_FRAMES,
+  fps: FPS,
+  width: LF_CANVAS.w,
+  height: LF_CANVAS.h,
+} as const;
+
 const THUMB = {
   durationInFrames: THUMB_FRAMES,
   fps: FPS,
@@ -55,6 +63,10 @@ export const RemotionRoot: React.FC = () => (
     <Composition id="Part2ScaleUp" component={Part2ScaleUp} {...REEL} />
 
     <Composition id="LongForm" component={LongForm} {...LONGFORM} />
+
+    <Composition id="LFThumbEN" component={LFThumbEN} {...LF_THUMB} />
+    <Composition id="LFThumbHI" component={LFThumbHI} {...LF_THUMB} />
+    <Composition id="LFThumbBN" component={LFThumbBN} {...LF_THUMB} />
 
     <Composition id="Thumb1EN" component={Thumb1EN} {...THUMB} />
     <Composition id="Thumb1HI" component={Thumb1HI} {...THUMB} />

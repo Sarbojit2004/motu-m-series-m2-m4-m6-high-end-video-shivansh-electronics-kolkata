@@ -24,7 +24,10 @@
     "render:lf": "remotion render LongForm out/motu-mseries-longform.mp4 --codec=h264 --crf=18 --pixel-format=yuv420p",
     "audio:lf": "python3 scripts/gen_audio_longform.py && python3 scripts/audit_audio.py",
     "cadence": "node scripts/branding_cadence.mjs",
-    "logos": "python3 scripts/prep_logos.py"
+    "logos": "python3 scripts/prep_logos.py",
+    "thumb:lfen": "remotion still LFThumbEN thumbnails/thumbnail-motu-longform-english.png --frame=100 --image-format=png",
+    "thumb:lfhi": "remotion still LFThumbHI thumbnails/thumbnail-motu-longform-hindi.png --frame=100 --image-format=png",
+    "thumb:lfbn": "remotion still LFThumbBN thumbnails/thumbnail-motu-longform-bengali.png --frame=100 --image-format=png"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.507",
