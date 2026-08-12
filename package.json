@@ -1,0 +1,45 @@
+{
+  "name": "motu-mseries-reels",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Two 88-second vertical reels for the MOTU M-Series (M2, M4, M6) audio interfaces.",
+  "scripts": {
+    "studio": "remotion studio",
+    "typecheck": "tsc --noEmit",
+    "audio": "python3 scripts/gen_audio.py && python3 scripts/audit_audio.py",
+    "media": "python3 scripts/rebuild_media.py",
+    "coverage": "node scripts/coverage.mjs",
+    "branding": "node scripts/branding_audit.mjs",
+    "stills": "node scripts/stills.mjs",
+    "verify": "node scripts/verify_render.mjs",
+    "bootstrap": "python3 scripts/rebuild_media.py && python3 scripts/gen_audio.py && python3 scripts/audit_audio.py",
+    "render:p1": "remotion render Part1Engine out/motu-mseries-reel-part1-engine.mp4 --codec=h264 --crf=17 --pixel-format=yuv420p",
+    "render:p2": "remotion render Part2ScaleUp out/motu-mseries-reel-part2-scaleup.mp4 --codec=h264 --crf=17 --pixel-format=yuv420p",
+    "thumb:p1en": "remotion still Thumb1EN thumbnails/thumbnail-motu-reel-part1-english.png --image-format=png --frame=100",
+    "thumb:p1hi": "remotion still Thumb1HI thumbnails/thumbnail-motu-reel-part1-hindi.png --image-format=png --frame=100",
+    "thumb:p1bn": "remotion still Thumb1BN thumbnails/thumbnail-motu-reel-part1-bengali.png --image-format=png --frame=100",
+    "thumb:p2en": "remotion still Thumb2EN thumbnails/thumbnail-motu-reel-part2-english.png --image-format=png --frame=100",
+    "thumb:p2hi": "remotion still Thumb2HI thumbnails/thumbnail-motu-reel-part2-hindi.png --image-format=png --frame=100",
+    "thumb:p2bn": "remotion still Thumb2BN thumbnails/thumbnail-motu-reel-part2-bengali.png --image-format=png --frame=100"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.507",
+    "@remotion/cli": "4.0.507",
+    "@remotion/media-utils": "4.0.507",
+    "@remotion/noise": "4.0.507",
+    "@remotion/paths": "4.0.507",
+    "@remotion/renderer": "4.0.507",
+    "@remotion/shapes": "4.0.507",
+    "@remotion/transitions": "4.0.507",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "remotion": "4.0.507"
+  },
+  "devDependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@ffprobe-installer/ffprobe": "^2.1.2",
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "typescript": "5.6.3"
+  }
+}
