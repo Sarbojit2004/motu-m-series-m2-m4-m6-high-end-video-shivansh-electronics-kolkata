@@ -141,3 +141,30 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# ---------------------------------------------------------------------------
+# Project-specific overrides
+# ---------------------------------------------------------------------------
+# The bare "out" rule in the Next.js section above would ignore the delivered
+# renders. Both reels are deliverables and must be committed.
+!out/
+out/*
+!out/*.mp4
+!out/.keep
+
+# Verification stills are derived. Regenerate with:  node scripts/stills.mjs <part>
+stills/
+
+# public/img and public/audio are derived and fully regenerable:
+#   python3 scripts/rebuild_media.py     (30 images from the repo's source files)
+#   python3 scripts/gen_audio.py         (all SFX, the ambient bed, both music beds)
+# Together they are ~20 MB of output with no information the recipes lack, so
+# they are not committed. public/fonts IS committed — the vendored woff2 faces
+# are inputs, not output, and a render must never depend on a network fetch.
+public/img/
+public/audio/
+public/vo/*.mp3
+
+# Frames extracted from a delivered render for auditing. Derived:
+#   node scripts/frames_from_render.mjs <part> <file.mp4>
+frames/
