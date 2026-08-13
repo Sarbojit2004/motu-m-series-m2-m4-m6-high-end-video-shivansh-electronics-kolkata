@@ -831,14 +831,20 @@ const S12: React.FC = () => {
           </Display>
         </At>
 
+        {/*
+          This scene is only 110 frames, so every reveal lands early. An earlier
+          pass had the chips at 40/48 and the continue line ramping 56-74, which
+          left the closing cue on screen for barely 1.2 s before the dissolve
+          into the outro. Everything now settles by frame ~54, holding ~1.9 s.
+        */}
         <At y={580} w={SAFE.w}>
-          <IoBar ins={2} outs={2} max={6} delay={18} animateFrom={0} label="THIS PART · M2" />
+          <IoBar ins={2} outs={2} max={6} delay={14} animateFrom={0} label="THIS PART · M2" />
         </At>
 
         <At y={706} w={SAFE.w}>
           <div style={{display: 'flex', justifyContent: 'center', gap: 12}}>
             {['MOTU M4 · 4 IN / 4 OUT', 'MOTU M6 · 6 IN / 4 OUT'].map((s, i) => {
-              const p = ramp(f, [stag(i, 8, 40), stag(i, 8, 40) + 18], [0, 1]);
+              const p = ramp(f, [stag(i, 8, 24), stag(i, 8, 24) + 18], [0, 1]);
               return (
                 <div key={s} style={{opacity: p, transform: `translateY(${(1 - p) * 10}px)`}}>
                   <Chip bg={C.ink} size={16}>
@@ -854,13 +860,13 @@ const S12: React.FC = () => {
             size={15}
             tracking={2.8}
             color={C.inkDim}
-            style={{textAlign: 'center', opacity: ramp(f, [56, 74], [0, 1])}}
+            style={{textAlign: 'center', opacity: ramp(f, [36, 54], [0, 1])}}
           >
             CONTINUE TO PART 2 — THE SCALE-UP
           </Micro>
         </At>
 
-        <ContactStrip part={1} y={1272} dur={dur} index={0} delay={40} />
+        <ContactStrip part={1} y={1272} dur={dur} index={0} delay={30} />
       </Stage>
 
       <Cue name="riser-warm" at={0} volume={0.62} />

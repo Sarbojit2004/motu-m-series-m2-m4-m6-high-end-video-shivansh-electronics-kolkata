@@ -27,14 +27,22 @@ SFX_DIR = os.path.join(ROOT, "public", "audio", "sfx")
 VO_DIR = os.path.join(ROOT, "public", "vo")
 TOL = 0.12
 REEL_SECONDS = 88.0
+LF_SECONDS = 298.0
 
 
 def target_seconds(fname: str):
     """The beds and the VO slots carry the frame contract; short SFX are free."""
     stem = fname[:-4]
+    if stem.endswith("longform"):
+        return LF_SECONDS
     if stem.startswith("music-bed-part") or stem.startswith("voiceover-reel") or stem == "ambient-reel":
         return REEL_SECONDS
     return None
+
+
+def is_bed(fname: str) -> bool:
+    stem = fname[:-4]
+    return stem.startswith("music-bed") or stem.startswith("ambient-")
 
 
 def bin_for(name):
@@ -114,7 +122,7 @@ def main():
             rms = float(np.sqrt(np.mean(x ** 2))) if len(x) else 0.0
             silent = peak < 1e-4
             want = target_seconds(f)
-            long_bed = f.startswith("music-bed") or f == "ambient-reel.mp3"
+            long_bed = is_bed(f)
 
             status = "✓"
             if m["ch"] != 2 or m["rate"] != 48000:
@@ -152,9 +160,12 @@ def main():
 
     # ---- cross-reference cue names used in code -----------------------------
     sfx_ts = os.path.join(ROOT, "src", "lib", "sfx.ts")
-    print("\n=== CUE CROSS-REFERENCE (src/lib/sfx.ts) ===")
+    lf_ts = os.path.join(ROOT, "src", "lib", "lf-sfx.ts")
+    print("\n=== CUE CROSS-REFERENCE (src/lib/sfx.ts + lf-sfx.ts) ===")
     if os.path.exists(sfx_ts):
         src = open(sfx_ts).read()
+        if os.path.exists(lf_ts):
+            src += open(lf_ts).read()
         declared = set(re.findall(r"audio/sfx/([a-z0-9\-]+)\.mp3", src))
         # bed() builds its path from a template literal, so expand that form too
         for stem in re.findall(r"audio/sfx/([a-z0-9\-]+)\$\{part\}\.mp3", src):

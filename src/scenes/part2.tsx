@@ -347,8 +347,14 @@ const S05: React.FC = () => {
           </At>
         </BSlide>
 
+        {/*
+          delay 62, not 78: the bar's growth runs 26 frames, so at 78 it only
+          finished at 104 and held 1.5 s of a 150-frame scene. At 62 it lands by
+          88 and holds ~2.1 s — it is the scene's payoff and needs to be seen
+          settled, not still moving as the cut arrives.
+        */}
         <At y={600} w={SAFE.w}>
-          <IoBar ins={6} outs={4} max={6} delay={78} animateFrom={4} />
+          <IoBar ins={6} outs={4} max={6} delay={62} animateFrom={4} />
         </At>
 
         <At y={706} w={880}>
@@ -364,18 +370,28 @@ const S05: React.FC = () => {
           of the whole series thesis, so the scene that shows the panel growing
           is exactly where it belongs — and it gives this transition beat real
           content instead of empty space.
+
+          Delays are early because this scene is only 150 frames. Reveals at 88
+          and 100 left these on screen for barely 1.7 s, flashing in just as the
+          scene dissolves out. Now they settle first and act as the constant, and
+          the I/O bar growing 4 -> 6 at frame 78 is the late payoff against them.
         */}
         <At y={840} w={SAFE.w}>
-          <SharedSpecStrip items={SHARED_SPECS.slice(0, 3)} delay={88} cols={3} />
+          <SharedSpecStrip items={SHARED_SPECS.slice(0, 3)} delay={30} cols={3} />
         </At>
         <At y={962} w={SAFE.w}>
-          <Micro size={14} tracking={2.4} color={C.motu}>
+          <Micro
+            size={14}
+            tracking={2.4}
+            color={C.motu}
+            style={{opacity: ramp(f, [48, 66], [0, 1])}}
+          >
             IDENTICAL ON M2 · M4 · M6
           </Micro>
         </At>
 
         <At y={1044} w={SAFE.w}>
-          <DistributorBlock part={2} delay={100} size={19} />
+          <DistributorBlock part={2} delay={56} size={19} />
         </At>
 
         <ContactStrip part={2} y={1272} dur={dur} index={4} delay={60} />

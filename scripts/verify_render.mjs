@@ -30,7 +30,13 @@ const bin = (name) => {
 const FFPROBE = bin('ffprobe');
 const FFMPEG = bin('ffmpeg');
 
-const EXPECT = {w: 1080, h: 1920, fps: 30, frames: 2640, seconds: 88.0};
+// The two formats have different contracts; pick by filename so one command
+// verifies either. Without this the long-form file was checked against the
+// reels' 1080x1920 / 2640 / 88 s contract and "failed" while being correct.
+const LONGFORM = /longform/.test(target);
+const EXPECT = LONGFORM
+  ? {w: 1920, h: 1080, fps: 30, frames: 8940, seconds: 298.0}
+  : {w: 1080, h: 1920, fps: 30, frames: 2640, seconds: 88.0};
 const fails = [];
 const ok = (cond, msg, detail) => {
   console.log(`  ${cond ? '✓' : '✗'} ${msg}${detail ? `  ${detail}` : ''}`);

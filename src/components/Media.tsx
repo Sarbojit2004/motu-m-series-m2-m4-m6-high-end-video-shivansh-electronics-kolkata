@@ -249,15 +249,26 @@ export const Pair: React.FC<{
   maxH?: number;
   delay?: number;
   stagger?: number;
-  labels?: [string, string];
   radius?: number;
-}> = ({ids, dur, y, gap = 22, maxH = 420, delay = 0, stagger = 8, radius = 12}) => {
+  /**
+   * 'top' (default) gives both plates a common top edge. Because each plate is
+   * sized to its own aspect ratio the two heights differ, and centring them
+   * independently made the row read as a see-saw with nothing aligned. A shared
+   * top edge is the stronger alignment cue and cannot overflow, since a
+   * top-aligned box occupies [y, y+h] ⊆ [y, y+maxH].
+   */
+  align?: 'top' | 'middle';
+}> = ({ids, dur, y, gap = 22, maxH = 420, delay = 0, stagger = 8, radius = 12, align = 'top'}) => {
   const f = useCurrentFrame();
   const colW = (SAFE.w - gap) / 2;
   return (
     <>
       {ids.map((id, i) => {
-        const b = fitBoxC(id, i * (colW + gap), y, colW, maxH);
+        const x = i * (colW + gap);
+        const b =
+          align === 'middle'
+            ? fitBoxC(id, x, y, colW, maxH)
+            : fitBox(id, x, y, colW, maxH, 'center');
         const p = ramp(f, [delay + i * stagger, delay + i * stagger + 18], [0, 1]);
         return (
           <Shot

@@ -316,3 +316,54 @@ public/audio/   25 synthesised audio files (derived)
 Scene tables in `src/lib/theme.ts` are the single source of timing truth. `Reel`
 throws if a part's nodes disagree with its table, or if the table does not sum
 to exactly 2,640 frames.
+
+---
+
+## Long-form video — 298 s, 1920×1080
+
+`out/motu-mseries-longform.mp4` — one continuous 298-second treatment of the
+same story the two reels tell, covering M2, M4 and M6 in a single arc.
+
+### Reproduce the render
+
+```bash
+npm install
+npm run render:lf          # -> out/motu-mseries-longform.mp4
+```
+
+The archive in `dist-zip/` ships the derived `public/` tree (deduplicated
+images, synthesised audio, vendored fonts, plate-stripped logos), so those two
+commands are all that is needed — nothing is fetched over the network and no
+regeneration step is required.
+
+### Regenerate the derived assets from source
+
+Only needed if you change the ledger, the audio design, or the logo prep.
+Point `MOTU_MEDIA_DIR` at the directory holding the 34 raw media files:
+
+```bash
+python3 -m pip install numpy scipy Pillow
+python3 scripts/build_ledger.py          # src/lib/ledger.json  (34 -> 30 distinct)
+python3 scripts/rebuild_media.py         # public/img
+python3 scripts/prep_logos.py            # public/logo — strips the baked-in white plate
+python3 scripts/gen_audio.py             # reel SFX + beds
+python3 scripts/gen_audio_longform.py    # 298 s ambient + bed + 3 extra cues
+python3 scripts/audit_audio.py           # validates every file decodes and carries signal
+```
+
+### Verification
+
+```bash
+npm run typecheck
+node scripts/lf_coverage.mjs             # all 30 assets appear + content rules
+node scripts/branding_cadence.mjs        # Section 9 logo cadence + positional variation
+node scripts/lf_stills.mjs               # one still per scene -> frames/lf
+python3 scripts/lf_edge_audit.py frames/lf/*.png
+node scripts/verify_render.mjs out/motu-mseries-longform.mp4
+```
+
+### Thumbnails
+
+```bash
+npm run thumb:lfen && npm run thumb:lfhi && npm run thumb:lfbn
+```
