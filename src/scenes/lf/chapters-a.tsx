@@ -415,14 +415,6 @@ export const L07: React.FC<{dur: number}> = ({dur}) => (
 
     <PanelBand id={1} dur={dur} x={LF_CONTENT.x} y={330} w={1712} move={{z: [1, 1.014]}} />
 
-    <At x={LF_CONTENT.x} y={620} w={1120}>
-      <Rise delay={72}>
-        <Body size={T.sub - 2} color={C.inkSoft} lh={1.38}>
-          Equivalent Input Noise is the noise the preamp itself contributes. At −129 dBu you can
-          drive a gain-hungry dynamic microphone hard and still get a clean, quiet signal path.
-        </Body>
-      </Rise>
-    </At>
     <At x={1250} y={614}>
       <SpecCard k="MIC PREAMP EIN" v="−129 dBu" delay={112} big />
     </At>
@@ -603,14 +595,6 @@ export const L12: React.FC<{dur: number}> = ({dur}) => (
         <SpecCard k="MONITORING" v="Dedicated MON per input" delay={124} />
         <SpecCard k="HEADPHONES" v="1 × 1/4in, own volume" delay={136} />
       </div>
-    </At>
-    <At x={LF_CONTENT.x} y={800} w={1240}>
-      <Rise delay={150}>
-        <Body size={T.body + 1} color={C.inkSoft} lh={1.4}>
-          Gain, phantom power and hardware monitoring are physical controls, one per channel —
-          nothing about setting a level requires opening a mixer application first.
-        </Body>
-      </Rise>
     </At>
   </LFStage>
 );

@@ -172,15 +172,6 @@ export const L19: React.FC<{dur: number}> = ({dur}) => (
 
     <PanelBand id={11} dur={dur} x={LF_CONTENT.x} y={330} w={1712} move={{z: [1, 1.014], x: [-16, 0]}} />
 
-    <At x={LF_CONTENT.x} y={604} w={1100}>
-      <Rise delay={80}>
-        <Body size={T.sub - 2} color={C.inkSoft} lh={1.38}>
-          A stereo hardware synth can live on the rear line inputs permanently while two
-          microphones stay in the front combo jacks. Both are available at once, so a session
-          stops being a sequence of repatching decisions.
-        </Body>
-      </Rise>
-    </At>
     <At x={1256} y={598}>
       <SpecCard k="REAR LINE IN" v="2 × 1/4in balanced" delay={124} />
     </At>
@@ -445,16 +436,8 @@ export const L24: React.FC<{dur: number}> = ({dur}) => (
 
     <PanelBand id={18} dur={dur} x={LF_CONTENT.x} y={320} w={1712} move={{z: [1, 1.016]}} />
 
-    <At x={LF_CONTENT.x} y={676} w={980}>
-      <Rise delay={90}>
-        <Body size={T.sub - 2} color={C.inkSoft} lh={1.38}>
-          Four combo inputs across the front, two line inputs at the rear. Six sources arriving
-          together, through the same preamp design and the same converter as the two-channel M2.
-        </Body>
-      </Rise>
-      <div style={{marginTop: 26}}>
-        <IoBar w={860} filled={6} label="SIMULTANEOUS INPUTS" right="6 IN / 4 OUT" delay={130} />
-      </div>
+    <At x={520} y={902} w={880}>
+      <IoBar w={860} filled={6} label="SIMULTANEOUS INPUTS" right="6 IN / 4 OUT" delay={130} />
     </At>
     <At x={1240} y={672}>
       <SpecCard k="MIC PREAMPS" v="4 × XLR / TRS combo" delay={158} />
@@ -707,15 +690,8 @@ export const L29: React.FC<{dur: number}> = ({dur}) => (
 
     <Hero id={28} dur={dur} x={LF_CONTENT.x} y={560} maxW={840} maxH={360} move={{z: [1, 1.024]}} />
 
-    <At x={1010} y={572} w={806}>
-      <Rise delay={86}>
-        <Body size={T.body + 1} color={C.inkSoft} lh={1.4}>
-          The M6 ships with a multi-blade international DC adapter. That means monitoring works
-          with no host connected at all, and it means enough power when the only port available is
-          an older USB-A host.
-        </Body>
-      </Rise>
-      <div style={{marginTop: 22, display: 'flex', gap: 14, flexWrap: 'wrap'}}>
+    <At x={1010} y={790} w={806}>
+      <div style={{display: 'flex', gap: 14, flexWrap: 'wrap'}}>
         <SpecCard k="POWER" v="USB-C bus or DC adapter" delay={130} />
         <SpecCard k="ADAPTER" v="Multi-blade, international" delay={146} />
       </div>
