@@ -150,10 +150,20 @@ vite.config.ts.timestamp-*
 !out/
 out/*
 !out/*.mp4
+!out/*.wav
+!out/*.png
 !out/.keep
+
+# Per-beat verification stills are derived (npm run qa). Regenerable, not shipped.
+out/qa/
 
 # Verification stills are derived. Regenerate with:  node scripts/stills.mjs <part>
 stills/
+
+# The two new build directories keep their own .gitignore for public/ and
+# node_modules/. _shared/ IS committed: fonts, the five sound files reused from
+# the MOTU AVB repository, and the music stems are all INPUTS, and a render must
+# never depend on fetching them from elsewhere.
 
 # public/img and public/audio are derived and fully regenerable:
 #   python3 scripts/rebuild_media.py     (30 images from the repo's source files)
