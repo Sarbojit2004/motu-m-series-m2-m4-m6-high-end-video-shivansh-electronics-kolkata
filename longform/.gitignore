@@ -1,0 +1,8 @@
+node_modules/
+public/
+.remotion/
+out/parts/
+*.log
+
+# Per-beat verification stills are derived (npm run qa) — regenerable, not shipped.
+out/qa/
