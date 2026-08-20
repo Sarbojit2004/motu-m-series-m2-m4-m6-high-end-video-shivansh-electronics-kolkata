@@ -1,0 +1,45 @@
+{
+  "name": "motu-m-series-portrait",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "MOTU M-Series (M2 / M4 / M6) \u2014 178s light-background portrait short (Remotion). Shivansh Electronics, Authorized Distributor of MOTU (Mark of the Unicorn, USA) Interfaces for East and North East India.",
+  "scripts": {
+    "setup": "npm run make-assets && npm run make-sfx",
+    "make-assets": "node scripts/copy-assets.mjs",
+    "make-sfx": "node scripts/make-sfx.mjs",
+    "typecheck": "tsc --noEmit",
+    "bundle": "remotion bundle",
+    "studio": "remotion studio",
+    "guard": "node scripts/guard.mjs",
+    "coverage": "node scripts/coverage.mjs",
+    "branding": "node scripts/branding.mjs",
+    "validate-audio": "node scripts/validate-audio.mjs",
+    "verify": "npm run typecheck && npm run guard && npm run coverage && npm run branding && npm run vo && npm run validate-audio",
+    "qa": "node scripts/qa-stills.mjs",
+    "render": "remotion render PortraitShort out/motu-m-series-portrait-short.mp4 --concurrency=3",
+    "render:thumb": "remotion still Thumbnail out/thumbnail-motu-m-series-portrait.png",
+    "render:music": "remotion render MusicBedOnly out/motu-m-series-portrait-music-bed.wav",
+    "render:sfx": "remotion render SfxTimelineOnly out/motu-m-series-portrait-transition-sfx-timeline.wav",
+    "render:audio": "npm run render:music && npm run render:sfx",
+    "make-zip": "node scripts/make-zip.mjs",
+    "vo": "node scripts/vo-script.mjs"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.497",
+    "@remotion/cli": "4.0.497",
+    "@remotion/media-utils": "4.0.497",
+    "@remotion/renderer": "4.0.497",
+    "@remotion/shapes": "4.0.497",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.497"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "ffmpeg-static": "5.3.0",
+    "typescript": "5.6.3"
+  }
+}
