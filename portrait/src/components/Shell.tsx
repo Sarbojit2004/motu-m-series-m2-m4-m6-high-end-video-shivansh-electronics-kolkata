@@ -37,21 +37,54 @@ export const Fonts: React.FC = () => (
  * `reserveBottom` gives the lower-third strip its own band, so it never lands
  * on top of media that runs to the bottom of the content box.
  */
+/**
+ * ENTRANCE VOCABULARY (Section 2).
+ *
+ * At 34 beats in 178 s, a single repeated entrance becomes the noticeable
+ * pattern of the piece — there are simply enough beats for repetition to
+ * register. Six styles are assigned across the schedule so none carries more
+ * than a handful of beats; `npm run guard` fails the build if one dominates.
+ */
+export type Enter = "rise" | "cut" | "dissolve" | "wipeUp" | "scaleIn" | "slide" | "sweep";
+
 export const Scene: React.FC<{
   duration: number;
   children: React.ReactNode;
   pad?: boolean;
   reserveBottom?: number;
+  enter?: Enter;
   style?: React.CSSProperties;
-}> = ({ duration, children, pad = true, reserveBottom = 0, style }) => {
+}> = ({ duration, children, pad = true, reserveBottom = 0, enter = "rise", style }) => {
   const frame = useCurrentFrame();
   const o = inOut(frame, duration, 10, 9);
   const t = ramp(frame, 0, 14, EASE.out);
+  const tq = ramp(frame, 0, 20, EASE.out);
+
+  // Per-style entrance. Every one resolves to identity by ~frame 20, so the
+  // beat itself is never distorted while it is being read.
+  const fx: React.CSSProperties =
+    enter === "cut"
+      ? { transform: "none" }
+      : enter === "dissolve"
+        ? { transform: `scale(${0.998 + t * 0.002})` }
+        : enter === "wipeUp"
+          ? {
+              clipPath: `inset(${(1 - tq) * 100}% 0% 0% 0%)`,
+              transform: `translateY(${(1 - t) * 18}px)`,
+            }
+          : enter === "scaleIn"
+            ? { transform: `scale(${1.045 - t * 0.045})` }
+            : enter === "slide"
+              ? { transform: `translateX(${(1 - t) * 46}px) scale(${0.997 + t * 0.003})` }
+              : enter === "sweep"
+                ? { transform: `scale(${0.994 + t * 0.006})` }
+                : { transform: `scale(${0.995 + t * 0.005})` };
+
   return (
     <AbsoluteFill
       style={{
-        opacity: o,
-        transform: `scale(${0.995 + t * 0.005})`,
+        opacity: enter === "cut" ? Math.min(1, o * 1000) : o,
+        ...fx,
         padding: pad
           ? `${SAFE.top}px ${SAFE.marginX}px ${SAFE.bottom + reserveBottom}px ${SAFE.marginX}px`
           : 0,
@@ -59,6 +92,17 @@ export const Scene: React.FC<{
       }}
     >
       {children}
+      {enter === "sweep" && tq < 1 ? (
+        <AbsoluteFill
+          style={{
+            pointerEvents: "none",
+            background:
+              `linear-gradient(115deg, transparent ${tq * 140 - 40}%, ` +
+              `${hexA(COLORS.paperLift, 0.85)} ${tq * 140 - 16}%, ` +
+              `transparent ${tq * 140 + 8}%)`,
+          }}
+        />
+      ) : null}
     </AbsoluteFill>
   );
 };

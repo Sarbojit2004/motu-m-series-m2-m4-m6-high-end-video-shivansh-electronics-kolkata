@@ -155,6 +155,21 @@ const ACCENTS: Accent[] = (() => {
       case "montage":
         b.images.forEach((_, k) => push(start + 14 + k * 6, "rj45-snap", 0.11));
         break;
+      // Each image change in a rapid sequence gets its own soft mark, so the
+      // faster cutting is carried by the audio rather than fought by it.
+      case "rapidSeq": {
+        const hold = len / Math.max(1, b.images.length);
+        b.images.forEach((_, k) =>
+          push(start + Math.round(k * hold) + 3, k === 0 ? "rj45-snap" : "usbc-seat", 0.14)
+        );
+        break;
+      }
+      case "stackDuo":
+        b.images.forEach((_, k) => push(start + 12 + k * 9, "talkback-click", 0.13));
+        break;
+      case "fitFill":
+        push(start + Math.round(len * 0.42), "panel-air", 0.15);
+        break;
       case "ecosystemMontage":
         b.images.forEach((_, k) => push(start + 8 + k * (b.soloHold ?? 48), "usbc-seat", 0.15));
         push(start + (b.soloHold ?? 48) * b.images.length + 6, "avb-ping", 0.16);

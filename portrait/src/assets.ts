@@ -1,34 +1,49 @@
 import { staticFile } from "remotion";
 
 /**
- * PORTRAIT'S OWN CURATED SELECTION (Section 0.1).
+ * PORTRAIT TARGET SET — ALL 30 UNIQUE IMAGES.
  *
- * 17 images, chosen FOR THIS CANVAS — not inherited from the landscape cut.
- * The landscape deliverable selects 27; the ten it keeps and this one drops are
- * all wide landscape room shots:
+ * This is a fixed, named target, not a curation judgment. It is:
  *
- *   m2Couch, m2Glass, m2Dark, m4Desk, m4Drums, m4Cable,
- *   m6Dark, m6Low, m6Bright, m6Studio
+ *   the 27 images the 298 s landscape video actually used, read from that
+ *   build's own committed ASSET_COVERAGE.md rather than re-derived,
+ *   PLUS the 3 images both prior builds had excluded, now included by direct
+ *   instruction which overrides the exclusion reasoning that was given:
  *
- * At 1080 px wide a 2.0-to-2.9 aspect room shot either letterboxes to a sliver
- * with the product unreadable, or has to be cropped — and cropping is not
- * available under Section 3. So they are cut from the selection instead, which
- * is the response Section 3 asks for when runtime or canvas pressure collides
- * with the full-and-legible rule.
+ *     m2Alt = MOTU M2 (5).jpg   (was: "unit too small, m2Glass tells it better")
+ *     m4Alt = MOTU M4 (1).jpg   (was: "superseded by m4Desk")
+ *     m6Alt = MOTU M6 (6).jpg   (was: "redundant with m6Bright")
  *
- * What is kept skews to the near-square lifestyle frames (m6Couch and m6Drums
- * at 1.03, m4Synth at 1.15, m6Panel at 1.35) and to the panel plates, which
- * stack cleanly in a vertical column.
+ * Each of the three is verified DISTINCT (md5 + dimensions) from the image that
+ * superseded it, and appears ALONGSIDE it, never instead of it:
+ *   m2Alt 1000x873  vs  m2Glass  1442x873
+ *   m4Alt 1442x873  vs  m4Desk   2880x1516
+ *   m6Alt 2821x1529 vs  m6Bright 3000x2101
  *
- * The same two byte-identical duplicates are reclassified here as in the
- * landscape build: `shSoftware` (the software-bundle montage, which is not a
- * product shot) and `shRoom` (a wide podcast room where the unit cannot be
- * attributed to a model).
+ * 27 + 3 = 30, with zero overlap between the two sets. The repository holds 32
+ * raw files; the 2 not present here are `MOTU M4 (3).jpg` and
+ * `MOTU M6 (11).jpg`, re-confirmed byte-identical to `shRoom` and `shSoftware`
+ * respectively. They are collapsed, not dropped — counting them separately
+ * would inflate the target to 32 and undo a correct earlier audit.
  *
- * NO VIDEO CLIPS exist in this repository — every asset is a still.
+ * `fit` drives the portrait treatment (see components/Media.tsx):
+ *
+ *   plate  (6)  Panel plates, AR 3.26-4.41. Their own MacroReveal / PortSweep
+ *               treatment, which was built for exactly this shape.
+ *   fill  (19)  AR >= 1.40. Scaled COMPLETE to the frame width, with the
+ *               remaining height filled deliberately. Never cropped.
+ *   native (5)  AR <= 1.35. Near-square; fits the portrait frame unaided.
+ *
+ * On the threshold: the instruction named 10 wide images and described them as
+ * "roughly 1.7-2.9". Measured, three of those ten are 1.43-1.44 (m6Studio,
+ * m6Bright, m6Dark) — the list of ten is right, the stated band is not. The
+ * threshold is therefore set at 1.40, which covers all ten named files AND
+ * nine more that need identical help (m2Desk, m2Hero, m4Hero, m4Alt, m6Alt,
+ * m6Macro, shLive, shRoom, shSoftware).
  */
 export type Product = "m2" | "m4" | "m6" | "shared";
 export type Bg = "light" | "mixed" | "dark";
+export type Fit = "plate" | "fill" | "native";
 
 export type AssetMeta = {
   key: string;
@@ -37,49 +52,77 @@ export type AssetMeta = {
   kind: string;
   w: number;
   h: number;
+  ar: number;
   bg: Bg;
+  fit: Fit;
   alpha: boolean;
   ext: string;
 };
 
 export const ASSETS: AssetMeta[] = [
-  { key: "m2Front", file: "MOTU M2 (2).png", product: "m2", kind: "panel-front", w: 1212, h: 301, bg: "light", alpha: true, ext: "png" },
-  { key: "m2Rear", file: "MOTU M2 (9).png", product: "m2", kind: "panel-rear", w: 2013, h: 500, bg: "light", alpha: true, ext: "png" },
-  { key: "m2Hero", file: "MOTU M2 (8).jpg", product: "m2", kind: "hero", w: 1879, h: 948, bg: "light", alpha: false, ext: "jpg" },
-  { key: "m2Desk", file: "MOTU M2 (1).jpg", product: "m2", kind: "lifestyle", w: 2880, h: 1396, bg: "mixed", alpha: false, ext: "jpg" },
-  { key: "m4Front", file: "MOTU M4 (1).png", product: "m4", kind: "panel-front", w: 1212, h: 301, bg: "light", alpha: true, ext: "png" },
-  { key: "m4Rear", file: "MOTU M4 (2).png", product: "m4", kind: "panel-rear", w: 1212, h: 301, bg: "light", alpha: true, ext: "png" },
-  { key: "m4Hero", file: "MOTU M4 (4).jpg", product: "m4", kind: "hero", w: 2102, h: 1061, bg: "light", alpha: false, ext: "jpg" },
-  { key: "m4Synth", file: "MOTU M4 (6).jpg", product: "m4", kind: "lifestyle", w: 1000, h: 873, bg: "dark", alpha: false, ext: "jpg" },
-  { key: "m6Front", file: "MOTU M6 (1).png", product: "m6", kind: "hero-front", w: 2442, h: 749, bg: "light", alpha: true, ext: "png" },
-  { key: "m6Rear", file: "MOTU M6 (2).png", product: "m6", kind: "panel-rear", w: 3530, h: 800, bg: "light", alpha: true, ext: "png" },
-  { key: "m6Macro", file: "MOTU M6 (1).jpg", product: "m6", kind: "macro-lcd", w: 911, h: 591, bg: "dark", alpha: false, ext: "jpg" },
-  { key: "m6Panel", file: "MOTU M6 (5).jpg", product: "m6", kind: "lifestyle", w: 3000, h: 2223, bg: "dark", alpha: false, ext: "jpg" },
-  { key: "m6Couch", file: "MOTU M6 (9).jpg", product: "m6", kind: "lifestyle", w: 2830, h: 2737, bg: "mixed", alpha: false, ext: "jpg" },
-  { key: "m6Drums", file: "MOTU M6 (4).jpg", product: "m6", kind: "lifestyle", w: 2830, h: 2737, bg: "light", alpha: false, ext: "jpg" },
-  { key: "shLive", file: "MOTU M6 (7).jpg", product: "shared", kind: "emotional", w: 3000, h: 1740, bg: "dark", alpha: false, ext: "jpg" },
-  { key: "shSoftware", file: "MOTU M4 (8).jpg", product: "shared", kind: "software-ui", w: 2880, h: 834, bg: "light", alpha: false, ext: "jpg" },
-  { key: "shRoom", file: "MOTU M2 (10).jpg", product: "shared", kind: "lifestyle", w: 1442, h: 873, bg: "dark", alpha: false, ext: "jpg" },
+  { key: "m2Alt", file: "MOTU M2 (5).jpg", product: "m2", kind: "lifestyle", w: 1000, h: 873, ar: 1.145, bg: "dark", fit: "native", alpha: false, ext: "jpg" },
+  { key: "m2Couch", file: "MOTU M2 (4).jpg", product: "m2", kind: "lifestyle", w: 1442, h: 873, ar: 1.652, bg: "mixed", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m2Dark", file: "MOTU M2 (6).jpg", product: "m2", kind: "ambient", w: 2880, h: 1516, ar: 1.9, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m2Desk", file: "MOTU M2 (1).jpg", product: "m2", kind: "lifestyle", w: 2880, h: 1396, ar: 2.063, bg: "mixed", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m2Front", file: "MOTU M2 (2).png", product: "m2", kind: "panel-front", w: 1212, h: 301, ar: 4.027, bg: "light", fit: "plate", alpha: true, ext: "png" },
+  { key: "m2Glass", file: "MOTU M2 (3).jpg", product: "m2", kind: "lifestyle", w: 1442, h: 873, ar: 1.652, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m2Hero", file: "MOTU M2 (8).jpg", product: "m2", kind: "hero", w: 1879, h: 948, ar: 1.982, bg: "light", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m2Rear", file: "MOTU M2 (9).png", product: "m2", kind: "panel-rear", w: 2013, h: 500, ar: 4.026, bg: "light", fit: "plate", alpha: true, ext: "png" },
+  { key: "m4Alt", file: "MOTU M4 (1).jpg", product: "m4", kind: "lifestyle", w: 1442, h: 873, ar: 1.652, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m4Cable", file: "MOTU M4 (2).jpg", product: "m4", kind: "detail", w: 1442, h: 873, ar: 1.652, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m4Desk", file: "MOTU M4 (7).jpg", product: "m4", kind: "lifestyle", w: 2880, h: 1516, ar: 1.9, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m4Drums", file: "MOTU M4 (5).jpg", product: "m4", kind: "lifestyle", w: 2880, h: 1396, ar: 2.063, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m4Front", file: "MOTU M4 (1).png", product: "m4", kind: "panel-front", w: 1212, h: 301, ar: 4.027, bg: "light", fit: "plate", alpha: true, ext: "png" },
+  { key: "m4Hero", file: "MOTU M4 (4).jpg", product: "m4", kind: "hero", w: 2102, h: 1061, ar: 1.981, bg: "light", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m4Rear", file: "MOTU M4 (2).png", product: "m4", kind: "panel-rear", w: 1212, h: 301, ar: 4.027, bg: "light", fit: "plate", alpha: true, ext: "png" },
+  { key: "m4Synth", file: "MOTU M4 (6).jpg", product: "m4", kind: "lifestyle", w: 1000, h: 873, ar: 1.145, bg: "dark", fit: "native", alpha: false, ext: "jpg" },
+  { key: "m6Alt", file: "MOTU M6 (6).jpg", product: "m6", kind: "lifestyle", w: 2821, h: 1529, ar: 1.845, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m6Bright", file: "MOTU M6 (8).jpg", product: "m6", kind: "lifestyle", w: 3000, h: 2101, ar: 1.428, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m6Couch", file: "MOTU M6 (9).jpg", product: "m6", kind: "lifestyle", w: 2830, h: 2737, ar: 1.034, bg: "mixed", fit: "native", alpha: false, ext: "jpg" },
+  { key: "m6Dark", file: "MOTU M6 (10).jpg", product: "m6", kind: "hero", w: 3000, h: 2085, ar: 1.439, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m6Drums", file: "MOTU M6 (4).jpg", product: "m6", kind: "lifestyle", w: 2830, h: 2737, ar: 1.034, bg: "light", fit: "native", alpha: false, ext: "jpg" },
+  { key: "m6Front", file: "MOTU M6 (1).png", product: "m6", kind: "hero-front", w: 2442, h: 749, ar: 3.26, bg: "light", fit: "plate", alpha: true, ext: "png" },
+  { key: "m6Low", file: "MOTU M6 (3).jpg", product: "m6", kind: "lifestyle", w: 3000, h: 2000, ar: 1.5, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m6Macro", file: "MOTU M6 (1).jpg", product: "m6", kind: "macro-lcd", w: 911, h: 591, ar: 1.541, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "m6Panel", file: "MOTU M6 (5).jpg", product: "m6", kind: "lifestyle", w: 3000, h: 2223, ar: 1.35, bg: "dark", fit: "native", alpha: false, ext: "jpg" },
+  { key: "m6Rear", file: "MOTU M6 (2).png", product: "m6", kind: "panel-rear", w: 3530, h: 800, ar: 4.412, bg: "light", fit: "plate", alpha: true, ext: "png" },
+  { key: "m6Studio", file: "MOTU M6 (2).jpg", product: "m6", kind: "lifestyle", w: 2777, h: 1947, ar: 1.426, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "shLive", file: "MOTU M6 (7).jpg", product: "shared", kind: "emotional", w: 3000, h: 1740, ar: 1.724, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "shRoom", file: "MOTU M2 (10).jpg", product: "shared", kind: "lifestyle", w: 1442, h: 873, ar: 1.652, bg: "dark", fit: "fill", alpha: false, ext: "jpg" },
+  { key: "shSoftware", file: "MOTU M4 (8).jpg", product: "shared", kind: "software-ui", w: 2880, h: 834, ar: 3.453, bg: "light", fit: "fill", alpha: false, ext: "jpg" },
 ];
 
 export const A = {
-  m2Front: 0,
-  m2Rear: 1,
-  m2Hero: 2,
+  m2Alt: 0,
+  m2Couch: 1,
+  m2Dark: 2,
   m2Desk: 3,
-  m4Front: 4,
-  m4Rear: 5,
-  m4Hero: 6,
-  m4Synth: 7,
-  m6Front: 8,
-  m6Rear: 9,
-  m6Macro: 10,
-  m6Panel: 11,
-  m6Couch: 12,
-  m6Drums: 13,
-  shLive: 14,
-  shSoftware: 15,
-  shRoom: 16,
+  m2Front: 4,
+  m2Glass: 5,
+  m2Hero: 6,
+  m2Rear: 7,
+  m4Alt: 8,
+  m4Cable: 9,
+  m4Desk: 10,
+  m4Drums: 11,
+  m4Front: 12,
+  m4Hero: 13,
+  m4Rear: 14,
+  m4Synth: 15,
+  m6Alt: 16,
+  m6Bright: 17,
+  m6Couch: 18,
+  m6Dark: 19,
+  m6Drums: 20,
+  m6Front: 21,
+  m6Low: 22,
+  m6Macro: 23,
+  m6Panel: 24,
+  m6Rear: 25,
+  m6Studio: 26,
+  shLive: 27,
+  shRoom: 28,
+  shSoftware: 29,
 } as const;
 
 export type AssetKey = keyof typeof A;
@@ -98,7 +141,7 @@ export const LOGO = {
   shivansh: () => staticFile("logo/shivansh.png"),
 };
 
-/** SFX (Section 9) — same reuse/synthesis split as the landscape build. */
+/** SFX (Section 9) — same reuse-first split as both prior builds. */
 export const REUSED_SFX = [
   "encoder-click",
   "talkback-click",

@@ -24,68 +24,52 @@ const { BEATS, BEAT_STARTS, VIDEO, BRAND, PRICE, frames } = await loadSchedule()
  * desk, who gets exact when the numbers matter.
  */
 const LINES = {
-  "p1-hook":
-    "You can hear the difference between a room, and a recording of it.",
-  "p1-problem":
-    "For years the choice was cheap and noisy, or far out of reach.",
+  "p1-hook": "You can hear the difference between a room, and a recording of it.",
+  "p1-problem": "For years the choice was cheap and noisy, or out of reach.",
   "p1-thesis":
     "Not any more. Three interfaces, one engine. The M2, M4 and M6 differ only in how much you can record at once.",
 
-  "p2-capacity":
-    "So you are picking a channel count, not a quality tier.",
-  "p2-dac":
-    "The same ESS Sabre32 Ultra DAC in all three. A hundred and twenty decibels of dynamic range.",
-  "p2-specs":
-    "Minus one twenty-nine dBu input noise. Two and a half milliseconds round trip. Every model.",
-  "p2-lcd":
-    "And full-colour metering, so gain staging is something you can see.",
+  "p2-capacity": "So you are picking a channel count, not a quality tier.",
+  "p2-dac": "The same ESS Sabre32 Ultra DAC in all three. A hundred and twenty decibels.",
+  "p2-specs": "Minus one twenty-nine dBu input noise. Two and a half milliseconds round trip.",
+  "p2-lcd": "And full-colour metering on every model.",
 
   "p3-open": "Start with the M2.",
   "p3-macro":
     "Two channels, nothing held back. Two combo inputs, each with its own gain, phantom power and monitor button.",
-  "p3-rear":
-    "Behind it, DC-coupled outputs, mirrored RCA, MIDI, and USB-C bus power.",
-  "p3-life":
-    "It runs off the cable. Twenty-six thousand nine hundred rupees, inclusive of GST.",
+  "p3-rear": "Behind it, DC-coupled outputs, mirrored RCA, MIDI, and USB-C bus power.",
+  "p3-hero": "Twenty-six thousand nine hundred rupees.",
+  "p3-life": "It runs off the cable. At the desk, on the couch, wherever the song starts.",
+  "p3-anywhere": "Two channels, anywhere you set up.",
 
   "p4-open": "Add two inputs. The M4.",
   "p4-macro":
     "The same preamps, plus a Mix knob — blending what you play against what the computer plays back, by hand.",
-  "p4-mix":
-    "So two microphones stay patched while a stereo synth records through the rear inputs.",
-  "p4-rear":
-    "Two more in. Two more out.",
-  "p4-hero":
-    "Thirty-two thousand nine hundred rupees, inclusive of GST.",
+  "p4-rear": "Two more in. Two more out. Dedicated line inputs for hardware.",
+  "p4-mix": "Turn it, and hear it.",
+  "p4-life": "Producing, tracking a kit, or patched into the rack — four channels, and room to work.",
+  "p4-price": "Thirty-two thousand nine hundred rupees.",
 
   "p5-open": "And when two is not enough. The M6.",
   "p5-macro":
     "Four microphone preamps, in the same desktop footprint — because the combo jacks moved to the rear.",
-  "p5-lcd":
-    "All six inputs metered, with the A-B monitor selection on the output side.",
-  "p5-rear":
-    "Four combo inputs, two more line inputs, and a DC socket, so it runs without a computer.",
-  "p5-ensemble":
-    "A four-person panel. A drum kit, in one pass.",
-  "p5-price":
-    "Fifty-five thousand nine hundred rupees, inclusive of GST.",
+  "p5-lcd": "All six inputs metered, with the A-B monitor selection alongside.",
+  "p5-rear": "Four combo inputs, two more line inputs, and a DC socket for standalone use.",
+  "p5-ensemble": "A four-person panel. A drum kit in one pass. A whole room, at once.",
+  "p5-control": "A-B across two monitor pairs, and a second headphone mix of its own.",
+  "p5-anywhere": "On the couch, in the studio, or desk-side. Fifty-five thousand nine hundred rupees.",
 
   "p6-open": "Three things ship on every model.",
   "p6-loopback":
-    "Loopback merges your computer and your microphone inside the interface — no virtual cable needed.",
-  "p6-cv":
-    "Every output is DC-coupled, so it can drive a modular synth.",
-  "p6-software":
-    "And the software to record with is in the box.",
+    "Loopback merges your computer and your microphone inside the interface. No virtual cable needed.",
+  "p6-cv": "Every output is DC-coupled, so it can drive a modular synth.",
+  "p6-software": "And the software is in the box.",
 
-  "p7-recap":
-    "One question left. How many sources, at once?",
+  "p7-recap": "One question left. How many at once?",
   "p7-price":
     "M2, twenty-six thousand nine hundred. M4, thirty-two thousand nine hundred. M6, fifty-five thousand nine hundred — inclusive of GST. Best price at shivanshelectronics dot in.",
-  "p7-brand":
-    "Shivansh Electronics — authorized distributor of MOTU interfaces for East and North East India.",
-  "p7-outro":
-    "MOTU M2, M4 and M6. From Shivansh Electronics.",
+  "p7-brand": "Shivansh Electronics — authorized MOTU distributor for East and North East India.",
+  "p7-outro": "MOTU M2, M4 and M6. From Shivansh Electronics.",
 };
 
 const words = (s) => s.trim().split(/\s+/).filter(Boolean).length;
@@ -131,8 +115,9 @@ md.push("interface and undercut the plain-fact spec claims; pure Precise & Techn
 md.push("lecture and leave the emotional problem in Chapter 1 unanswered. So: a trusted engineer");
 md.push("talking across a desk, who gets exact when the numbers matter.");
 md.push("");
-md.push("**This is not the long-form script trimmed.** It is written against this reel's own beat");
-md.push("structure, which collapses rather than shrinks the 298 s cut — see `src/schedule.ts`.");
+md.push("**This is not the long-form script trimmed, and not the previous portrait script re-timed.**");
+md.push("It is written against this reel's own 34-beat structure, rebuilt to carry all 30 images at a");
+md.push("higher density and a faster cadence — see `src/schedule.ts`.");
 md.push("");
 md.push("**Sync:** this file is generated by `npm run vo` from `src/schedule.ts` — the same data that");
 md.push("renders the picture. Every timestamp below is the in/out of the beat it narrates, so the script");

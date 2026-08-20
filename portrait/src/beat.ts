@@ -1,6 +1,7 @@
 import { VIDEO } from "./theme";
 import type { SfxKey } from "./assets";
 import type { BrandMode } from "./components/Brand";
+import type { Enter } from "./components/Shell";
 
 /** One beat of the long-form. A beat ends when its point has been made. */
 export type Beat = {
@@ -24,6 +25,9 @@ export type Beat = {
     | "cv"
     | "software"
     | "macroPair"
+    | "fitFill"
+    | "rapidSeq"
+    | "stackDuo"
     | "brandBeat"
     | "price"
     | "contact"
@@ -44,6 +48,8 @@ export type Beat = {
   /** ecosystemMontage only — frames each member holds the frame alone. */
   soloHold?: number;
   alert?: boolean;
+  /** Entrance style (Section 2 — transition variety across 34 beats). */
+  enter?: Enter;
   brand: BrandMode;
   motu?: boolean;
   detail?: string;

@@ -6,7 +6,7 @@
 // runtime that does not land on target.
 import { loadSchedule } from "./_load.mjs";
 
-const { BEATS, TOTAL_FRAMES, VIDEO, PRICE, BRAND, SAFE } = await loadSchedule();
+const { BEATS, TOTAL_FRAMES, VIDEO, PRICE, BRAND, SAFE, ASSETS, A } = await loadSchedule();
 
 // Matched on WORD BOUNDARIES. Substring matching produced a false positive on
 // the first run: "rme" is inside "Perfo(rme)r Lite", which is MOTU's own
@@ -108,6 +108,78 @@ else console.log(`  ok   longest beat is ${((longest / (TOTAL_FRAMES / VIDEO.fps
 const LANDSCAPE_AVG = 7.10;
 if (avg >= LANDSCAPE_AVG * 0.92) bad(`average beat ${avg.toFixed(2)}s is not noticeably faster than the landscape cut's ${LANDSCAPE_AVG}s`);
 else console.log(`  ok   ${avg.toFixed(2)}s average vs the landscape cut's ${LANDSCAPE_AVG}s — a faster cadence`);
+
+
+// ═══════════════════════════ REGENERATION CHECKPOINTS (Section 4) ═══════════
+console.log("\nTARGET SET — exactly 30 distinct images (Section 0)");
+if (ASSETS.length !== 30) bad(`asset set holds ${ASSETS.length} images, target is exactly 30`);
+else console.log(`  ok   ${ASSETS.length} distinct images in the target set`);
+
+const files = ASSETS.map((a) => a.file);
+if (new Set(files).size !== files.length) bad("duplicate file entries inside the target set");
+else console.log("  ok   no duplicate file entries");
+
+// The 2 correctly-collapsed duplicate pairs must NOT reappear as separate rows.
+for (const dup of ["MOTU M4 (3).jpg", "MOTU M6 (11).jpg"]) {
+  if (files.includes(dup)) bad(`${dup} is a byte-identical duplicate and must stay collapsed, not counted separately`);
+}
+console.log("  ok   the 2 collapsed duplicate pairs are not double-counted");
+
+console.log("\nTHE 3 PREVIOUSLY-EXCLUDED IMAGES (Section 0) — present ALONGSIDE what superseded them");
+const REINSTATED = [
+  { added: "MOTU M2 (5).jpg", key: "m2Alt", alongside: "MOTU M2 (3).jpg", akey: "m2Glass" },
+  { added: "MOTU M4 (1).jpg", key: "m4Alt", alongside: "MOTU M4 (7).jpg", akey: "m4Desk" },
+  { added: "MOTU M6 (6).jpg", key: "m6Alt", alongside: "MOTU M6 (8).jpg", akey: "m6Bright" },
+];
+for (const r of REINSTATED) {
+  const hasNew = files.includes(r.added);
+  const hasOld = files.includes(r.alongside);
+  if (!hasNew) bad(`${r.added} (${r.key}) is missing — it was reinstated by direct instruction`);
+  else if (!hasOld) bad(`${r.alongside} (${r.akey}) is missing — ${r.key} must appear ALONGSIDE it, not instead of it`);
+  else console.log(`  ok   ${r.key} (${r.added}) + ${r.akey} (${r.alongside}) — both present`);
+}
+
+console.log("\nTHE 10 NAMED WIDE-ASPECT IMAGES (Section 1) — placed, with FIT+FILL, never cropped");
+const NAMED_WIDE = [
+  "MOTU M2 (3).jpg", "MOTU M2 (4).jpg", "MOTU M2 (6).jpg",
+  "MOTU M4 (2).jpg", "MOTU M4 (5).jpg", "MOTU M4 (7).jpg",
+  "MOTU M6 (2).jpg", "MOTU M6 (3).jpg", "MOTU M6 (8).jpg", "MOTU M6 (10).jpg",
+];
+const placed = new Set(BEATS.flatMap((b) => b.images));
+for (const f of NAMED_WIDE) {
+  const idx = ASSETS.findIndex((a) => a.file === f);
+  if (idx < 0) { bad(`named wide image ${f} is not in the target set`); continue; }
+  const a = ASSETS[idx];
+  if (!placed.has(idx)) bad(`${a.key} (${f}) is in the set but never placed in a beat`);
+  else if (a.fit !== "fill") bad(`${a.key} (${f}) is not classified 'fill' — it is '${a.fit}'`);
+  else console.log(`  ok   ${a.key.padEnd(10)} ${f.padEnd(20)} ar=${a.ar.toFixed(2)}  fill`);
+}
+const fillCount = ASSETS.filter((a) => a.fit === "fill").length;
+console.log(`  ok   ${fillCount} images total carry FIT+FILL (the 10 named, plus ${fillCount - 10} more that need it equally)`);
+
+console.log("\nEVERY IMAGE PLACED");
+const orphan = ASSETS.map((a, i) => (placed.has(i) ? null : a.key)).filter(Boolean);
+if (orphan.length) bad(`selected but never placed: ${orphan.join(", ")}`);
+else console.log(`  ok   all ${ASSETS.length} images appear in at least one beat`);
+
+console.log("\nTRANSITION VARIETY (Section 2)");
+const enters = {};
+for (const b of BEATS) { const e = b.enter ?? "rise"; enters[e] = (enters[e] ?? 0) + 1; }
+const sorted = Object.entries(enters).sort((a, b) => b[1] - a[1]);
+console.log(`  ${sorted.map(([k, v]) => `${k}=${v}`).join("  ")}`);
+const dominant = sorted[0];
+const share = dominant[1] / BEATS.length;
+if (Object.keys(enters).length < 5) bad(`only ${Object.keys(enters).length} entrance styles used across ${BEATS.length} beats`);
+else console.log(`  ok   ${Object.keys(enters).length} distinct entrance styles across ${BEATS.length} beats`);
+if (share > 0.28) bad(`entrance style "${dominant[0]}" carries ${dominant[1]}/${BEATS.length} beats (${(share * 100).toFixed(0)}%) — it reads as the dominant pattern`);
+else console.log(`  ok   most-used style "${dominant[0]}" is ${dominant[1]}/${BEATS.length} (${(share * 100).toFixed(0)}%), under the 28% ceiling`);
+
+const kinds = {};
+for (const b of BEATS) kinds[b.kind] = (kinds[b.kind] ?? 0) + 1;
+console.log(`  techniques: ${Object.entries(kinds).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`${k}=${v}`).join("  ")}`);
+const macro = kinds.macroReveal ?? 0;
+if (macro !== 3) bad(`Macro-to-Full-Reveal is used ${macro}x — Section 2 reserves it for exactly 3 hero moments`);
+else console.log(`  ok   Macro-to-Full-Reveal rationed to exactly 3 hero images`);
 
 console.log(fail === 0 ? "\nGUARD: PASS\n" : `\nGUARD: ${fail} FAILURE(S)\n`);
 process.exit(fail === 0 ? 0 : 1);

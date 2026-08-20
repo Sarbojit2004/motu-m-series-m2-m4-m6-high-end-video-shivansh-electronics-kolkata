@@ -3,7 +3,19 @@ import { AbsoluteFill } from "remotion";
 import { COLORS, SAFE, hexA } from "./theme";
 import type { Beat } from "./beat";
 import { frames } from "./beat";
-import { Drift, EcosystemMontage, Gimbal, MacroReveal, Montage, Plate, PortSweep } from "./components/Media";
+import {
+  AutoMedia,
+  Drift,
+  EcosystemMontage,
+  FitFill,
+  Gimbal,
+  MacroReveal,
+  Montage,
+  Plate,
+  PortSweep,
+  RapidSequence,
+  StackDuo,
+} from "./components/Media";
 import { Counter, Eyebrow, Headline, Pill, Rise, Rule, SpecChip, Sub } from "./components/Type";
 import { CopyOverMedia, Ground, Hairlines, Scene, Stack } from "./components/Shell";
 import { BrandBeat, BrandLayer, ContactPanel, Outro, PriceLockup } from "./components/Brand";
@@ -69,6 +81,8 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
   // Both branding forms now live in the bottom band (see Brand.tsx), so both
   // need their own reserved space or they land on top of the media.
   const reserve = b.brand === "lowerThird" ? 108 : b.brand === "cornerLogo" ? 104 : 0;
+  // Section 2 — entrance style varies per beat so no single one dominates.
+  const enter = b.enter ?? "rise";
 
   const body = (() => {
     switch (b.kind) {
@@ -77,7 +91,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
         return (
           <>
             <AbsoluteFill style={{ padding: 0 }}>
-              <Drift idx={b.images[0]} duration={dur} scaleFrom={1.04} scaleTo={1.1} panY={-22} />
+              <FitFill idx={b.images[0]} duration={dur} amount={0.9} scaleFrom={1.02} scaleTo={1.08} />
             </AbsoluteFill>
             <AbsoluteFill
               style={{
@@ -87,7 +101,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
                 )} 38%, ${hexA(COLORS.paper, 0.12)} 72%)`,
               }}
             />
-            <Scene duration={dur} reserveBottom={reserve}>
+            <Scene duration={dur} reserveBottom={reserve} enter={enter}>
               <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", height: "100%" }}>
                 <Copy b={b} headSize={86} subSize={32} />
               </div>
@@ -97,13 +111,11 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "editorial":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={<Copy b={b} headSize={80} subSize={30} />}
               media={
-                <Gimbal seed={7} amount={0.7}>
-                  <Plate idx={b.images[0]} style={{ width: "100%", height: "100%" }} />
-                </Gimbal>
+                <AutoMedia idx={b.images[0]} duration={dur} amount={0.7} />
               }
             />
           </Scene>
@@ -111,7 +123,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "heroSplit":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={
                 <Stack gap={16} style={{ height: "auto" }}>
@@ -119,18 +131,14 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
                   <SpecColumn b={b} delay={22} />
                 </Stack>
               }
-              media={
-                <Gimbal seed={b.images[0] ?? 3} amount={0.6}>
-                  <Plate idx={b.images[0]} style={{ width: "100%", height: "100%" }} />
-                </Gimbal>
-              }
+              media={<AutoMedia idx={b.images[0]} duration={dur} amount={0.6} />}
             />
           </Scene>
         );
 
       case "macroReveal":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={<Copy b={b} headSize={70} subSize={28} />}
               media={
@@ -148,7 +156,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "portSweep":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={<Copy b={b} headSize={68} subSize={27} />}
               media={<PortSweep idx={b.images[0]} duration={dur} zoom={2.0} />}
@@ -160,7 +168,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
       // `m6Macro` is natively a crop of the LCD cluster, so it never runs alone.
       case "macroPair":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={<Copy b={b} headSize={66} subSize={27} />}
               media={
@@ -173,12 +181,8 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
                     gap: 22,
                   }}
                 >
-                  <Gimbal seed={11} amount={0.8}>
-                    <Plate idx={b.images[0]} style={{ width: "100%", height: "100%" }} />
-                  </Gimbal>
-                  <Gimbal seed={4} amount={0.5}>
-                    <Plate idx={b.images[1]} style={{ width: "100%", height: "100%" }} />
-                  </Gimbal>
+                  <AutoMedia idx={b.images[0]} duration={dur} amount={0.8} />
+                  <AutoMedia idx={b.images[1]} duration={dur} amount={0.5} />
                 </div>
               }
             />
@@ -187,7 +191,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "montage":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={
                 <Stack gap={12} style={{ height: "auto" }}>
@@ -209,7 +213,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "ecosystemMontage":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={
                 <Stack gap={12} style={{ height: "auto" }}>
@@ -231,7 +235,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "titleCard":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <div
               style={{
                 height: "100%",
@@ -264,7 +268,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "capacity":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={<Copy b={b} headSize={78} subSize={29} />}
               media={
@@ -279,7 +283,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "counters":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={<Copy b={b} headSize={72} subSize={29} />}
               media={
@@ -312,7 +316,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "specGrid":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={<Copy b={b} headSize={72} subSize={29} />}
               media={
@@ -328,7 +332,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "lcd":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={<Copy b={b} headSize={72} subSize={29} />}
               media={
@@ -352,7 +356,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "loopback":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={<Copy b={b} headSize={70} subSize={28} />}
               media={
@@ -374,7 +378,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "cv":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={<Copy b={b} headSize={70} subSize={28} />}
               media={
@@ -396,10 +400,59 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "software":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <CopyOverMedia
               copy={<Copy b={b} headSize={70} subSize={28} />}
-              media={<Drift idx={b.images[0]} duration={dur} scaleFrom={1.0} scaleTo={1.04} />}
+              media={<AutoMedia idx={b.images[0]} duration={dur} amount={0.5} />}
+            />
+          </Scene>
+        );
+
+      // ── Section 1: a wide image, shown COMPLETE, with the frame filled
+      //    deliberately around it rather than cropping it to fit.
+      case "fitFill":
+        return (
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
+            <CopyOverMedia
+              copy={<Copy b={b} headSize={72} subSize={28} />}
+              media={<FitFill idx={b.images[0]} duration={dur} amount={0.7} />}
+            />
+          </Scene>
+        );
+
+      // ── Section 2: several COMPLETE images in rapid succession, one point.
+      case "rapidSeq":
+        return (
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
+            <CopyOverMedia
+              copy={
+                <Stack gap={12} style={{ height: "auto" }}>
+                  {b.eyebrow ? <Eyebrow>{b.eyebrow}</Eyebrow> : null}
+                  {b.heading ? <Headline size={68}>{b.heading}</Headline> : null}
+                </Stack>
+              }
+              media={
+                <RapidSequence
+                  items={b.images.map((idx, i) => ({ idx, label: b.labels?.[i] }))}
+                  duration={dur}
+                />
+              }
+            />
+          </Scene>
+        );
+
+      // ── Two complete landscape frames stacked, using the tall canvas.
+      case "stackDuo":
+        return (
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
+            <CopyOverMedia
+              copy={<Copy b={b} headSize={68} subSize={27} />}
+              media={
+                <StackDuo
+                  items={b.images.map((idx, i) => ({ idx, label: b.labels?.[i] }))}
+                  duration={dur}
+                />
+              }
             />
           </Scene>
         );
@@ -415,7 +468,7 @@ export const BeatScene: React.FC<{ b: Beat }> = ({ b }) => {
 
       case "price":
         return (
-          <Scene duration={dur} reserveBottom={reserve}>
+          <Scene duration={dur} reserveBottom={reserve} enter={enter}>
             <div
               style={{
                 height: "100%",

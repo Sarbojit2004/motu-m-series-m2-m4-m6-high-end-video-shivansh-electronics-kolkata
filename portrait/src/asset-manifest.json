@@ -1,36 +1,42 @@
 [
  {
-  "key": "m2Front",
-  "file": "MOTU M2 (2).png",
+  "key": "m2Alt",
+  "file": "MOTU M2 (5).jpg",
   "product": "m2",
-  "kind": "panel-front",
-  "w": 1212,
-  "h": 301,
-  "bg": "light",
-  "alpha": true,
-  "ext": "png"
- },
- {
-  "key": "m2Rear",
-  "file": "MOTU M2 (9).png",
-  "product": "m2",
-  "kind": "panel-rear",
-  "w": 2013,
-  "h": 500,
-  "bg": "light",
-  "alpha": true,
-  "ext": "png"
- },
- {
-  "key": "m2Hero",
-  "file": "MOTU M2 (8).jpg",
-  "product": "m2",
-  "kind": "hero",
-  "w": 1879,
-  "h": 948,
-  "bg": "light",
+  "kind": "lifestyle",
+  "w": 1000,
+  "h": 873,
+  "bg": "dark",
   "alpha": false,
-  "ext": "jpg"
+  "ext": "jpg",
+  "ar": 1.145,
+  "fit": "native"
+ },
+ {
+  "key": "m2Couch",
+  "file": "MOTU M2 (4).jpg",
+  "product": "m2",
+  "kind": "lifestyle",
+  "w": 1442,
+  "h": 873,
+  "bg": "mixed",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 1.652,
+  "fit": "fill"
+ },
+ {
+  "key": "m2Dark",
+  "file": "MOTU M2 (6).jpg",
+  "product": "m2",
+  "kind": "ambient",
+  "w": 2880,
+  "h": 1516,
+  "bg": "dark",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 1.9,
+  "fit": "fill"
  },
  {
   "key": "m2Desk",
@@ -41,7 +47,113 @@
   "h": 1396,
   "bg": "mixed",
   "alpha": false,
-  "ext": "jpg"
+  "ext": "jpg",
+  "ar": 2.063,
+  "fit": "fill"
+ },
+ {
+  "key": "m2Front",
+  "file": "MOTU M2 (2).png",
+  "product": "m2",
+  "kind": "panel-front",
+  "w": 1212,
+  "h": 301,
+  "bg": "light",
+  "alpha": true,
+  "ext": "png",
+  "ar": 4.027,
+  "fit": "plate"
+ },
+ {
+  "key": "m2Glass",
+  "file": "MOTU M2 (3).jpg",
+  "product": "m2",
+  "kind": "lifestyle",
+  "w": 1442,
+  "h": 873,
+  "bg": "dark",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 1.652,
+  "fit": "fill"
+ },
+ {
+  "key": "m2Hero",
+  "file": "MOTU M2 (8).jpg",
+  "product": "m2",
+  "kind": "hero",
+  "w": 1879,
+  "h": 948,
+  "bg": "light",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 1.982,
+  "fit": "fill"
+ },
+ {
+  "key": "m2Rear",
+  "file": "MOTU M2 (9).png",
+  "product": "m2",
+  "kind": "panel-rear",
+  "w": 2013,
+  "h": 500,
+  "bg": "light",
+  "alpha": true,
+  "ext": "png",
+  "ar": 4.026,
+  "fit": "plate"
+ },
+ {
+  "key": "m4Alt",
+  "file": "MOTU M4 (1).jpg",
+  "product": "m4",
+  "kind": "lifestyle",
+  "w": 1442,
+  "h": 873,
+  "bg": "dark",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 1.652,
+  "fit": "fill"
+ },
+ {
+  "key": "m4Cable",
+  "file": "MOTU M4 (2).jpg",
+  "product": "m4",
+  "kind": "detail",
+  "w": 1442,
+  "h": 873,
+  "bg": "dark",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 1.652,
+  "fit": "fill"
+ },
+ {
+  "key": "m4Desk",
+  "file": "MOTU M4 (7).jpg",
+  "product": "m4",
+  "kind": "lifestyle",
+  "w": 2880,
+  "h": 1516,
+  "bg": "dark",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 1.9,
+  "fit": "fill"
+ },
+ {
+  "key": "m4Drums",
+  "file": "MOTU M4 (5).jpg",
+  "product": "m4",
+  "kind": "lifestyle",
+  "w": 2880,
+  "h": 1396,
+  "bg": "dark",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 2.063,
+  "fit": "fill"
  },
  {
   "key": "m4Front",
@@ -52,18 +164,9 @@
   "h": 301,
   "bg": "light",
   "alpha": true,
-  "ext": "png"
- },
- {
-  "key": "m4Rear",
-  "file": "MOTU M4 (2).png",
-  "product": "m4",
-  "kind": "panel-rear",
-  "w": 1212,
-  "h": 301,
-  "bg": "light",
-  "alpha": true,
-  "ext": "png"
+  "ext": "png",
+  "ar": 4.027,
+  "fit": "plate"
  },
  {
   "key": "m4Hero",
@@ -74,7 +177,22 @@
   "h": 1061,
   "bg": "light",
   "alpha": false,
-  "ext": "jpg"
+  "ext": "jpg",
+  "ar": 1.981,
+  "fit": "fill"
+ },
+ {
+  "key": "m4Rear",
+  "file": "MOTU M4 (2).png",
+  "product": "m4",
+  "kind": "panel-rear",
+  "w": 1212,
+  "h": 301,
+  "bg": "light",
+  "alpha": true,
+  "ext": "png",
+  "ar": 4.027,
+  "fit": "plate"
  },
  {
   "key": "m4Synth",
@@ -85,51 +203,35 @@
   "h": 873,
   "bg": "dark",
   "alpha": false,
-  "ext": "jpg"
+  "ext": "jpg",
+  "ar": 1.145,
+  "fit": "native"
  },
  {
-  "key": "m6Front",
-  "file": "MOTU M6 (1).png",
+  "key": "m6Alt",
+  "file": "MOTU M6 (6).jpg",
   "product": "m6",
-  "kind": "hero-front",
-  "w": 2442,
-  "h": 749,
-  "bg": "light",
-  "alpha": true,
-  "ext": "png"
- },
- {
-  "key": "m6Rear",
-  "file": "MOTU M6 (2).png",
-  "product": "m6",
-  "kind": "panel-rear",
-  "w": 3530,
-  "h": 800,
-  "bg": "light",
-  "alpha": true,
-  "ext": "png"
- },
- {
-  "key": "m6Macro",
-  "file": "MOTU M6 (1).jpg",
-  "product": "m6",
-  "kind": "macro-lcd",
-  "w": 911,
-  "h": 591,
+  "kind": "lifestyle",
+  "w": 2821,
+  "h": 1529,
   "bg": "dark",
   "alpha": false,
-  "ext": "jpg"
+  "ext": "jpg",
+  "ar": 1.845,
+  "fit": "fill"
  },
  {
-  "key": "m6Panel",
-  "file": "MOTU M6 (5).jpg",
+  "key": "m6Bright",
+  "file": "MOTU M6 (8).jpg",
   "product": "m6",
   "kind": "lifestyle",
   "w": 3000,
-  "h": 2223,
+  "h": 2101,
   "bg": "dark",
   "alpha": false,
-  "ext": "jpg"
+  "ext": "jpg",
+  "ar": 1.428,
+  "fit": "fill"
  },
  {
   "key": "m6Couch",
@@ -140,7 +242,22 @@
   "h": 2737,
   "bg": "mixed",
   "alpha": false,
-  "ext": "jpg"
+  "ext": "jpg",
+  "ar": 1.034,
+  "fit": "native"
+ },
+ {
+  "key": "m6Dark",
+  "file": "MOTU M6 (10).jpg",
+  "product": "m6",
+  "kind": "hero",
+  "w": 3000,
+  "h": 2085,
+  "bg": "dark",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 1.439,
+  "fit": "fill"
  },
  {
   "key": "m6Drums",
@@ -151,7 +268,87 @@
   "h": 2737,
   "bg": "light",
   "alpha": false,
-  "ext": "jpg"
+  "ext": "jpg",
+  "ar": 1.034,
+  "fit": "native"
+ },
+ {
+  "key": "m6Front",
+  "file": "MOTU M6 (1).png",
+  "product": "m6",
+  "kind": "hero-front",
+  "w": 2442,
+  "h": 749,
+  "bg": "light",
+  "alpha": true,
+  "ext": "png",
+  "ar": 3.26,
+  "fit": "plate"
+ },
+ {
+  "key": "m6Low",
+  "file": "MOTU M6 (3).jpg",
+  "product": "m6",
+  "kind": "lifestyle",
+  "w": 3000,
+  "h": 2000,
+  "bg": "dark",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 1.5,
+  "fit": "fill"
+ },
+ {
+  "key": "m6Macro",
+  "file": "MOTU M6 (1).jpg",
+  "product": "m6",
+  "kind": "macro-lcd",
+  "w": 911,
+  "h": 591,
+  "bg": "dark",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 1.541,
+  "fit": "fill"
+ },
+ {
+  "key": "m6Panel",
+  "file": "MOTU M6 (5).jpg",
+  "product": "m6",
+  "kind": "lifestyle",
+  "w": 3000,
+  "h": 2223,
+  "bg": "dark",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 1.35,
+  "fit": "native"
+ },
+ {
+  "key": "m6Rear",
+  "file": "MOTU M6 (2).png",
+  "product": "m6",
+  "kind": "panel-rear",
+  "w": 3530,
+  "h": 800,
+  "bg": "light",
+  "alpha": true,
+  "ext": "png",
+  "ar": 4.412,
+  "fit": "plate"
+ },
+ {
+  "key": "m6Studio",
+  "file": "MOTU M6 (2).jpg",
+  "product": "m6",
+  "kind": "lifestyle",
+  "w": 2777,
+  "h": 1947,
+  "bg": "dark",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 1.426,
+  "fit": "fill"
  },
  {
   "key": "shLive",
@@ -162,18 +359,9 @@
   "h": 1740,
   "bg": "dark",
   "alpha": false,
-  "ext": "jpg"
- },
- {
-  "key": "shSoftware",
-  "file": "MOTU M4 (8).jpg",
-  "product": "shared",
-  "kind": "software-ui",
-  "w": 2880,
-  "h": 834,
-  "bg": "light",
-  "alpha": false,
-  "ext": "jpg"
+  "ext": "jpg",
+  "ar": 1.724,
+  "fit": "fill"
  },
  {
   "key": "shRoom",
@@ -184,6 +372,21 @@
   "h": 873,
   "bg": "dark",
   "alpha": false,
-  "ext": "jpg"
+  "ext": "jpg",
+  "ar": 1.652,
+  "fit": "fill"
+ },
+ {
+  "key": "shSoftware",
+  "file": "MOTU M4 (8).jpg",
+  "product": "shared",
+  "kind": "software-ui",
+  "w": 2880,
+  "h": 834,
+  "bg": "light",
+  "alpha": false,
+  "ext": "jpg",
+  "ar": 3.453,
+  "fit": "fill"
  }
 ]
