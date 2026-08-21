@@ -74,6 +74,18 @@ and re-verifies every scene's frame count against `scene-spec.json` before
 joining. Flick also has **no background music by design**, so the bed is this
 project's own layer, added at master level.
 
+The assembly takes the **picture** from the 25 scene renders and **both audio
+layers from their full-runtime WAVs**, rather than lifting the foley out of the
+scene files. Two reasons: scene 25 has no sound effects and therefore carries no
+audio stream, which the concat demuxer cannot splice; and taking the foley from
+the WAV makes the standalone SFX deliverable *literally the same samples* as the
+SFX in the master, not a second rendering of the same schedule.
+
+Frame counts are asserted with `framecrc`, which emits one line per frame. This
+ffmpeg build emits no `frame=` counter under `-c copy -f null`, and the
+container `time=` field omits the last frame's duration — a 150-frame file
+reports `00:00:04.93` — so neither is safe for an exact-length assertion.
+
 ---
 
 ## Phase 4 — audio

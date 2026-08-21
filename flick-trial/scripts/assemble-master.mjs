@@ -32,10 +32,18 @@ const run = (args, label) => {
   return txt;
 };
 
+/**
+ * Exact frame count. This ffmpeg build emits no `frame=` counter under
+ * `-c copy -f null`, and the container `time=` field omits the last frame's
+ * duration, so neither can be trusted for an exact-length assertion.
+ * `framecrc` emits one line per frame and needs no decoding when copying.
+ */
 const probeFrames = (file) => {
-  const t = run(["-hide_banner", "-i", file, "-map", "0:v:0", "-c", "copy", "-f", "null", "-"], `probe ${file}`);
-  const m = [...t.matchAll(/frame=\s*(\d+)/g)];
-  return m.length ? Number(m[m.length - 1][1]) : NaN;
+  const r = spawnSync(ffmpeg,
+    ["-hide_banner", "-loglevel", "error", "-i", file, "-map", "0:v:0", "-c", "copy", "-f", "framecrc", "-"],
+    { encoding: "utf8", maxBuffer: 1 << 30 });
+  if (r.status !== 0) throw new Error(`probe failed for ${file}: ${(r.stderr ?? "").slice(-300)}`);
+  return (r.stdout ?? "").split("\n").filter((l) => l.startsWith("0,")).length;
 };
 
 // 1 — verify every scene rendered, and rendered at exactly its spec length.
@@ -55,31 +63,46 @@ for (const s of spec) {
 if (total !== EXPECT) throw new Error(`scene frames sum to ${total}, expected ${EXPECT}`);
 console.log(`  = ${total} frames / ${(total / FPS).toFixed(3)}s\n`);
 
-// 2 — concatenate picture + the foley layer Flick baked into each scene.
+// 2 — concatenate the PICTURE ONLY.
+//
+// The audio is deliberately NOT taken from the scene files. Scene 25 has no
+// sound effects at all, so it carries no audio stream, and the concat demuxer
+// cannot splice a stream that is missing from one input. Taking both layers
+// from their full-runtime WAVs instead sidesteps that entirely — and it makes
+// the standalone SFX deliverable literally the same samples as the SFX you hear
+// in the master, rather than a second rendering of the same schedule.
 const listFile = join(out, "concat-list.txt");
 writeFileSync(listFile, list.map((f) => `file '${f.replace(/'/g, "'\\''")}'`).join("\n"));
-const joined = join(out, "_picture-and-sfx.mp4");
-console.log("Concatenating 25 scene renders ...");
+const picture = join(out, "_picture.mp4");
+console.log("Concatenating 25 scene renders (video only) ...");
 run([
   "-y", "-hide_banner", "-loglevel", "error",
   "-f", "concat", "-safe", "0", "-i", listFile,
+  "-an",
   "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p",
-  "-r", String(FPS), "-c:a", "aac", "-b:a", "256k", "-ar", "48000",
-  joined,
+  "-r", String(FPS),
+  picture,
 ], "concat");
 
-// 3 — mix the continuous music bed underneath. The bed is a full-runtime WAV
-//     rendered from the same schedule, so no alignment work is needed here.
+const pictureFrames = probeFrames(picture);
+console.log(`  ${pictureFrames} frames`);
+if (pictureFrames !== EXPECT) throw new Error(`concatenated picture is ${pictureFrames}f, expected ${EXPECT}f`);
+
+// 3 — mix the two audio layers and mux them onto the picture.
 const bed = join(out, "motu-m-series-portrait-flick-trial-music-bed.wav");
-if (!existsSync(bed)) throw new Error(`music bed not rendered yet: ${bed}`);
+const sfx = join(out, "motu-m-series-portrait-flick-trial-transition-sfx-timeline.wav");
+for (const [label, f] of [["music bed", bed], ["sfx timeline", sfx]]) {
+  if (!existsSync(f)) throw new Error(`${label} not rendered yet: ${f}`);
+}
 const master = join(out, "motu-m-series-portrait-flick-trial.mp4");
-console.log("Mixing the music bed under the picture ...");
+console.log("Mixing the music bed and the foley layer onto the picture ...");
 run([
   "-y", "-hide_banner", "-loglevel", "error",
-  "-i", joined, "-i", bed,
-  "-filter_complex", "[0:a][1:a]amix=inputs=2:duration=first:dropout_transition=0:normalize=0[a]",
+  "-i", picture, "-i", sfx, "-i", bed,
+  "-filter_complex", "[1:a][2:a]amix=inputs=2:duration=longest:dropout_transition=0:normalize=0[a]",
   "-map", "0:v:0", "-map", "[a]",
   "-c:v", "copy", "-c:a", "aac", "-b:a", "256k", "-ar", "48000",
+  "-shortest",
   master,
 ], "mix");
 
