@@ -63,29 +63,54 @@ for (const s of spec) {
 if (total !== EXPECT) throw new Error(`scene frames sum to ${total}, expected ${EXPECT}`);
 console.log(`  = ${total} frames / ${(total / FPS).toFixed(3)}s\n`);
 
-// 2 — concatenate the PICTURE ONLY.
+// 2 — strip audio from each scene FIRST, then concatenate the picture.
 //
-// The audio is deliberately NOT taken from the scene files. Scene 25 has no
-// sound effects at all, so it carries no audio stream, and the concat demuxer
-// cannot splice a stream that is missing from one input. Taking both layers
-// from their full-runtime WAVs instead sidesteps that entirely — and it makes
-// the standalone SFX deliverable literally the same samples as the SFX you hear
-// in the master, rather than a second rendering of the same schedule.
+// Two problems solved here, both caught by the frame assertions below.
+//
+// (a) Re-encoding through the concat demuxer resamples timestamps at every
+//     join and fills the sliver at each seam with a duplicate frame. Across 25
+//     joins that produced a 5,378-frame picture from 5,340 frames of source.
+//     So the picture is STREAM COPIED, never re-encoded.
+//
+// (b) A stream copy alone was not enough. Remotion's AAC track runs 40-60 ms
+//     past the video in every scene, and an mp4's container duration is the max
+//     of its tracks — which is what the concat demuxer uses to offset each
+//     segment. The frame count stayed correct but the timeline drifted to
+//     179.27 s, and the mux then truncated it to 5,299 frames. Stripping audio
+//     from each scene first makes every segment exactly nframes/30, so the
+//     offsets are exact.
+//
+// Discarding the scenes' audio costs nothing: both audio layers come from their
+// own full-runtime WAVs, which is also what makes the standalone SFX deliverable
+// literally the same samples as the SFX in the master.
+const vdir = join(out, "_video-only");
+mkdirSync(vdir, { recursive: true });
+console.log("Stripping audio from each scene ...");
+const vlist = [];
+for (const s of spec) {
+  const src = join(root, "flick-output", "scenes", s.id, `${s.id}.mp4`);
+  const dst = join(vdir, `${s.id}.mp4`);
+  run(["-y", "-hide_banner", "-loglevel", "error", "-i", src, "-an", "-c:v", "copy", dst], `strip ${s.id}`);
+  const n = probeFrames(dst);
+  if (n !== s.durationInFrames) throw new Error(`${s.id}: ${n}f after strip, expected ${s.durationInFrames}f`);
+  vlist.push(dst);
+}
+console.log(`  ${vlist.length} video-only segments, each exactly nframes/30`);
+
 const listFile = join(out, "concat-list.txt");
-writeFileSync(listFile, list.map((f) => `file '${f.replace(/'/g, "'\\''")}'`).join("\n"));
+writeFileSync(listFile, vlist.map((f) => `file '${f.replace(/'/g, "'\\''")}'`).join("\n"));
 const picture = join(out, "_picture.mp4");
-console.log("Concatenating 25 scene renders (video only) ...");
+console.log("Concatenating (stream copy) ...");
 run([
   "-y", "-hide_banner", "-loglevel", "error",
   "-f", "concat", "-safe", "0", "-i", listFile,
-  "-an",
-  "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-pix_fmt", "yuv420p",
-  "-r", String(FPS),
+  "-an", "-c:v", "copy",
   picture,
 ], "concat");
 
 const pictureFrames = probeFrames(picture);
-console.log(`  ${pictureFrames} frames`);
+const pictureSecs = pictureFrames / FPS;
+console.log(`  ${pictureFrames} frames / ${pictureSecs.toFixed(3)}s`);
 if (pictureFrames !== EXPECT) throw new Error(`concatenated picture is ${pictureFrames}f, expected ${EXPECT}f`);
 
 // 3 — mix the two audio layers and mux them onto the picture.
@@ -95,14 +120,23 @@ for (const [label, f] of [["music bed", bed], ["sfx timeline", sfx]]) {
   if (!existsSync(f)) throw new Error(`${label} not rendered yet: ${f}`);
 }
 const master = join(out, "motu-m-series-portrait-flick-trial.mp4");
+// A true-peak ceiling on the MASTER ONLY. Summed, the two layers touched
+// -2.5 dBFS at 100-120 s, where the fullest music movement coincides with a
+// transition hit and a ping — over the -3.0 dBFS broadcast-safe ceiling this
+// project checks against. About 0.5 dB of gain reduction, which is inaudible.
+//
+// Deliberately NOT applied to the two standalone WAVs. Those are handed over so
+// the client can build their own mix around a voiceover; pre-limiting them would
+// take that decision away and bake in a choice made for this particular sum.
 console.log("Mixing the music bed and the foley layer onto the picture ...");
 run([
   "-y", "-hide_banner", "-loglevel", "error",
   "-i", picture, "-i", sfx, "-i", bed,
-  "-filter_complex", "[1:a][2:a]amix=inputs=2:duration=longest:dropout_transition=0:normalize=0[a]",
+  "-filter_complex",
+  "[1:a][2:a]amix=inputs=2:duration=longest:dropout_transition=0:normalize=0,"
+  + "alimiter=limit=0.66:level=disabled:attack=5:release=60[a]",
   "-map", "0:v:0", "-map", "[a]",
   "-c:v", "copy", "-c:a", "aac", "-b:a", "256k", "-ar", "48000",
-  "-shortest",
   master,
 ], "mix");
 
