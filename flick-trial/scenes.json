@@ -1,0 +1,252 @@
+[
+ {
+  "n": 1,
+  "id": "hook-the-difference",
+  "start": 0.0,
+  "end": 8.0,
+  "dur": 8.0,
+  "text": "Everyone can hear the difference between a room and a recording of that room. What sits in between decides it.",
+  "startFrame": 0,
+  "endFrame": 240
+ },
+ {
+  "n": 2,
+  "id": "the-old-trade-off",
+  "start": 8.0,
+  "end": 15.0,
+  "dur": 7.0,
+  "text": "For years that meant two bad options. An interface that adds hiss to everything, or one priced out of reach.",
+  "startFrame": 240,
+  "endFrame": 450
+ },
+ {
+  "n": 3,
+  "id": "one-engine-three-sizes",
+  "start": 15.0,
+  "end": 24.0,
+  "dur": 9.0,
+  "text": "The MOTU M-Series ends that. Three interfaces \u2014 M2, M4, M6 \u2014 one identical engine, differing only in how much you record at once.",
+  "startFrame": 450,
+  "endFrame": 720
+ },
+ {
+  "n": 4,
+  "id": "shared-converter",
+  "start": 24.0,
+  "end": 32.0,
+  "dur": 8.0,
+  "text": "Every model carries the same ESS Sabre32 Ultra converter, delivering a hundred and twenty decibels of dynamic range on its main outputs.",
+  "startFrame": 720,
+  "endFrame": 960
+ },
+ {
+  "n": 5,
+  "id": "shared-noise-and-latency",
+  "start": 32.0,
+  "end": 40.0,
+  "dur": 8.0,
+  "text": "The preamps measure minus one hundred and twenty-nine dBu of equivalent input noise. Round-trip latency is two and a half milliseconds.",
+  "startFrame": 960,
+  "endFrame": 1200
+ },
+ {
+  "n": 6,
+  "id": "shared-metering",
+  "start": 40.0,
+  "end": 45.0,
+  "dur": 5.0,
+  "text": "And every model meters every input and output on a full-colour display.",
+  "startFrame": 1200,
+  "endFrame": 1350
+ },
+ {
+  "n": 7,
+  "id": "m2-introduction",
+  "start": 45.0,
+  "end": 51.0,
+  "dur": 6.0,
+  "text": "Start with the smallest. The MOTU M2 \u2014 two in, two out.",
+  "startFrame": 1350,
+  "endFrame": 1530
+ },
+ {
+  "n": 8,
+  "id": "m2-front-panel",
+  "start": 51.0,
+  "end": 60.0,
+  "dur": 9.0,
+  "text": "Two combo inputs on the front, each with its own preamp gain, its own forty-eight volt phantom power, and a one-touch monitor button.",
+  "startFrame": 1530,
+  "endFrame": 1800
+ },
+ {
+  "n": 9,
+  "id": "m2-rear-panel",
+  "start": 60.0,
+  "end": 67.0,
+  "dur": 7.0,
+  "text": "Behind it, two DC-coupled balanced outputs, mirrored RCA, five-pin MIDI in and out, and USB-C bus power.",
+  "startFrame": 1800,
+  "endFrame": 2010
+ },
+ {
+  "n": 10,
+  "id": "m2-in-the-room",
+  "start": 67.0,
+  "end": 76.0,
+  "dur": 9.0,
+  "text": "It weighs just over a pound and runs entirely off the cable. Which means the studio goes wherever the song starts.",
+  "startFrame": 2010,
+  "endFrame": 2280
+ },
+ {
+  "n": 11,
+  "id": "m2-price",
+  "start": 76.0,
+  "end": 81.0,
+  "dur": 5.0,
+  "text": "The MOTU M2 \u2014 twenty-six thousand nine hundred rupees, inclusive of GST.",
+  "startFrame": 2280,
+  "endFrame": 2430
+ },
+ {
+  "n": 12,
+  "id": "m4-introduction",
+  "start": 81.0,
+  "end": 86.0,
+  "dur": 5.0,
+  "text": "Add two inputs and you get the MOTU M4.",
+  "startFrame": 2430,
+  "endFrame": 2580
+ },
+ {
+  "n": 13,
+  "id": "m4-front-panel",
+  "start": 86.0,
+  "end": 95.0,
+  "dur": 9.0,
+  "text": "The same two combo preamps, plus a physical Input Monitor Mix knob \u2014 blending live input against computer playback by hand, no routing software needed.",
+  "startFrame": 2580,
+  "endFrame": 2850
+ },
+ {
+  "n": 14,
+  "id": "m4-rear-panel",
+  "start": 95.0,
+  "end": 102.0,
+  "dur": 7.0,
+  "text": "The back grows to match: two dedicated line inputs, four DC-coupled outputs, four mirrored RCA, and MIDI.",
+  "startFrame": 2850,
+  "endFrame": 3060
+ },
+ {
+  "n": 15,
+  "id": "m4-in-the-room",
+  "start": 102.0,
+  "end": 111.0,
+  "dur": 9.0,
+  "text": "So two microphones stay patched to the front while a stereo synthesizer records through the rear. Four channels, and room to leave a session set up.",
+  "startFrame": 3060,
+  "endFrame": 3330
+ },
+ {
+  "n": 16,
+  "id": "m4-price",
+  "start": 111.0,
+  "end": 116.0,
+  "dur": 5.0,
+  "text": "The MOTU M4 \u2014 thirty-two thousand nine hundred rupees, inclusive of GST.",
+  "startFrame": 3330,
+  "endFrame": 3480
+ },
+ {
+  "n": 17,
+  "id": "m6-introduction",
+  "start": 116.0,
+  "end": 121.0,
+  "dur": 5.0,
+  "text": "And when two channels are not enough \u2014 the MOTU M6.",
+  "startFrame": 3480,
+  "endFrame": 3630
+ },
+ {
+  "n": 18,
+  "id": "m6-front-panel",
+  "start": 121.0,
+  "end": 130.0,
+  "dur": 9.0,
+  "text": "Four microphone preamps: four gain controls, four phantom switches, four monitor buttons \u2014 and two headphone outputs, in the same desktop footprint.",
+  "startFrame": 3630,
+  "endFrame": 3900
+ },
+ {
+  "n": 19,
+  "id": "m6-rear-panel",
+  "start": 130.0,
+  "end": 137.0,
+  "dur": 7.0,
+  "text": "The four combo jacks moved to the rear, alongside two more line inputs and a fifteen volt DC socket.",
+  "startFrame": 3900,
+  "endFrame": 4110
+ },
+ {
+  "n": 20,
+  "id": "m6-control-room",
+  "start": 137.0,
+  "end": 144.0,
+  "dur": 7.0,
+  "text": "An A-B switch compares your mix across two monitor pairs. The second headphone output carries its own cue mix.",
+  "startFrame": 4110,
+  "endFrame": 4320
+ },
+ {
+  "n": 21,
+  "id": "m6-full-ensemble",
+  "start": 144.0,
+  "end": 153.0,
+  "dur": 9.0,
+  "text": "Which is what six inputs actually buy you. A four-person panel. A drum kit in a single pass. A small band, live in the room.",
+  "startFrame": 4320,
+  "endFrame": 4590
+ },
+ {
+  "n": 22,
+  "id": "m6-price",
+  "start": 153.0,
+  "end": 158.0,
+  "dur": 5.0,
+  "text": "The MOTU M6 \u2014 fifty-five thousand nine hundred rupees, inclusive of GST.",
+  "startFrame": 4590,
+  "endFrame": 4740
+ },
+ {
+  "n": 23,
+  "id": "shared-extras",
+  "start": 158.0,
+  "end": 165.0,
+  "dur": 7.0,
+  "text": "Every model ships with loopback for streaming, DC-coupled outputs for modular gear, and software to record on day one.",
+  "startFrame": 4740,
+  "endFrame": 4950
+ },
+ {
+  "n": 24,
+  "id": "all-three-prices-and-cta",
+  "start": 165.0,
+  "end": 173.0,
+  "dur": 8.0,
+  "text": "Twenty-six thousand nine hundred. Thirty-two thousand nine hundred. Fifty-five thousand nine hundred. To check the best current price, visit shivanshelectronics dot in.",
+  "startFrame": 4950,
+  "endFrame": 5190
+ },
+ {
+  "n": 25,
+  "id": "distributor-close",
+  "start": 173.0,
+  "end": 178.0,
+  "dur": 5.0,
+  "text": "Shivansh Electronics \u2014 authorized MOTU distributor for East and North East India.",
+  "startFrame": 5190,
+  "endFrame": 5340
+ }
+]
