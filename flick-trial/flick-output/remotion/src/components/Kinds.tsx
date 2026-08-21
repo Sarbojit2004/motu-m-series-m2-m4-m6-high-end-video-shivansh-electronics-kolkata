@@ -321,7 +321,7 @@ export const PriceWall: React.FC<Base & { images: string[] }> = ({ dur, enter = 
                 background: COLORS.paperLift, border: `1px solid ${COLORS.line}`, borderRadius: 20,
                 padding: "12px 18px", boxShadow: `0 8px 24px ${COLORS.shadow}`,
               }}>
-                <div style={{ height: 132 }}><Frame name={images[i]} duration={dur} amount={0.3} radius={12} /></div>
+                <div style={{ height: 138 }}><Frame name={images[i]} duration={dur} amount={0.3} radius={12} noField /></div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
                   <span style={{ ...micro(22, 800, "0.13em"), color: COLORS.ink }}>{r.p}</span>
                   <span style={{ ...micro(16, 700, "0.1em"), color: COLORS.slateDim }}>{r.io}</span>

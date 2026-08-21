@@ -1,6 +1,7 @@
 node_modules
 logs/
+# Rendered media is large and fully reproducible from the sources; the
+# thumbnail is a deliverable in its own right and is kept.
 out/*.mp4
 out/*.wav
-out/_picture-and-sfx.mp4
 out/concat-list.txt

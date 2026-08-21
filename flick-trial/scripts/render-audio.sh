@@ -3,7 +3,7 @@
 # drives the picture. Run after the scene renders so the two jobs don't contend.
 set -euo pipefail
 cd "$(dirname "$0")/../flick-output/remotion"
-OUT=../out
+OUT=../../out
 mkdir -p "$OUT"
 npx remotion render src/index.tsx MusicBedOnly \
   "$OUT/motu-m-series-portrait-flick-trial-music-bed.wav" --codec=wav

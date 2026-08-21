@@ -22,8 +22,8 @@ export const Thumbnail: React.FC = () => (
     <Fonts />
     <Ground seed={2} />
     <AbsoluteFill style={{
-      padding: `${SAFE.top - 84}px ${SAFE.marginX}px ${SAFE.bottom - 96}px ${SAFE.marginX}px`,
-      display: "flex", flexDirection: "column", gap: 26,
+      padding: `${SAFE.top - 96}px ${SAFE.marginX}px ${SAFE.bottom - 108}px ${SAFE.marginX}px`,
+      display: "flex", flexDirection: "column", gap: 34,
     }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Logo which="motu" width={210} />
@@ -39,14 +39,14 @@ export const Thumbnail: React.FC = () => (
         }}>{"ONE ENGINE.\nTHREE SIZES."}</div>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 18, flex: 1, justifyContent: "center" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 22, flex: 1, justifyContent: "center" }}>
         {ROWS.map((r) => (
           <div key={r.p} style={{
             display: "grid", gridTemplateColumns: "1.05fr 1fr", alignItems: "center", gap: 18,
             background: COLORS.paperLift, border: `1px solid ${COLORS.line}`, borderRadius: 24,
-            padding: "16px 22px", boxShadow: `0 10px 30px ${hexA(COLORS.ink, 0.09)}`,
+            padding: "20px 24px", boxShadow: `0 10px 30px ${hexA(COLORS.ink, 0.09)}`,
           }}>
-            <div style={{ height: 150 }}><Frame name={r.img} duration={1} amount={0} scaleTo={1} radius={12} /></div>
+            <div style={{ height: 186 }}><Frame name={r.img} duration={1} amount={0} scaleTo={1} radius={12} noField /></div>
             <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
               <span style={{ ...micro(26, 800, "0.13em"), color: COLORS.ink }}>{r.p}</span>
               <span style={{ ...micro(18, 700, "0.1em"), color: COLORS.slateDim }}>{r.io}</span>

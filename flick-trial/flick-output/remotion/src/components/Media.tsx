@@ -59,11 +59,12 @@ export const Frame: React.FC<{
   label?: string;
   radius?: number;
   hug?: boolean;
+  noField?: boolean;
   style?: React.CSSProperties;
-}> = ({ name, duration, amount = 0.7, scaleFrom = 1, scaleTo = 1.035, label, radius = RADII.card, hug, style }) => {
+}> = ({ name, duration, amount = 0.7, scaleFrom = 1, scaleTo = 1.035, label, radius = RADII.card, hug, noField, style }) => {
   const frame = useCurrentFrame();
   const a = asset(name);
-  const wide = a.ar >= WIDE;
+  const wide = a.ar >= WIDE && !noField;
   const g = gimbal(frame, name.length * 3 + 1, amount);
   const p = mapClamp(frame, [0, Math.max(1, duration)], [0, 1], EASE.linear);
   const scale = scaleFrom + (scaleTo - scaleFrom) * p;
@@ -97,10 +98,12 @@ export const Frame: React.FC<{
               width: "auto",
               height: "auto",
               objectFit: "contain", // <- the complete image, always
-              borderRadius: RADII.plate,
-              boxShadow: a.bg === "light"
-                ? `0 14px 40px ${hexA(COLORS.ink, 0.13)}`
-                : `0 20px 54px ${hexA(COLORS.ink, 0.28)}`,
+              borderRadius: noField ? 0 : RADII.plate,
+              boxShadow: noField
+                ? "none"
+                : a.bg === "light"
+                  ? `0 14px 40px ${hexA(COLORS.ink, 0.13)}`
+                  : `0 20px 54px ${hexA(COLORS.ink, 0.28)}`,
             }}
           />
         </div>
