@@ -1,0 +1,13 @@
+# Flick installs its own Remotion toolchain here (~344 MB). Regenerate with:
+#   node <flick-skill>/scripts/bootstrap.mjs --project ./flick-output --package-manager npm
+flick-output/remotion/node_modules/
+
+# Byte-identical copies of images already tracked at the repository root.
+# Regenerate with: python3 scripts/stage-brand-assets.py
+flick-output/brand-assets/images/
+flick-output/brand-assets/logos/
+
+# Flick's bundled sound effects, installed by bootstrap.
+flick-output/remotion/public/sounds/
+
+*.log
