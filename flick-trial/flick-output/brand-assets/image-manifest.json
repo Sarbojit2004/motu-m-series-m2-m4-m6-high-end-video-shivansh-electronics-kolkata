@@ -7,7 +7,8 @@
   "w": 1212,
   "h": 301,
   "ar": 4.027,
-  "description": "front panel, straight on, transparent ground: 2 combo inputs, gain knobs, 48V, MON, full-colour LCD, monitor knob, headphone out"
+  "description": "front panel, straight on, transparent ground: 2 combo inputs, gain knobs, 48V, MON, full-colour LCD, monitor knob, headphone out",
+  "bg": "light"
  },
  {
   "file": "images/m2-rear-panel.png",
@@ -17,7 +18,8 @@
   "w": 2013,
   "h": 500,
   "ar": 4.026,
-  "description": "rear panel, straight on, transparent ground: power, MIDI in/out, USB-C, RCA monitor outs, TRS outs"
+  "description": "rear panel, straight on, transparent ground: power, MIDI in/out, USB-C, RCA monitor outs, TRS outs",
+  "bg": "light"
  },
  {
   "file": "images/m2-hero-white.jpg",
@@ -27,7 +29,8 @@
   "w": 1879,
   "h": 948,
   "ar": 1.982,
-  "description": "front three-quarter hero on white with reflection \u2014 the cleanest M2 product shot"
+  "description": "front three-quarter hero on white with reflection \u2014 the cleanest M2 product shot",
+  "bg": "light"
  },
  {
   "file": "images/m2-desk-macbook.jpg",
@@ -37,7 +40,8 @@
   "w": 2880,
   "h": 1396,
   "ar": 2.063,
-  "description": "on a wooden desk beside a MacBook, cable plugged, warm brick background"
+  "description": "on a wooden desk beside a MacBook, cable plugged, warm brick background",
+  "bg": "mixed"
  },
  {
   "file": "images/m2-couch-guitar.jpg",
@@ -47,7 +51,8 @@
   "w": 1442,
   "h": 873,
   "ar": 1.652,
-  "description": "on an amp beside a laptop and hollow-body guitar, couch setting"
+  "description": "on an amp beside a laptop and hollow-body guitar, couch setting",
+  "bg": "mixed"
  },
  {
   "file": "images/m2-glass-table.jpg",
@@ -57,7 +62,8 @@
   "w": 1442,
   "h": 873,
   "ar": 1.652,
-  "description": "on a glass table, cables in, guitarist seated behind"
+  "description": "on a glass table, cables in, guitarist seated behind",
+  "bg": "dark"
  },
  {
   "file": "images/m2-producer-desk.jpg",
@@ -67,7 +73,8 @@
   "w": 1000,
   "h": 873,
   "ar": 1.145,
-  "description": "producer at a brick-wall desk in headphones, monitors and keyboard around"
+  "description": "producer at a brick-wall desk in headphones, monitors and keyboard around",
+  "bg": "dark"
  },
  {
   "file": "images/m2-overhead-dark.jpg",
@@ -77,7 +84,8 @@
   "w": 2880,
   "h": 1516,
   "ar": 1.9,
-  "description": "overhead of a dark desk setup, MIDI keyboard and monitors, moody blue light"
+  "description": "overhead of a dark desk setup, MIDI keyboard and monitors, moody blue light",
+  "bg": "dark"
  },
  {
   "file": "images/shared-podcast-room.jpg",
@@ -87,7 +95,8 @@
   "w": 1442,
   "h": 873,
   "ar": 1.652,
-  "description": "wide podcast room: two mic booms, laptop, interface on the table (shared \u2014 appears under two filenames)"
+  "description": "wide podcast room: two mic booms, laptop, interface on the table (shared \u2014 appears under two filenames)",
+  "bg": "dark"
  },
  {
   "file": "images/m4-front-panel.png",
@@ -97,7 +106,8 @@
   "w": 1212,
   "h": 301,
   "ar": 4.027,
-  "description": "front panel, straight on: 2 combo inputs PLUS the Input Monitor Mix knob and 3-4 button, 4-channel LCD"
+  "description": "front panel, straight on: 2 combo inputs PLUS the Input Monitor Mix knob and 3-4 button, 4-channel LCD",
+  "bg": "light"
  },
  {
   "file": "images/m4-rear-panel.png",
@@ -107,7 +117,8 @@
   "w": 1212,
   "h": 301,
   "ar": 4.027,
-  "description": "rear panel, straight on: MIDI, USB-C bus powered, LINE OUT 3/4, MONITOR 1/2, LINE IN 3/4"
+  "description": "rear panel, straight on: MIDI, USB-C bus powered, LINE OUT 3/4, MONITOR 1/2, LINE IN 3/4",
+  "bg": "light"
  },
  {
   "file": "images/m4-hero-white.jpg",
@@ -117,7 +128,8 @@
   "w": 2102,
   "h": 1061,
   "ar": 1.981,
-  "description": "front three-quarter hero on white with reflection \u2014 the cleanest M4 product shot"
+  "description": "front three-quarter hero on white with reflection \u2014 the cleanest M4 product shot",
+  "bg": "light"
  },
  {
   "file": "images/m4-synth-top.jpg",
@@ -127,7 +139,8 @@
   "w": 1000,
   "h": 873,
   "ar": 1.145,
-  "description": "sitting on top of a hardware synth, hands playing the keys, red shirt"
+  "description": "sitting on top of a hardware synth, hands playing the keys, red shirt",
+  "bg": "dark"
  },
  {
   "file": "images/m4-desk-daw.jpg",
@@ -137,7 +150,8 @@
   "w": 2880,
   "h": 1516,
   "ar": 1.9,
-  "description": "on a desk beside a laptop running a DAW, monitor speaker, brick wall, LCD lit"
+  "description": "on a desk beside a laptop running a DAW, monitor speaker, brick wall, LCD lit",
+  "bg": "dark"
  },
  {
   "file": "images/m4-drum-overhead.jpg",
@@ -147,7 +161,8 @@
   "w": 2880,
   "h": 1396,
   "ar": 2.063,
-  "description": "overhead: drummer with snare, M4 on a wooden box, iPad showing meters"
+  "description": "overhead: drummer with snare, M4 on a wooden box, iPad showing meters",
+  "bg": "dark"
  },
  {
   "file": "images/m4-outdoor-cable.jpg",
@@ -157,7 +172,8 @@
   "w": 1442,
   "h": 873,
   "ar": 1.652,
-  "description": "close three-quarter on weathered wood with greenery, mic cable plugged in"
+  "description": "close three-quarter on weathered wood with greenery, mic cable plugged in",
+  "bg": "dark"
  },
  {
   "file": "images/m4-studio-desk.jpg",
@@ -167,7 +183,8 @@
   "w": 1442,
   "h": 873,
   "ar": 1.652,
-  "description": "studio desk with synths, monitors and rack gear, brick wall, chair"
+  "description": "studio desk with synths, monitors and rack gear, brick wall, chair",
+  "bg": "dark"
  },
  {
   "file": "images/shared-software-bundle.jpg",
@@ -177,7 +194,8 @@
   "w": 2880,
   "h": 834,
   "ar": 3.453,
-  "description": "software bundle montage: Performer Lite / Ableton Live Lite / MOTU instruments (shared \u2014 appears under two filenames)"
+  "description": "software bundle montage: Performer Lite / Ableton Live Lite / MOTU instruments (shared \u2014 appears under two filenames)",
+  "bg": "light"
  },
  {
   "file": "images/m6-front-panel.png",
@@ -187,7 +205,8 @@
   "w": 2442,
   "h": 749,
   "ar": 3.26,
-  "description": "front three-quarter hero: 4 gain knobs, 4x48V, 4xMON, Mix knob, A/B, MON 5-6, 6-channel LCD, TWO headphone outs"
+  "description": "front three-quarter hero: 4 gain knobs, 4x48V, 4xMON, Mix knob, A/B, MON 5-6, 6-channel LCD, TWO headphone outs",
+  "bg": "light"
  },
  {
   "file": "images/m6-rear-panel.png",
@@ -197,7 +216,8 @@
   "w": 3530,
   "h": 800,
   "ar": 4.412,
-  "description": "rear panel, straight on: MIDI, 15V DC, USB-C, LINE OUT 3/4 (B), MONITOR 1/2 (A), LINE IN 5/6, FOUR mic/line/guitar combo jacks"
+  "description": "rear panel, straight on: MIDI, 15V DC, USB-C, LINE OUT 3/4 (B), MONITOR 1/2 (A), LINE IN 5/6, FOUR mic/line/guitar combo jacks",
+  "bg": "light"
  },
  {
   "file": "images/m6-lcd-macro.jpg",
@@ -207,7 +227,8 @@
   "w": 911,
   "h": 591,
   "ar": 1.541,
-  "description": "macro of the LCD cluster: Input/Playback knob, A/B button, MON 5-6, meters 1-2 3-4 5-6 IN and B OUT"
+  "description": "macro of the LCD cluster: Input/Playback knob, A/B button, MON 5-6, meters 1-2 3-4 5-6 IN and B OUT",
+  "bg": "dark"
  },
  {
   "file": "images/m6-dark-desk.jpg",
@@ -217,7 +238,8 @@
   "w": 3000,
   "h": 2085,
   "ar": 1.439,
-  "description": "on a dark desk with laptop and headphones on a stand, moody studio, blue LED accents"
+  "description": "on a dark desk with laptop and headphones on a stand, moody studio, blue LED accents",
+  "bg": "dark"
  },
  {
   "file": "images/m6-podcast-panel.jpg",
@@ -227,7 +249,8 @@
   "w": 3000,
   "h": 2223,
   "ar": 1.35,
-  "description": "podcast panel: brick wall, three mic booms with headphones, laptop, M6 with cables"
+  "description": "podcast panel: brick wall, three mic booms with headphones, laptop, M6 with cables",
+  "bg": "dark"
  },
  {
   "file": "images/m6-drum-kit-room.jpg",
@@ -237,7 +260,8 @@
   "w": 2830,
   "h": 2737,
   "ar": 1.034,
-  "description": "drum kit in a white brick room, two overhead mics, laptop on a stool"
+  "description": "drum kit in a white brick room, two overhead mics, laptop on a stool",
+  "bg": "light"
  },
  {
   "file": "images/m6-low-angle.jpg",
@@ -247,7 +271,8 @@
   "w": 3000,
   "h": 2000,
   "ar": 1.5,
-  "description": "low-angle on a dark desk beside a synth keyboard and mic, monitors behind"
+  "description": "low-angle on a dark desk beside a synth keyboard and mic, monitors behind",
+  "bg": "dark"
  },
  {
   "file": "images/m6-couch-songwriting.jpg",
@@ -257,7 +282,8 @@
   "w": 2830,
   "h": 2737,
   "ar": 1.034,
-  "description": "couch songwriting: acoustic guitar, headphones, M6 on the couch arm, mic and iPad"
+  "description": "couch songwriting: acoustic guitar, headphones, M6 on the couch arm, mic and iPad",
+  "bg": "mixed"
  },
  {
   "file": "images/m6-bright-studio.jpg",
@@ -267,7 +293,8 @@
   "w": 3000,
   "h": 2101,
   "ar": 1.428,
-  "description": "bright home studio: wooden desk, monitors, display with DAW, keyboard, guitar, amp, plants"
+  "description": "bright home studio: wooden desk, monitors, display with DAW, keyboard, guitar, amp, plants",
+  "bg": "dark"
  },
  {
   "file": "images/m6-full-setup.jpg",
@@ -277,7 +304,8 @@
   "w": 2777,
   "h": 1947,
   "ar": 1.426,
-  "description": "full home studio: laptop, boom mic, monitors, synth, MIDI pad, M6 with cables"
+  "description": "full home studio: laptop, boom mic, monitors, synth, MIDI pad, M6 with cables",
+  "bg": "dark"
  },
  {
   "file": "images/m6-desktop-studio.jpg",
@@ -287,7 +315,8 @@
   "w": 2821,
   "h": 1529,
   "ar": 1.845,
-  "description": "desktop studio: large display with DAW, two monitor speakers, MIDI keyboard, M6 centre"
+  "description": "desktop studio: large display with DAW, two monitor speakers, MIDI keyboard, M6 centre",
+  "bg": "dark"
  },
  {
   "file": "images/shared-live-duo.jpg",
@@ -297,6 +326,7 @@
   "w": 3000,
   "h": 1740,
   "ar": 1.724,
-  "description": "live acoustic duo performing, warm bokeh lights \u2014 emotional/context frame, no product in focus"
+  "description": "live acoustic duo performing, warm bokeh lights \u2014 emotional/context frame, no product in focus",
+  "bg": "dark"
  }
 ]

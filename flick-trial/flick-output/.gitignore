@@ -1,0 +1,9 @@
+remotion/node_modules/
+remotion/public/brand-assets/
+remotion/public/sounds/
+remotion/public/audio/
+brand-assets/images/
+brand-assets/logos/
+# rendered per-scene MP4s — reproducible, large. NOT src/scenes/, which is source.
+/scenes/
+/qa/
