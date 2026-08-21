@@ -5,3 +5,4 @@ logs/
 out/*.mp4
 out/*.wav
 out/concat-list.txt
+out/preview/

@@ -21,6 +21,12 @@ trial, not a replacement.
 | `out/motu-m-series-portrait-flick-trial-transition-sfx-timeline.wav` | Full-runtime foley layer, continuous, **music-silent** |
 | `out/thumbnail-motu-m-series-portrait-flick-trial.png` | 1080 × 1920 cover frame |
 | `../dist-zip/motu-m-series-portrait-flick-trial-project.zip` | Reopenable project |
+
+The master is CRF 18 and 57.8 MiB, which is over the 30 MiB limit on most chat
+and messaging surfaces. `scripts/make-preview.mjs` writes compressed review
+copies to `out/preview/` (1080p ~15 MiB and 720p ~7 MiB). Those are for review
+only — the master is what gets published. Both assert the 5,340-frame count, so
+a preview can never quietly become a different cut.
 | `../VO_SCRIPT_MOTU_M_SERIES_PORTRAIT_178S.md` | Voiceover script (on this branch) |
 
 Both WAVs run the full 178.000 s and are generated from the **same schedule**
@@ -136,6 +142,7 @@ bash scripts/render-all-scenes.sh       # 25 scenes via Flick's render-scene.mjs
 bash scripts/render-audio.sh            # the two standalone WAVs
 node scripts/assemble-master.mjs        # concat + mix the bed
 node scripts/verify.mjs                 # Phase 3 rule checks
+node scripts/make-preview.mjs           # compressed review copies (optional)
 node scripts/make-zip.mjs
 ```
 
