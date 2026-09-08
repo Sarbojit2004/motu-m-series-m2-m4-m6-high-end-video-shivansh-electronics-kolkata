@@ -11,7 +11,10 @@
     "typecheck": "tsc --noEmit",
     "coverage": "node scripts/coverage.mjs",
     "stills": "node scripts/stills.mjs",
-    "render": "remotion render Montage out/motu-mseries-montage-4k.mp4 --codec=h264 --crf=16 --pixel-format=yuv420p --scale=2 --concurrency=3",
+    "render": "remotion render Montage out/motu-mseries-montage-4k.mp4 --codec=h264 --crf=17 --pixel-format=yuv420p --scale=2 --concurrency=3",
+    "preview": "remotion render Montage out/motu-mseries-montage-preview.mp4 --codec=h264 --crf=23 --pixel-format=yuv420p --scale=0.75 --concurrency=4",
+    "deliver": "node scripts/encode_delivery.mjs",
+    "thumb": "remotion still Thumbnail out/thumbnail-motu-mseries-montage.png --frame=0 --image-format=png",
     "verify": "node scripts/verify.mjs"
   },
   "dependencies": {

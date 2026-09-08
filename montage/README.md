@@ -12,9 +12,33 @@ cd montage
 npm install
 npm run bootstrap      # generate art + cut the music bed
 npm run coverage       # prove all 30 distinct raw images are used
-npm run render         # 2160x3840 h264 -> out/motu-mseries-montage-4k.mp4
+npm run render         # 2160x3840 -> out/motu-mseries-montage-4k.mp4  (~75 min)
+npm run deliver        # re-encode to the delivery master (see below)
 npm run verify         # probe the delivered file
+npm run thumb          # cover frame
+npm run preview        # 810x1440 review copy (~13 min)
 ```
+
+## Delivered
+
+| File | Spec | Size |
+|------|------|------|
+| `out/motu-mseries-montage-4k.mp4` | 2160×3840, 30 fps, 2700 frames, 90.048s, h264 yuv420p bt709, AAC 48 kHz stereo, 8.4 Mbps | 93 MB |
+| `out/motu-mseries-montage-preview.mp4` | 810×1440 review copy, same edit | 19 MB |
+| `out/thumbnail-motu-mseries-montage.png` | 1080×1920 cover frame | 2 MB |
+
+`npm run deliver` is not cosmetic — it fixes two real things:
+
+- **Bitrate.** The moving film-grain overlay is expensive to compress, so the
+  render lands around 73 Mbps / 786 MB. The committed master is CRF 24 — at
+  100% it is indistinguishable from the render on product detail, type edges
+  and meter gradients; the cost is grain fidelity in flat paper, visible only
+  under heavy contrast boost. CRF 24 also keeps the file under GitHub's 100 MB
+  per-file limit, which CRF 22 (174 MB) does not. For an archive master:
+  `CRF=22 node scripts/encode_delivery.mjs <render.mp4> <archive.mp4>`.
+- **Colour range.** Remotion rasterises frames as JPEG, so x264 tags the render
+  `yuvj420p` — full range. Players that assume limited range for 8-bit h264
+  crush or wash that. The delivery pass converts once and tags bt709 properly.
 
 ---
 
