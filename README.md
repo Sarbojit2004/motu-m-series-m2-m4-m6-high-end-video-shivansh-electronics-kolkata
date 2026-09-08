@@ -367,3 +367,32 @@ node scripts/verify_render.mjs out/motu-mseries-longform.mp4
 ```bash
 npm run thumb:lfen && npm run thumb:lfhi && npm run thumb:lfbn
 ```
+
+---
+
+## Raw-asset portrait montage reel — 90 s, 2160×3840
+
+A separate, self-contained deliverable in [`montage/`](montage/README.md): one
+continuous 90-second, no-voiceover montage covering the M2, M4 and M6, built
+entirely from the raw product photography in this repository and styled from
+the Pinterest motion-graphics reference
+(`MOTION GRAPHICS IDEA for MONTAGE MOTU M-SERIES - M2, M4, M6.mp4`).
+
+It shares no assets, copy or design language with the two 88-second reels or
+the long-form video — its own project, type system, palette, music edit and
+asset pipeline. Photography is used in its **original colour**; the paper
+backdrop, torn edges, type and branding treatment are generated from scratch.
+
+Cut to the RATATA track's own grid (93.000 BPM, measured), so the M2 → M4 → M6
+movement changes land exactly on the track's drop-outs. All 30 distinct raw
+images appear, verified mechanically.
+
+```bash
+cd montage
+npm install && npm run bootstrap
+npm run coverage    # all 30 distinct raw images appear
+npm run render      # out/motu-mseries-montage-4k.mp4
+npm run verify      # 2160x3840, 30 fps, 2700 frames, stereo audio
+```
+
+Output: `montage/out/motu-mseries-montage-4k.mp4`

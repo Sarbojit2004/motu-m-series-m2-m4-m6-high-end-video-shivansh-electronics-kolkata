@@ -1,0 +1,9 @@
+node_modules/
+# Derived art + the cut music bed are fully regenerable:
+#   npm run art     (paper world, screenprinted photography, logo tags)
+#   npm run music   (the 90s cut of the RATATA track)
+public/art/
+public/audio/
+out/qa/
+__pycache__/
+*.pyc

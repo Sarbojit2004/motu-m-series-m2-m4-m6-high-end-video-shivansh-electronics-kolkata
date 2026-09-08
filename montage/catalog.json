@@ -1,0 +1,39 @@
+{
+  "_note": "Single source of truth for the montage reel. Consumed by scripts/build_assets.py (Python) and src/catalog.ts (Remotion). Every raw MOTU image in the repository root appears here exactly once as a distinct entry; duplicatePairs records the two byte-identical pairs covered by a single entry. Photography is used in its ORIGINAL COLOUR: `out` is the generated crop size (never upscaled past the source), `focus` the point kept centred, `zoom` an optional tighter crop that pushes MOTU's own circular feature badge out of frame.",
+  "duplicatePairs": [
+    ["MOTU M2 (10).jpg", "MOTU M4 (3).jpg"],
+    ["MOTU M4 (8).jpg", "MOTU M6 (11).jpg"]
+  ],
+  "images": [
+    {"id": "m2-hero", "file": "MOTU M2 (8).jpg", "product": "M2", "kind": "product", "role": "plate", "focus": [0.5, 0.52], "source": [1879, 948], "out": [1833, 948], "lum": 0.577},
+    {"id": "m2-front", "file": "MOTU M2 (2).png", "product": "M2", "kind": "panel", "role": "strip", "focus": [0.5, 0.5], "source": [1212, 301], "out": [1211, 301], "lum": 0.599},
+    {"id": "m2-desk", "file": "MOTU M2 (1).jpg", "product": "M2", "kind": "lifestyle", "role": "plate", "focus": [0.3, 0.6], "source": [2880, 1396], "out": [1964, 1396], "lum": 0.349},
+    {"id": "m2-glass", "file": "MOTU M2 (3).jpg", "product": "M2", "kind": "lifestyle", "role": "plate", "focus": [0.55, 0.64], "source": [1442, 873], "out": [1164, 873], "lum": 0.463},
+    {"id": "m2-amp", "file": "MOTU M2 (4).jpg", "product": "M2", "kind": "lifestyle", "role": "plate", "focus": [0.58, 0.66], "source": [1442, 873], "out": [1228, 873], "lum": 0.491},
+    {"id": "m2-window", "file": "MOTU M2 (5).jpg", "product": "M2", "kind": "lifestyle", "role": "plate", "focus": [0.6, 0.44], "zoom": 1.24, "source": [1000, 873], "out": [806, 700], "lum": 0.377},
+    {"id": "m2-keys", "file": "MOTU M2 (6).jpg", "product": "M2", "kind": "lifestyle", "role": "plate", "focus": [0.45, 0.55], "source": [2880, 1516], "out": [2133, 1516], "lum": 0.243},
+    {"id": "m2-rear", "file": "MOTU M2 (9).png", "product": "M2", "kind": "panel", "role": "strip", "focus": [0.5, 0.5], "source": [2013, 500], "out": [2011, 500], "lum": 0.548},
+    {"id": "m2-pod", "file": "MOTU M2 (10).jpg", "product": "M2", "kind": "lifestyle", "role": "plate", "focus": [0.52, 0.56], "source": [1442, 873], "out": [1228, 873], "lum": 0.409},
+    {"id": "m4-hero", "file": "MOTU M4 (4).jpg", "product": "M4", "kind": "product", "role": "plate", "focus": [0.5, 0.5], "source": [2102, 1061], "out": [2051, 1061], "lum": 0.63},
+    {"id": "m4-front", "file": "MOTU M4 (1).png", "product": "M4", "kind": "panel", "role": "strip", "focus": [0.5, 0.5], "source": [1212, 301], "out": [1211, 301], "lum": 0.41},
+    {"id": "m4-wood", "file": "MOTU M4 (2).jpg", "product": "M4", "kind": "lifestyle", "role": "plate", "focus": [0.57, 0.55], "source": [1442, 873], "out": [1228, 873], "lum": 0.34},
+    {"id": "m4-drums", "file": "MOTU M4 (5).jpg", "product": "M4", "kind": "lifestyle", "role": "plate", "focus": [0.42, 0.5], "source": [2880, 1396], "out": [1964, 1396], "lum": 0.296},
+    {"id": "m4-synth", "file": "MOTU M4 (6).jpg", "product": "M4", "kind": "lifestyle", "role": "plate", "focus": [0.62, 0.45], "zoom": 1.24, "source": [1000, 873], "out": [806, 700], "lum": 0.364},
+    {"id": "m4-brick", "file": "MOTU M4 (7).jpg", "product": "M4", "kind": "lifestyle", "role": "plate", "focus": [0.38, 0.6], "source": [2880, 1516], "out": [2133, 1516], "lum": 0.387},
+    {"id": "m4-rear", "file": "MOTU M4 (2).png", "product": "M4", "kind": "panel", "role": "strip", "focus": [0.5, 0.5], "source": [1212, 301], "out": [1211, 301], "lum": 0.396},
+    {"id": "m4-room", "file": "MOTU M4 (1).jpg", "product": "M4", "kind": "lifestyle", "role": "plate", "focus": [0.53, 0.47], "source": [1442, 873], "out": [1228, 873], "lum": 0.333},
+    {"id": "m4-soft", "file": "MOTU M4 (8).jpg", "product": "M4", "kind": "software", "role": "strip", "focus": [0.5, 0.5], "source": [2880, 834], "out": [2300, 666], "lum": 0.46},
+    {"id": "m6-front", "file": "MOTU M6 (1).png", "product": "M6", "kind": "panel", "role": "strip", "focus": [0.5, 0.5], "source": [2442, 749], "out": [2300, 705], "lum": 0.441},
+    {"id": "m6-hero", "file": "MOTU M6 (3).jpg", "product": "M6", "kind": "lifestyle", "role": "plate", "focus": [0.44, 0.7], "source": [3000, 2000], "out": [2400, 1706], "lum": 0.188},
+    {"id": "m6-night", "file": "MOTU M6 (10).jpg", "product": "M6", "kind": "lifestyle", "role": "plate", "focus": [0.48, 0.6], "source": [3000, 2085], "out": [2400, 1706], "lum": 0.276},
+    {"id": "m6-ui", "file": "MOTU M6 (1).jpg", "product": "M6", "kind": "ui", "role": "tile", "focus": [0.5, 0.5], "source": [911, 591], "out": [911, 590], "lum": 0.3},
+    {"id": "m6-pod3", "file": "MOTU M6 (5).jpg", "product": "M6", "kind": "lifestyle", "role": "plate", "focus": [0.52, 0.52], "source": [3000, 2223], "out": [2400, 1706], "lum": 0.269},
+    {"id": "m6-desk", "file": "MOTU M6 (2).jpg", "product": "M6", "kind": "lifestyle", "role": "plate", "focus": [0.52, 0.55], "source": [2777, 1947], "out": [2400, 1706], "lum": 0.287},
+    {"id": "m6-kit", "file": "MOTU M6 (4).jpg", "product": "M6", "kind": "lifestyle", "role": "plate", "focus": [0.48, 0.55], "source": [2830, 2737], "out": [2400, 2083], "lum": 0.672},
+    {"id": "m6-studio", "file": "MOTU M6 (6).jpg", "product": "M6", "kind": "lifestyle", "role": "plate", "focus": [0.5, 0.5], "source": [2821, 1529], "out": [2151, 1529], "lum": 0.413},
+    {"id": "m6-rear", "file": "MOTU M6 (2).png", "product": "M6", "kind": "panel", "role": "strip", "focus": [0.5, 0.5], "source": [3530, 800], "out": [2300, 521], "lum": 0.4},
+    {"id": "m6-home", "file": "MOTU M6 (8).jpg", "product": "M6", "kind": "lifestyle", "role": "plate", "focus": [0.5, 0.52], "source": [3000, 2101], "out": [2400, 1706], "lum": 0.37},
+    {"id": "m6-couch", "file": "MOTU M6 (9).jpg", "product": "M6", "kind": "lifestyle", "role": "tile", "focus": [0.55, 0.55], "source": [2830, 2737], "out": [1500, 1125], "lum": 0.418},
+    {"id": "m6-live", "file": "MOTU M6 (7).jpg", "product": "M6", "kind": "lifestyle", "role": "plate", "focus": [0.42, 0.48], "source": [3000, 1740], "out": [2400, 1706], "lum": 0.228}
+  ]
+}
