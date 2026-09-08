@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill, Sequence } from "remotion";
-import { C, H, W } from "../theme";
+import { C } from "../theme";
 import { bf } from "../beat";
 import { FRAGMENTS } from "../schedule";
 import { Paper } from "./Paper";

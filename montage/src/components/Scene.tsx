@@ -1,6 +1,6 @@
 import React from "react";
 import { AbsoluteFill } from "remotion";
-import { C, H, W } from "../theme";
+import { C } from "../theme";
 import { aspect, isDark } from "../catalog";
 import { fit, estWidth } from "../measure";
 import type { Shot } from "../schedule";
@@ -15,7 +15,6 @@ type Placed = {
   size: number;
   x: number;
   y: number;
-  align: "left" | "right";
 };
 
 /**
@@ -52,7 +51,6 @@ export const Scene: React.FC<{ shot: Shot; local: number; hold: number }> = ({
         // alternate which edge each line hangs off, so the stack steps
         x: i % 2 === (lean > 0 ? 0 : 1) ? 54 : Math.max(-20, 1026 - estWidth(t, size)),
         y,
-        align: "left",
       });
       y += size * gap;
     });
@@ -69,8 +67,8 @@ export const Scene: React.FC<{ shot: Shot; local: number; hold: number }> = ({
       const h0 = fit(head[0] ?? "", 660, 240);
       const h1 = fit(head[1] ?? "", 1140, 720);
       lines = [
-        { size: h0, x: 68, y: 1004, align: "left" },
-        { size: h1, x: -22, y: 1004 + h0 * 0.94, align: "left" },
+        { size: h0, x: 68, y: 1004 },
+        { size: h1, x: -22, y: 1004 + h0 * 0.94 },
       ];
       tagPos = { x: 628, y: 1716 };
       break;
@@ -130,7 +128,6 @@ export const Scene: React.FC<{ shot: Shot; local: number; hold: number }> = ({
           size,
           x: i % 2 === (lean > 0 ? 0 : 1) ? 6 : 74,
           y,
-          align: "left",
         };
         y += size * 0.80;
         return p;
