@@ -1,0 +1,31 @@
+{
+  "name": "motu-mseries-reel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MOTU M-Series (M2 / M4 / M6) \u2014 90s full-bleed narrated vertical reel, 2160x3840 (Remotion). Shivansh Electronics, Kolkata.",
+  "scripts": {
+    "studio": "remotion studio",
+    "typecheck": "tsc --noEmit",
+    "assets": "node scripts/prep-assets.mjs",
+    "audio": "python3 scripts/gen_audio.py",
+    "script": "node --experimental-strip-types scripts/build-script.mjs",
+    "plan": "node --experimental-strip-types scripts/plan.mjs",
+    "coverage": "node --experimental-strip-types scripts/coverage.mjs",
+    "render": "remotion render MSeriesReel out/motu-mseries-reel.mp4 --concurrency=2",
+    "thumb": "remotion still Thumbnail out/motu-mseries-thumbnail.png",
+    "preview": "remotion render MSeriesReel out/motu-mseries-reel-480p.mp4 --scale=0.2222222 --concurrency=2"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.497",
+    "@remotion/cli": "4.0.497",
+    "@remotion/renderer": "4.0.497",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.497"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "typescript": "5.6.3"
+  }
+}

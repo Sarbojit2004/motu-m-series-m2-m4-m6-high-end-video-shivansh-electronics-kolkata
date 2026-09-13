@@ -1,0 +1,15 @@
+node_modules/
+
+# Derived output. `npm run assets` and `npm run audio` reproduce all of it
+# deterministically from the repository's own source files, so none of it
+# belongs in git.
+public/images/
+public/audio/*.wav
+out/*.mp4
+out/frames/
+
+# public/fonts/ IS committed: those faces are inputs, and no render should ever
+# depend on a network fetch.
+# public/audio/music-bed.mp3 IS committed: it is the mastered bed the render
+# uses, at 2.2 MB.
+# public/logos/ IS committed: two files, copied from the repository root.
