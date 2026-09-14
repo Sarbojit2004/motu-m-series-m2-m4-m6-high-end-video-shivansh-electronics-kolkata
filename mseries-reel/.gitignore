@@ -5,8 +5,13 @@ node_modules/
 # belongs in git.
 public/images/
 public/audio/*.wav
-out/*.mp4
 out/frames/
+
+# The 4K master is 183 MB, over GitHub's 100 MB blob limit. It ships as
+# keyframe-aligned stream copies in out/parts/ instead — no re-encode, so
+# concatenating them reproduces the master byte-for-byte in content. The 1080p
+# viewing copy and the thumbnail are committed as they are.
+out/motu-mseries-reel.mp4
 
 # public/fonts/ IS committed: those faces are inputs, and no render should ever
 # depend on a network fetch.
