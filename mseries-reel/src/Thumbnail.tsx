@@ -26,7 +26,7 @@ const HARD = "0 5px 12px rgba(0,0,0,0.94), 0 0 6px rgba(0,0,0,0.8)";
 
 const HERO: Record<"pm2" | "pm4" | "pm6", string> = {
   pm2: "motu-m2-1-jpg",
-  pm4: "motu-m4-5-jpg",
+  pm4: "motu-m4-7-jpg",
   pm6: "motu-m6-3-jpg",
 };
 
