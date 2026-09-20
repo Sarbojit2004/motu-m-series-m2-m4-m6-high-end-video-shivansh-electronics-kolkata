@@ -1,0 +1,33 @@
+{
+  "name": "motu-m-series",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MOTU M-Series (M2 / M4 / M6) — 90s vertical reel at 2160x3840 and a 5-minute landscape explainer at 3840x2160, from one Remotion project. Shivansh Electronics — exclusive distributor of MOTU for East and North-East India.",
+  "scripts": {
+    "studio": "remotion studio",
+    "typecheck": "tsc --noEmit",
+    "assets": "python3 scripts/prep_assets.py",
+    "audio": "python3 scripts/gen_audio.py",
+    "script": "node --experimental-strip-types scripts/build-script.mjs",
+    "coverage": "node --experimental-strip-types scripts/coverage.mjs",
+    "render:reel": "remotion render Reel out/motu-m-series-reel.mp4 --concurrency=3",
+    "render:video": "remotion render Explainer out/motu-m-series-explainer.mp4 --concurrency=3",
+    "thumb:reel": "remotion still ThumbnailReel out/motu-m-series-reel-thumbnail.png",
+    "thumb:video": "remotion still ThumbnailVideo out/motu-m-series-explainer-thumbnail.png",
+    "preview:reel": "remotion render Reel out/preview-reel.mp4 --scale=0.25 --concurrency=3",
+    "preview:video": "remotion render Explainer out/preview-video.mp4 --scale=0.25 --concurrency=3"
+  },
+  "dependencies": {
+    "@remotion/bundler": "4.0.497",
+    "@remotion/cli": "4.0.497",
+    "@remotion/renderer": "4.0.497",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.497"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "typescript": "5.6.3"
+  }
+}
