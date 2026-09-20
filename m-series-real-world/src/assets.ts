@@ -132,8 +132,17 @@ export const LINEUP_3Q = [
 ] as const;
 export const REARS = ["m2-rear", "m4-rear", "m6-rear"] as const;
 
-/** Isolated studio shots on white. */
-export const HEROES = ["m2-08", "m4-04"] as const;
+/**
+ * Isolated studio shots — the ORIGINALS, still on their white sweep.
+ *
+ * Nothing stages these directly. A plate or a stack puts a picture COMPLETE on
+ * a dark ground, so a white-background JPEG lands as a white rectangle: the
+ * first render of the reel had two of them stacked in the middle of the frame
+ * and it read as a layout error, not as a lineup. Everything that stages a unit
+ * uses the transparent cut-outs in LINEUP_3Q instead. These stay in the library
+ * because they are what those cut-outs are made from.
+ */
+export const HEROES_ON_WHITE = ["m2-08", "m4-04"] as const;
 
 /** The unit in a room, by model — manufacturer photography. */
 export const IN_SITU: Record<number, string[]> = {

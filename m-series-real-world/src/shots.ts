@@ -91,7 +91,7 @@ export const REEL_SHOTS: Record<string, ShotSpec[]> = {
     { at: 1, kind: "panel", asset: "m6-front" },
     { at: 2, kind: "bleed", clipSlug: "broll-05-location-kit", from: 1.6, asset: "m2-01" },
     { at: 3, kind: "bleed", clipSlug: "broll-02-podcast-table", from: 1.5, asset: "m6-05" },
-    { at: 4, kind: "stack", assets: ["m2-08", "m4-04"] },
+    { at: 4, kind: "stack", assets: ["m2-3q", "m4-3q"] },
   ],
   signal: [
     { at: 0, kind: "panel", asset: "m4-front" },
@@ -121,7 +121,7 @@ export const REEL_SHOTS: Record<string, ShotSpec[]> = {
   ],
   close: [
     { at: 0, kind: "bleed", clipSlug: "broll-07-dealer-counter", from: 1.5, asset: "m6-10" },
-    { at: 1, kind: "stack", assets: ["m2-08", "m4-04"] },
+    { at: 1, kind: "stack", assets: ["m2-3q", "m4-3q"] },
     { at: 2, kind: "bleed", clipSlug: "broll-03-teaching-lab", from: 1.8, asset: "m6-09" },
     { at: 3, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"] },
   ],
@@ -143,7 +143,7 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
     { at: 4, kind: "bleed", clipSlug: "broll-08-listening-room", asset: "m6-03" },
     { at: 6, kind: "detail", region: "m6.meter" },
     { at: 7, kind: "bleed", asset: "m6-04" },
-    { at: 8, kind: "plate", asset: "m4-04" },
+    { at: 8, kind: "plate", asset: "m4-3q" },
     { at: 9, kind: "detail", region: "m4.inputs" },
   ],
   range: [
@@ -155,7 +155,7 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
     { at: 5, kind: "detail", region: "m2.usbc" },
     { at: 6, kind: "detail", region: "m6.gains" },
     { at: 7, kind: "detail", region: "m6.phones" },
-    { at: 8, kind: "stack", assets: ["m2-08", "m4-04"] },
+    { at: 8, kind: "stack", assets: ["m2-3q", "m4-3q"] },
   ],
   signal: [
     { at: 0, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"] },
@@ -207,7 +207,7 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
   ],
   m2: [
     { at: 0, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"] },
-    { at: 1, kind: "plate", asset: "m2-08" },
+    { at: 1, kind: "plate", asset: "m2-3q" },
     { at: 2, kind: "bleed", clipSlug: "broll-01-home-studio", asset: "m2-06" },
     { at: 3, kind: "bleed", clipSlug: "broll-05-location-kit", asset: "m2-01" },
     { at: 5, kind: "detail", region: "m2.usbc" },
@@ -215,7 +215,7 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
     { at: 7, kind: "panel", asset: "m2-rear" },
   ],
   m4: [
-    { at: 0, kind: "plate", asset: "m4-04" },
+    { at: 0, kind: "plate", asset: "m4-3q" },
     { at: 1, kind: "detail", region: "m4.inputs" },
     { at: 2, kind: "detail", region: "m4.rearline" },
     { at: 3, kind: "bleed", clipSlug: "broll-10-producers", asset: "m4-07" },
@@ -239,7 +239,7 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
   choose: [
     { at: 0, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"] },
     { at: 1, kind: "bleed", clipSlug: "broll-07-dealer-counter", asset: "m6-10" },
-    { at: 2, kind: "stack", assets: ["m2-08", "m4-04"] },
+    { at: 2, kind: "stack", assets: ["m2-3q", "m4-3q"] },
     { at: 3, kind: "bleed", clipSlug: "broll-03-teaching-lab", asset: "m6-09" },
     { at: 5, kind: "panel", asset: "m6-front" },
     { at: 6, kind: "bleed", asset: "m4-05" },
@@ -248,7 +248,7 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
   ],
   close: [
     { at: 0, kind: "bleed", clipSlug: "broll-08-listening-room", asset: "m6-03" },
-    { at: 1, kind: "stack", assets: ["m2-08", "m4-04"] },
+    { at: 1, kind: "stack", assets: ["m2-3q", "m4-3q"] },
     { at: 2, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"] },
   ],
 };
