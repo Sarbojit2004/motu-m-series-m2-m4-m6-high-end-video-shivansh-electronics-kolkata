@@ -24,7 +24,7 @@ BS.1770: the K-weighting pair, then the loudest 400 ms window, zero-padded.
 
     python3 scripts/gen_audio.py
 """
-import json, os, re, subprocess, wave
+import json, os, re, shutil, subprocess, wave
 import numpy as np
 from scipy.signal import lfilter
 
@@ -334,8 +334,9 @@ for key, base in (("reel", "motu-m-series-reel"), ("video", "motu-m-series-expla
     for d in (OUT_PUB,):
         subprocess.run([FF, "-v", "error", "-y", "-i", bed_wav, "-b:a", "256k",
                         os.path.join(d, f"music-bed-{key}.mp3")], check=True)
-        subprocess.run([FF, "-v", "error", "-y", "-i", cue_wav,
-                        os.path.join(d, f"transitions-{key}.flac")], check=True)
+        # WAV in public/: the renderer reads it directly and it carries no
+        # encoder padding, so it lines up with the film sample for sample.
+        shutil.copyfile(cue_wav, os.path.join(d, f"transitions-{key}.wav"))
 
     # a silent VO slot at exactly the film's length — drop the recorded read in
     write_wav(os.path.join(OUT_VO, f"vo-{key}.wav"), np.zeros((N, 2)))
