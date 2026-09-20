@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Img, interpolate, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { ACCENT, CONTACT, FONT, GROUND, INK, formatFor } from "../theme.ts";
-import { img } from "../assets.ts";
+import { LINEUP_3Q, img } from "../assets.ts";
 import { SiteIcon, WhatsAppIcon } from "./Icons.tsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -36,7 +36,7 @@ export const Outro: React.FC = () => {
   // A slow continuous push, so the end screen is never a frozen JPEG.
   const push = interpolate(f, [0, fmt.outroSeconds * fps], [1, 1.035], { extrapolateRight: "clamp" });
 
-  const fronts = ["m2-front", "m4-front", "m6-front"].map(img);
+
   const logoW = P ? 1180 * S : 980 * S;
 
   return (
@@ -74,15 +74,15 @@ export const Outro: React.FC = () => {
               transform: `translateY(${(1 - at(0)) * 40 * S}px)`,
             }}
           >
-            {fronts.map((a, i) => (
+            {LINEUP_3Q.map(({ slug, rel }, i) => (
               <Img
-                key={a.slug}
-                src={staticFile(a.file)}
+                key={slug}
+                src={staticFile(img(slug).file)}
                 style={{
-                  width: P ? 1120 * S : 880 * S,
+                  width: (P ? 880 : 700) * S * rel,
                   height: "auto",
                   opacity: interpolate(at(4 + i * 3), [0, 1], [0, 0.94]),
-                  filter: "saturate(1.04)",
+                  filter: `saturate(1.04) drop-shadow(0 ${10 * S}px ${18 * S}px rgba(0,0,0,0.5))`,
                 }}
               />
             ))}

@@ -117,6 +117,22 @@ export const ASSETS: Asset[] = [
   "transparent": false
  },
  {
+  "slug": "m2-3q",
+  "file": "img/m2-3q.png",
+  "kind": "hero",
+  "model": 2,
+  "w": 1732,
+  "h": 590,
+  "ar": 2.9356,
+  "bbox": [
+   0.0,
+   0.0,
+   1.0,
+   1.0
+  ],
+  "transparent": true
+ },
+ {
   "slug": "m2-front",
   "file": "img/m2-front.png",
   "kind": "panel",
@@ -259,6 +275,22 @@ export const ASSETS: Asset[] = [
    1.0
   ],
   "transparent": false
+ },
+ {
+  "slug": "m4-3q",
+  "file": "img/m4-3q.png",
+  "kind": "hero",
+  "model": 4,
+  "w": 1916,
+  "h": 588,
+  "ar": 3.2585,
+  "bbox": [
+   0.0,
+   0.0,
+   1.0,
+   1.0
+  ],
+  "transparent": true
  },
  {
   "slug": "m4-front",

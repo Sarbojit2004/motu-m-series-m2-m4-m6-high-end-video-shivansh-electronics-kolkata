@@ -108,8 +108,28 @@ export const REGIONS: Record<string, { slug: string; rect: Region }> = {
 
 // ── Named groups ─────────────────────────────────────────────────────────────
 
-/** The three front panels, small to large — the lineup the range argument needs. */
+/** The three front panels, flat — used for the detail pushes and the in-film lineups. */
 export const FRONTS = ["m2-front", "m4-front", "m6-front"] as const;
+
+/**
+ * THE LINEUP, as three-quarter views showing the top lid and the front panel.
+ *
+ * The M6 ships as a transparent three-quarter render; the M2 and M4 are cut out
+ * of their studio shots by scripts/prep_assets.py so all three match. This is
+ * the view used wherever the range is shown as product rather than as panel —
+ * the cover and the end screen.
+ *
+ * `rel` is PHYSICAL width relative to the M2. The M2 and M4 share a chassis —
+ * the M4 packs more controls into the same panel rather than being a bigger
+ * box — and only the M6 is actually wider. Drawing them at equal widths would
+ * be a lie about the hardware, and drawing three neat steps would be a bigger
+ * one.
+ */
+export const LINEUP_3Q = [
+  { slug: "m2-3q", rel: 1.00 },
+  { slug: "m4-3q", rel: 1.00 },
+  { slug: "m6-front", rel: 1.24 },
+] as const;
 export const REARS = ["m2-rear", "m4-rear", "m6-rear"] as const;
 
 /** Isolated studio shots on white. */

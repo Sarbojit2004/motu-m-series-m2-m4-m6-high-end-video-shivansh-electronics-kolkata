@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Img, staticFile, useVideoConfig } from "remotion";
 import { ACCENT, FONT, GROUND, INK, formatFor } from "./theme.ts";
-import { img } from "./assets.ts";
+import { LINEUP_3Q, img } from "./assets.ts";
 import { FONT_FACE_CSS } from "./fonts.ts";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -23,7 +23,8 @@ export const Thumbnail: React.FC = () => {
   const acc = ACCENT.shared;
   const sig = ACCENT.signal;
 
-  const fronts = ["m2-front", "m4-front", "m6-front"].map(img);
+  // Three-quarter views: the top lid and the front panel, the way the hardware
+  // actually reads. Widths follow the real chassis, not the layout's convenience.
 
   return (
     <AbsoluteFill style={{ background: GROUND.dark, overflow: "hidden" }}>
@@ -49,7 +50,7 @@ export const Thumbnail: React.FC = () => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          gap: P ? 74 * S : 40 * S,
+          gap: P ? 80 * S : 48 * S,
           padding: `${fmt.safe.top}px ${fmt.safe.left}px ${fmt.safe.bottom * 0.5}px`,
         }}
       >
@@ -62,15 +63,15 @@ export const Thumbnail: React.FC = () => {
             gap: P ? 34 * S : 56 * S,
           }}
         >
-          {fronts.map((a, i) => (
+          {LINEUP_3Q.map(({ slug, rel }, i) => (
             <Img
-              key={a.slug}
-              src={staticFile(a.file)}
+              key={slug}
+              src={staticFile(img(slug).file)}
               style={{
-                width: P ? 1800 * S : 1210 * S,
+                width: (P ? 1520 : 1055) * S * rel,
                 height: "auto",
-                filter: `saturate(1.06) drop-shadow(0 ${16 * S}px ${26 * S}px rgba(0,0,0,0.55))`,
-                transform: `translateY(${(i === 1 ? -18 : 0) * S}px)`,
+                filter: `saturate(1.06) drop-shadow(0 ${16 * S}px ${26 * S}px rgba(0,0,0,0.6))`,
+                transform: `translateY(${(i === 1 ? -14 : 0) * S}px)`,
               }}
             />
           ))}
@@ -80,7 +81,7 @@ export const Thumbnail: React.FC = () => {
           <div
             style={{
               fontFamily: FONT.display,
-              fontSize: (P ? 164 : 132) * S,
+              fontSize: (P ? 176 : 146) * S,
               lineHeight: 1.04,
               letterSpacing: -1 * S,
               color: INK.onDark,
@@ -92,7 +93,7 @@ export const Thumbnail: React.FC = () => {
           <div
             style={{
               fontFamily: FONT.script,
-              fontSize: (P ? 230 : 186) * S,
+              fontSize: (P ? 246 : 206) * S,
               lineHeight: 1.0,
               color: sig.glow,
               textShadow: `0 ${7 * S}px 0 rgba(0,0,0,0.7)`,
@@ -109,7 +110,7 @@ export const Thumbnail: React.FC = () => {
             alignItems: "center",
             gap: 26 * S,
             fontFamily: FONT.display,
-            fontSize: (P ? 82 : 66) * S,
+            fontSize: (P ? 88 : 72) * S,
             letterSpacing: 10 * S,
             color: INK.onDarkSoft,
           }}

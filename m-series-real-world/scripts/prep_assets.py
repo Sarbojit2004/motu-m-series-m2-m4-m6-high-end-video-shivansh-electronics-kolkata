@@ -104,6 +104,70 @@ for slug, (fname, kind, model) in sorted(SOURCES.items()):
                        w=W, h=H, ar=round(bw / max(bh, 1), 4), bbox=bbox, transparent=transparent))
     print(f"  {slug:<14} {kind:<6} {W:>5}x{H:<5} bbox {bbox}  -> {os.path.basename(out)}")
 
+# ── the three-quarter cut-outs ───────────────────────────────────────────────
+#
+# The M6 ships as a transparent three-quarter render showing the top lid AND the
+# front panel, which is by far the best view of the hardware. The M2 and M4 have
+# no equivalent PNG — only a studio JPEG on white. So the same view is cut out of
+# those here, and the three then match.
+#
+# Two things this has to get right. The white legends and the lit colour meter
+# INSIDE the unit are near-white too, so the background is found by flooding in
+# from the border rather than by thresholding, or the cut punches holes straight
+# through the panel. And a studio shot on white leaves a soft pale sweep under
+# the unit that survives that flood and reads as a white smear on a dark ground —
+# the M6 render has none, so these must not either. The chassis is near-black, so
+# the unit is the largest DARK blob; everything outside its bounding box goes.
+from scipy.ndimage import label, binary_closing, binary_fill_holes, gaussian_filter
+
+
+def three_quarter_cut(src_name, slug, thr=246):
+    src = os.path.join(SRC, src_name)
+    if not os.path.exists(src):
+        print(f"  MISSING {src_name}")
+        return None
+    im = Image.open(src).convert("RGB")
+    a = np.asarray(im).astype(np.int16)
+    L = np.asarray(im.convert("L")).astype(np.int16)
+
+    near_white = (a.min(axis=2) >= thr) & ((a.max(axis=2) - a.min(axis=2)) <= 6)
+    lab, _ = label(near_white)
+    border = set(lab[0].tolist()) | set(lab[-1].tolist()) | set(lab[:, 0].tolist()) | set(lab[:, -1].tolist())
+    border.discard(0)
+    subject = binary_fill_holes(binary_closing(~np.isin(lab, list(border)), np.ones((3, 3))))
+
+    dl, dn = label(binary_closing(L < 140, np.ones((5, 5))))
+    if dn:
+        sizes = np.bincount(dl.ravel()); sizes[0] = 0
+        ys, xs = np.where(dl == sizes.argmax())
+        keep = np.zeros_like(subject)
+        # padded on three sides, trimmed at the bottom: the last row or two of
+        # the blob is the unit meeting its own reflection, and keeping it leaves
+        # a pale sliver along the bottom edge.
+        keep[max(0, ys.min() - 4):max(0, ys.max() - 2), max(0, xs.min() - 4):xs.max() + 5] = True
+        subject &= keep
+
+    alpha = np.clip((gaussian_filter(subject.astype(np.float32), 0.8) - 0.30) / 0.45, 0, 1)
+    rgba = np.dstack([np.asarray(im), (alpha * 255).astype(np.uint8)])
+    tmp = Image.fromarray(rgba, "RGBA")
+    out_im = tmp.crop(tmp.getbbox())
+    dst = os.path.join(IMG_OUT, slug + ".png")
+    out_im.save(dst, optimize=True)
+    W, H = out_im.size
+    bbox = content_box(out_im)
+    bw = (bbox[2] - bbox[0]) * W; bh = (bbox[3] - bbox[1]) * H
+    print(f"  {slug:<14} 3/4cut {im.size} -> {W}x{H}")
+    return dict(slug=slug, file="img/" + slug + ".png", kind="hero",
+                model=int(slug[1]), w=W, h=H, ar=round(bw / max(bh, 1), 4),
+                bbox=bbox, transparent=True)
+
+
+for src_name, slug in (("MOTU M2 (8).jpg", "m2-3q"), ("MOTU M4 (4).jpg", "m4-3q")):
+    rec = three_quarter_cut(src_name, slug)
+    if rec:
+        assets.append(rec)
+assets.sort(key=lambda r: r["slug"])
+
 # ── region luminance, for DetailZoom normalisation ───────────────────────────
 from_assets = {a["slug"]: a for a in assets}
 REGION_LUM = {}
