@@ -2,6 +2,7 @@
   "name": "motu-m-series",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "MOTU M-Series (M2 / M4 / M6) — 90s vertical reel at 2160x3840 and a 5-minute landscape explainer at 3840x2160, from one Remotion project. Shivansh Electronics — exclusive distributor of MOTU for East and North-East India.",
   "scripts": {
     "studio": "remotion studio",

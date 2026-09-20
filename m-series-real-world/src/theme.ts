@@ -85,7 +85,7 @@ const REEL: Format = {
   width: 2160,
   height: 3840,
   fps: 30,
-  durationInFrames: 2700, // 90.000 s — 84 s of film + a 6 s end screen
+  durationInFrames: 2696, // 89.867 s — DERIVED: scripts/timeline.json, + a 6 s end screen
   portrait: true,
   safe: box(132, 268, 300, 720, 2160, 3840),
   type: {
@@ -112,7 +112,7 @@ const VIDEO_16_9: Format = {
   width: 3840,
   height: 2160,
   fps: 30,
-  durationInFrames: 9000, // 300.000 s — 290 s of film + a 10 s end screen
+  durationInFrames: 8950, // 298.333 s — DERIVED: scripts/timeline.json, + a 10 s end screen
   portrait: false,
   safe: box(220, 220, 150, 210, 3840, 2160),
   type: {
