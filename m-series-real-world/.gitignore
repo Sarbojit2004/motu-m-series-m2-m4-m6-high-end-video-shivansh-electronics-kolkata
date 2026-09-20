@@ -21,12 +21,15 @@ out/*-silent.mp4
 
 # ── The masters ─────────────────────────────────────────────────────────────
 # GitHub rejects any file over 100 MB, and the brief asked for the uncompressed
-# original rather than a smaller version of it. So each master ships as playable
-# segments in out/<name>-parts/ — stream-copied, never re-encoded — and the
-# whole file is rebuilt from them rather than stored:
+# original rather than a smaller version of it — so a master that does not fit
+# is CUT into playable segments, never squeezed.
 #
-#     cd out/motu-m-series-reel-parts
-#     ffmpeg -f concat -safe 0 -i rejoin.txt -c copy ../motu-m-series-reel.mp4
+# Measured off the render rather than guessed: at this content's bitrate the
+# reel master comes to about 66 MB, so it is committed WHOLE and needs no
+# rejoining. The explainer comes to about 220 MB and ships as stream-copied
+# 90-second segments in out/motu-m-series-explainer-parts/:
 #
-out/motu-m-series-reel.mp4
+#     cd out/motu-m-series-explainer-parts
+#     ffmpeg -f concat -safe 0 -i rejoin.txt -c copy ../motu-m-series-explainer.mp4
+#
 out/motu-m-series-explainer.mp4

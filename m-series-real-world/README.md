@@ -179,11 +179,19 @@ caption with its exact in and out point to record against.
 
 ## Delivery
 
-The 4K masters are cut into **playable segments** rather than compressed, because
-the brief asked for the uncompressed original: each segment is a standalone MP4
-stream-copied from the master, so nothing is re-encoded and rejoining them is a
-concatenation rather than a render. `rejoin.txt` sits beside them:
+The brief asked for the uncompressed original, not a smaller version of it, so a
+master that does not fit GitHub's 100 MB ceiling is **cut, never squeezed**.
+Measured off the render rather than guessed:
+
+| | Size | Delivery |
+|---|---|---|
+| Reel | ~66 MB | committed whole — it fits |
+| Explainer | ~220 MB | four stream-copied 90-second segments |
+
+Each segment is a standalone MP4 stream-copied from the master, so nothing is
+re-encoded and rejoining them is a concatenation rather than a render:
 
 ```bash
-ffmpeg -f concat -safe 0 -i rejoin.txt -c copy motu-m-series-reel.mp4
+cd out/motu-m-series-explainer-parts
+ffmpeg -f concat -safe 0 -i rejoin.txt -c copy ../motu-m-series-explainer.mp4
 ```
