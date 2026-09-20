@@ -3,20 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "MOTU M-Series (M2 / M4 / M6) — 90s vertical reel at 2160x3840 and a 5-minute landscape explainer at 3840x2160, from one Remotion project. Shivansh Electronics — exclusive distributor of MOTU for East and North-East India.",
+  "description": "MOTU M-Series (M2 / M4 / M6) \u2014 90s vertical reel at 2160x3840 and a 5-minute landscape explainer at 3840x2160, from one Remotion project. Shivansh Electronics \u2014 exclusive distributor of MOTU for East and North-East India.",
   "scripts": {
     "studio": "remotion studio",
     "typecheck": "tsc --noEmit",
     "assets": "python3 scripts/prep_assets.py",
     "audio": "python3 scripts/gen_audio.py",
-    "script": "node --experimental-strip-types scripts/build-script.mjs",
     "coverage": "node --experimental-strip-types scripts/coverage.mjs",
-    "render:reel": "remotion render Reel out/motu-m-series-reel.mp4 --concurrency=3",
-    "render:video": "remotion render Explainer out/motu-m-series-explainer.mp4 --concurrency=3",
-    "thumb:reel": "remotion still ThumbnailReel out/motu-m-series-reel-thumbnail.png",
-    "thumb:video": "remotion still ThumbnailVideo out/motu-m-series-explainer-thumbnail.png",
-    "preview:reel": "remotion render Reel out/preview-reel.mp4 --scale=0.25 --concurrency=3",
-    "preview:video": "remotion render Explainer out/preview-video.mp4 --scale=0.25 --concurrency=3"
+    "render:reel": "sh scripts/render.sh Reel motu-m-series-reel 2696 344",
+    "render:video": "sh scripts/render.sh Explainer motu-m-series-explainer 8950 358",
+    "timeline": "node --experimental-strip-types scripts/timeline.mjs",
+    "pipeline": "sh scripts/pipeline.sh",
+    "cover:reel": "remotion still ThumbnailReel out/motu-m-series-reel-cover.png",
+    "cover:video": "remotion still ThumbnailVideo out/motu-m-series-explainer-cover.png"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.497",
