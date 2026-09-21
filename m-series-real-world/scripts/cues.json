@@ -1,0 +1,351 @@
+{
+ "reel": [
+  {
+   "at": 0,
+   "cue": "impact-deep",
+   "gain": 1.0
+  },
+  {
+   "at": 4.5636,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 8.9073,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 9.5273,
+   "cue": "gate-snap",
+   "gain": 1.0
+  },
+  {
+   "at": 18.9618,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 19.5818,
+   "cue": "chime-lift",
+   "gain": 1.0
+  },
+  {
+   "at": 33.38,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 34,
+   "cue": "impact-tight",
+   "gain": 1.0
+  },
+  {
+   "at": 45.98,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 46.6,
+   "cue": "snap-hard",
+   "gain": 1.0
+  },
+  {
+   "at": 54.4364,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 57.3255,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 57.9455,
+   "cue": "impact-full",
+   "gain": 1.0
+  },
+  {
+   "at": 71.38,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 72.0,
+   "cue": "air-long",
+   "gain": 1.0
+  },
+  {
+   "at": 78.7455,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 81.4909,
+   "cue": "tick-glass",
+   "gain": 0.55
+  },
+  {
+   "at": 82.9727,
+   "cue": "riser-sub",
+   "gain": 0.9
+  },
+  {
+   "at": 83.8727,
+   "cue": "outro-bloom",
+   "gain": 1.0
+  }
+ ],
+ "video": [
+  {
+   "at": 0,
+   "cue": "impact-deep",
+   "gain": 1.0
+  },
+  {
+   "at": 3.4727,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 17.1273,
+   "cue": "tick-glass",
+   "gain": 0.55
+  },
+  {
+   "at": 24.7436,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 25.3636,
+   "cue": "gate-snap",
+   "gain": 1.0
+  },
+  {
+   "at": 32.8364,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 44.6727,
+   "cue": "tick-glass",
+   "gain": 0.55
+  },
+  {
+   "at": 47.1982,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 47.8182,
+   "cue": "chime-lift",
+   "gain": 1.0
+  },
+  {
+   "at": 58.9273,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 67.1273,
+   "cue": "tick-glass",
+   "gain": 0.55
+  },
+  {
+   "at": 79.1073,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 79.7273,
+   "cue": "impact-tight",
+   "gain": 1.0
+  },
+  {
+   "at": 86.4727,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 93.9455,
+   "cue": "tick-glass",
+   "gain": 0.55
+  },
+  {
+   "at": 102.8727,
+   "cue": "tick-hi",
+   "gain": 0.55
+  },
+  {
+   "at": 109.3982,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 110.0182,
+   "cue": "snap-hard",
+   "gain": 1.0
+  },
+  {
+   "at": 114.5818,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 119.5091,
+   "cue": "tick-glass",
+   "gain": 0.55
+  },
+  {
+   "at": 131.7091,
+   "cue": "tick-hi",
+   "gain": 0.55
+  },
+  {
+   "at": 135.6891,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 136.3091,
+   "cue": "chime-hi",
+   "gain": 1.0
+  },
+  {
+   "at": 140.1455,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 149.0727,
+   "cue": "tick-glass",
+   "gain": 0.55
+  },
+  {
+   "at": 154.3636,
+   "cue": "tick-hi",
+   "gain": 0.55
+  },
+  {
+   "at": 167.6545,
+   "cue": "blip-one",
+   "gain": 0.55
+  },
+  {
+   "at": 176.3618,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 176.9818,
+   "cue": "whip-soft",
+   "gain": 1.0
+  },
+  {
+   "at": 178.2727,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 190.1091,
+   "cue": "tick-glass",
+   "gain": 0.55
+  },
+  {
+   "at": 200.2709,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 200.8909,
+   "cue": "whip-mid",
+   "gain": 1.0
+  },
+  {
+   "at": 211.6364,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 220.5636,
+   "cue": "tick-glass",
+   "gain": 0.55
+  },
+  {
+   "at": 223.4527,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 224.0727,
+   "cue": "impact-full",
+   "gain": 1.0
+  },
+  {
+   "at": 231.9091,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 236.8364,
+   "cue": "tick-glass",
+   "gain": 0.55
+  },
+  {
+   "at": 247.9455,
+   "cue": "tick-hi",
+   "gain": 0.55
+  },
+  {
+   "at": 253.0164,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 253.6364,
+   "cue": "chime-lift",
+   "gain": 1.0
+  },
+  {
+   "at": 259.2909,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 267.4909,
+   "cue": "tick-glass",
+   "gain": 0.55
+  },
+  {
+   "at": 270.9636,
+   "cue": "tick-hi",
+   "gain": 0.55
+  },
+  {
+   "at": 278.2164,
+   "cue": "riser-short",
+   "gain": 0.85
+  },
+  {
+   "at": 278.8364,
+   "cue": "air-long",
+   "gain": 1.0
+  },
+  {
+   "at": 285.5818,
+   "cue": "tick-tiny",
+   "gain": 0.55
+  },
+  {
+   "at": 287.4273,
+   "cue": "riser-sub",
+   "gain": 0.9
+  },
+  {
+   "at": 288.3273,
+   "cue": "outro-bloom",
+   "gain": 1.0
+  }
+ ]
+}

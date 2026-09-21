@@ -1,0 +1,1285 @@
+{
+  "pacing": {
+    "WPM": 165,
+    "SEGMENT_GAP": 0.4,
+    "BEAT": 0.2
+  },
+  "reel": {
+    "format": "reel",
+    "fps": 30,
+    "width": 2160,
+    "height": 3840,
+    "speechEnd": 83.87272727272725,
+    "outroSeconds": 6,
+    "total": 89.87272727272725,
+    "words": 218,
+    "wpmEffective": 155.95057446347283,
+    "segments": [
+      {
+        "id": "hook",
+        "accent": "shared",
+        "chapter": "M-SERIES",
+        "start": 0,
+        "end": 9.127272727272727,
+        "words": 24,
+        "captions": [
+          {
+            "i": 0,
+            "t": "You only find out afterwards.",
+            "e": "afterwards",
+            "start": 0,
+            "end": 1.8181818181818183,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "The take was right.",
+            "e": "right",
+            "start": 1.8181818181818183,
+            "end": 3.272727272727273,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "The recording wasn't.",
+            "e": "wasn't",
+            "start": 3.272727272727273,
+            "end": 4.5636363636363635,
+            "beat": true
+          },
+          {
+            "i": 3,
+            "t": "And you cannot record it again.",
+            "e": "again",
+            "start": 4.5636363636363635,
+            "end": 6.745454545454545,
+            "beat": false
+          },
+          {
+            "i": 4,
+            "t": "And the room has gone home.",
+            "e": "gone home",
+            "start": 6.745454545454545,
+            "end": 9.127272727272727,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "range",
+        "accent": "shared",
+        "chapter": "THREE SIZES",
+        "start": 9.527272727272727,
+        "end": 19.181818181818183,
+        "words": 26,
+        "captions": [
+          {
+            "i": 0,
+            "t": "Three interfaces.",
+            "e": "Three",
+            "start": 9.527272727272727,
+            "end": 10.254545454545454,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "Two in. Four in. Six in.",
+            "e": "Six",
+            "start": 10.254545454545454,
+            "end": 12.436363636363636,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "One goes in a backpack.",
+            "e": "backpack",
+            "start": 12.436363636363636,
+            "end": 14.254545454545454,
+            "beat": false
+          },
+          {
+            "i": 3,
+            "t": "One runs a four-microphone table.",
+            "e": "four-microphone",
+            "start": 14.254545454545454,
+            "end": 16.8,
+            "beat": false
+          },
+          {
+            "i": 4,
+            "t": "Underneath, they are the same machine.",
+            "e": "same machine",
+            "start": 16.8,
+            "end": 19.181818181818183,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "signal",
+        "accent": "signal",
+        "chapter": "THE SIGNAL",
+        "start": 19.581818181818182,
+        "end": 33.6,
+        "words": 38,
+        "captions": [
+          {
+            "i": 0,
+            "t": "The converter does not change with the size.",
+            "e": "does not change",
+            "start": 19.581818181818182,
+            "end": 22.490909090909092,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "ESS Sabre32 Ultra, in all three.",
+            "e": "Sabre32",
+            "start": 22.490909090909092,
+            "end": 25.400000000000002,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "A hundred and twenty decibels of dynamic range.",
+            "e": "twenty",
+            "start": 25.400000000000002,
+            "end": 28.672727272727276,
+            "beat": false
+          },
+          {
+            "i": 3,
+            "t": "The quietest thing you can record,",
+            "e": "quietest",
+            "start": 28.672727272727276,
+            "end": 30.85454545454546,
+            "beat": false
+          },
+          {
+            "i": 4,
+            "t": "and the loudest, in the same take.",
+            "e": "same take",
+            "start": 30.85454545454546,
+            "end": 33.6,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "gain",
+        "accent": "gain",
+        "chapter": "THE GAIN",
+        "start": 34,
+        "end": 46.2,
+        "words": 33,
+        "captions": [
+          {
+            "i": 0,
+            "t": "Four preamps on the six. Two on the others.",
+            "e": "Four",
+            "start": 34,
+            "end": 37.63636363636364,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "All of them measure minus one twenty-nine dBu.",
+            "e": "minus",
+            "start": 37.63636363636364,
+            "end": 41.63636363636364,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "That is what the microphone hears",
+            "e": "hears",
+            "start": 41.63636363636364,
+            "end": 43.81818181818182,
+            "beat": false
+          },
+          {
+            "i": 3,
+            "t": "when nothing at all is happening.",
+            "e": "nothing",
+            "start": 43.81818181818182,
+            "end": 46.2,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "latency",
+        "accent": "latency",
+        "chapter": "LATENCY",
+        "start": 46.6,
+        "end": 57.54545454545454,
+        "words": 29,
+        "captions": [
+          {
+            "i": 0,
+            "t": "Two and a half milliseconds, in and back out.",
+            "e": "and back",
+            "start": 46.6,
+            "end": 50.236363636363635,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "Sing into it and hear yourself.",
+            "e": "yourself",
+            "start": 50.236363636363635,
+            "end": 52.418181818181814,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "Not an echo of yourself.",
+            "e": "echo",
+            "start": 52.418181818181814,
+            "end": 54.43636363636363,
+            "beat": true
+          },
+          {
+            "i": 3,
+            "t": "Play a soft synth like it is hardware.",
+            "e": "hardware",
+            "start": 54.43636363636363,
+            "end": 57.54545454545454,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "room",
+        "accent": "room",
+        "chapter": "THE ROOM",
+        "start": 57.94545454545454,
+        "end": 71.59999999999998,
+        "words": 37,
+        "captions": [
+          {
+            "i": 0,
+            "t": "A bedroom at midnight, one guitar.",
+            "e": "midnight",
+            "start": 57.94545454545454,
+            "end": 60.12727272727272,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "Four people around a table, four microphones.",
+            "e": "Four",
+            "start": 60.12727272727272,
+            "end": 63.036363636363625,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "A band playing live, all of it at once.",
+            "e": "at once",
+            "start": 63.036363636363625,
+            "end": 66.3090909090909,
+            "beat": false
+          },
+          {
+            "i": 3,
+            "t": "A hall, with the doors about to open.",
+            "e": "doors",
+            "start": 66.3090909090909,
+            "end": 69.2181818181818,
+            "beat": false
+          },
+          {
+            "i": 4,
+            "t": "The same converters in every one.",
+            "e": "every one",
+            "start": 69.2181818181818,
+            "end": 71.59999999999998,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "close",
+        "accent": "shared",
+        "chapter": "M-SERIES",
+        "start": 71.99999999999999,
+        "end": 83.87272727272725,
+        "words": 31,
+        "captions": [
+          {
+            "i": 0,
+            "t": "You do not step up to a better sound.",
+            "e": "better sound",
+            "start": 71.99999999999999,
+            "end": 75.27272727272725,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "The sound was never the thing you were missing.",
+            "e": "never",
+            "start": 75.27272727272725,
+            "end": 78.74545454545452,
+            "beat": true
+          },
+          {
+            "i": 2,
+            "t": "You step up to a bigger room.",
+            "e": "bigger room",
+            "start": 78.74545454545452,
+            "end": 81.49090909090907,
+            "beat": true
+          },
+          {
+            "i": 3,
+            "t": "M2. M4. M6.",
+            "e": "M6",
+            "start": 81.49090909090907,
+            "end": 83.87272727272725,
+            "beat": true
+          }
+        ]
+      }
+    ]
+  },
+  "video": {
+    "format": "video",
+    "fps": 30,
+    "width": 3840,
+    "height": 2160,
+    "speechEnd": 288.3272727272728,
+    "outroSeconds": 10,
+    "total": 298.3272727272728,
+    "words": 761,
+    "wpmEffective": 158.36171017782817,
+    "segments": [
+      {
+        "id": "open",
+        "accent": "shared",
+        "chapter": "THE PROBLEM",
+        "start": 0,
+        "end": 24.96363636363637,
+        "words": 67,
+        "captions": [
+          {
+            "i": 0,
+            "t": "Everything about a recording is recoverable",
+            "e": "recoverable",
+            "start": 0,
+            "end": 2.1818181818181817,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "except the recording.",
+            "e": "except",
+            "start": 2.1818181818181817,
+            "end": 3.4727272727272727,
+            "beat": true
+          },
+          {
+            "i": 2,
+            "t": "You can re-mix it. You can re-edit it.",
+            "e": "re-mix",
+            "start": 3.4727272727272727,
+            "end": 6.381818181818182,
+            "beat": false
+          },
+          {
+            "i": 3,
+            "t": "You can sit with it for a week.",
+            "e": "a week",
+            "start": 6.381818181818182,
+            "end": 9.290909090909091,
+            "beat": false
+          },
+          {
+            "i": 4,
+            "t": "What you cannot do is go back",
+            "e": "cannot",
+            "start": 9.290909090909091,
+            "end": 11.836363636363636,
+            "beat": false
+          },
+          {
+            "i": 5,
+            "t": "and put a better converter in front of a take",
+            "e": "better converter",
+            "start": 11.836363636363636,
+            "end": 15.472727272727273,
+            "beat": false
+          },
+          {
+            "i": 6,
+            "t": "that has already happened.",
+            "e": "already",
+            "start": 15.472727272727273,
+            "end": 17.12727272727273,
+            "beat": true
+          },
+          {
+            "i": 7,
+            "t": "So the interface is not the accessory.",
+            "e": "not the accessory",
+            "start": 17.12727272727273,
+            "end": 19.672727272727276,
+            "beat": false
+          },
+          {
+            "i": 8,
+            "t": "It is the part of the chain",
+            "e": "the part",
+            "start": 19.672727272727276,
+            "end": 22.218181818181822,
+            "beat": false
+          },
+          {
+            "i": 9,
+            "t": "that you only get one attempt at.",
+            "e": "one attempt",
+            "start": 22.218181818181822,
+            "end": 24.96363636363637,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "range",
+        "accent": "shared",
+        "chapter": "THREE SIZES",
+        "start": 25.363636363636367,
+        "end": 47.41818181818182,
+        "words": 59,
+        "captions": [
+          {
+            "i": 0,
+            "t": "There are three of them.",
+            "e": "three",
+            "start": 25.363636363636367,
+            "end": 27.181818181818187,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "Two in and two out.",
+            "e": "Two",
+            "start": 27.181818181818187,
+            "end": 29.000000000000007,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "Four in and four out.",
+            "e": "Four",
+            "start": 29.000000000000007,
+            "end": 30.818181818181827,
+            "beat": false
+          },
+          {
+            "i": 3,
+            "t": "Six in and four out.",
+            "e": "Six",
+            "start": 30.818181818181827,
+            "end": 32.83636363636364,
+            "beat": true
+          },
+          {
+            "i": 4,
+            "t": "The smallest takes a microphone and a guitar",
+            "e": "a guitar",
+            "start": 32.83636363636364,
+            "end": 35.74545454545455,
+            "beat": false
+          },
+          {
+            "i": 5,
+            "t": "and draws all its power down one USB-C cable.",
+            "e": "one cable",
+            "start": 35.74545454545455,
+            "end": 39.74545454545455,
+            "beat": false
+          },
+          {
+            "i": 6,
+            "t": "The largest carries four microphone preamps",
+            "e": "four preamps",
+            "start": 39.74545454545455,
+            "end": 42.290909090909096,
+            "beat": false
+          },
+          {
+            "i": 7,
+            "t": "and two separate headphone outputs.",
+            "e": "two",
+            "start": 42.290909090909096,
+            "end": 44.67272727272728,
+            "beat": true
+          },
+          {
+            "i": 8,
+            "t": "That is the entire difference between them.",
+            "e": "entire",
+            "start": 44.67272727272728,
+            "end": 47.41818181818182,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "signal",
+        "accent": "signal",
+        "chapter": "THE SIGNAL",
+        "start": 47.81818181818182,
+        "end": 79.32727272727274,
+        "words": 85,
+        "captions": [
+          {
+            "i": 0,
+            "t": "Because the converter is the same in all three.",
+            "e": "the same",
+            "start": 47.81818181818182,
+            "end": 51.09090909090909,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "ESS Sabre32 Ultra.",
+            "e": "Sabre32",
+            "start": 51.09090909090909,
+            "end": 52.909090909090914,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "A hundred and twenty decibels of dynamic range",
+            "e": "twenty",
+            "start": 52.909090909090914,
+            "end": 55.81818181818182,
+            "beat": false
+          },
+          {
+            "i": 3,
+            "t": "on the outputs of every one of them.",
+            "e": "every one",
+            "start": 55.81818181818182,
+            "end": 58.92727272727273,
+            "beat": true
+          },
+          {
+            "i": 4,
+            "t": "Dynamic range is the distance",
+            "e": "distance",
+            "start": 58.92727272727273,
+            "end": 60.74545454545455,
+            "beat": false
+          },
+          {
+            "i": 5,
+            "t": "between the softest thing the converter can hear",
+            "e": "softest",
+            "start": 60.74545454545455,
+            "end": 63.654545454545456,
+            "beat": false
+          },
+          {
+            "i": 6,
+            "t": "and the loudest thing it can hold without breaking.",
+            "e": "without breaking",
+            "start": 63.654545454545456,
+            "end": 67.12727272727273,
+            "beat": true
+          },
+          {
+            "i": 7,
+            "t": "A hundred and twenty decibels is a very long way.",
+            "e": "long way",
+            "start": 67.12727272727273,
+            "end": 70.76363636363637,
+            "beat": false
+          },
+          {
+            "i": 8,
+            "t": "It means a fingertip on a string",
+            "e": "fingertip",
+            "start": 70.76363636363637,
+            "end": 73.30909090909091,
+            "beat": false
+          },
+          {
+            "i": 9,
+            "t": "and the snare that follows it",
+            "e": "snare",
+            "start": 73.30909090909091,
+            "end": 75.4909090909091,
+            "beat": false
+          },
+          {
+            "i": 10,
+            "t": "can live in the same file, at the same setting.",
+            "e": "same file",
+            "start": 75.4909090909091,
+            "end": 79.32727272727274,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "gain",
+        "accent": "gain",
+        "chapter": "THE GAIN",
+        "start": 79.72727272727275,
+        "end": 109.61818181818182,
+        "words": 80,
+        "captions": [
+          {
+            "i": 0,
+            "t": "The preamps are the same as well.",
+            "e": "the same",
+            "start": 79.72727272727275,
+            "end": 82.2727272727273,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "Minus one hundred and twenty-nine dBu",
+            "e": "Minus",
+            "start": 82.2727272727273,
+            "end": 84.81818181818184,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "of equivalent input noise.",
+            "e": "noise",
+            "start": 84.81818181818184,
+            "end": 86.4727272727273,
+            "beat": true
+          },
+          {
+            "i": 3,
+            "t": "That number is the sound of the preamp itself",
+            "e": "the preamp itself",
+            "start": 86.4727272727273,
+            "end": 89.74545454545456,
+            "beat": false
+          },
+          {
+            "i": 4,
+            "t": "with nothing plugged into it.",
+            "e": "nothing",
+            "start": 89.74545454545456,
+            "end": 91.56363636363638,
+            "beat": false
+          },
+          {
+            "i": 5,
+            "t": "The floor underneath everything you record.",
+            "e": "floor",
+            "start": 91.56363636363638,
+            "end": 93.94545454545455,
+            "beat": true
+          },
+          {
+            "i": 6,
+            "t": "It matters most on the quiet microphones.",
+            "e": "quiet",
+            "start": 93.94545454545455,
+            "end": 96.4909090909091,
+            "beat": false
+          },
+          {
+            "i": 7,
+            "t": "A ribbon on a room. A dynamic on a voice",
+            "e": "ribbon",
+            "start": 96.4909090909091,
+            "end": 100.12727272727274,
+            "beat": false
+          },
+          {
+            "i": 8,
+            "t": "that is being spoken rather than projected.",
+            "e": "spoken",
+            "start": 100.12727272727274,
+            "end": 102.87272727272729,
+            "beat": true
+          },
+          {
+            "i": 9,
+            "t": "Those are the ones that ask for real gain,",
+            "e": "real gain",
+            "start": 102.87272727272729,
+            "end": 106.14545454545456,
+            "beat": false
+          },
+          {
+            "i": 10,
+            "t": "and hear everything you do not want them to.",
+            "e": "everything",
+            "start": 106.14545454545456,
+            "end": 109.61818181818182,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "latency",
+        "accent": "latency",
+        "chapter": "THE ROUND TRIP",
+        "start": 110.01818181818183,
+        "end": 135.90909090909093,
+        "words": 69,
+        "captions": [
+          {
+            "i": 0,
+            "t": "Two and a half milliseconds.",
+            "e": "Two and a half",
+            "start": 110.01818181818183,
+            "end": 111.83636363636364,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "In, through the computer, and back out.",
+            "e": "and back out",
+            "start": 111.83636363636364,
+            "end": 114.58181818181819,
+            "beat": true
+          },
+          {
+            "i": 2,
+            "t": "At twenty-four bit, ninety-six kilohertz,",
+            "e": "twenty-four",
+            "start": 114.58181818181819,
+            "end": 117.12727272727274,
+            "beat": false
+          },
+          {
+            "i": 3,
+            "t": "on a thirty-two sample buffer.",
+            "e": "thirty-two",
+            "start": 117.12727272727274,
+            "end": 119.50909090909092,
+            "beat": true
+          },
+          {
+            "i": 4,
+            "t": "Two and a half milliseconds is the delay",
+            "e": "the delay",
+            "start": 119.50909090909092,
+            "end": 122.41818181818182,
+            "beat": false
+          },
+          {
+            "i": 5,
+            "t": "of standing about three feet from your own amplifier.",
+            "e": "three feet",
+            "start": 122.41818181818182,
+            "end": 126.05454545454546,
+            "beat": false
+          },
+          {
+            "i": 6,
+            "t": "Which is to say you will not notice it,",
+            "e": "not notice",
+            "start": 126.05454545454546,
+            "end": 129.32727272727274,
+            "beat": false
+          },
+          {
+            "i": 7,
+            "t": "and that is the whole point.",
+            "e": "whole point",
+            "start": 129.32727272727274,
+            "end": 131.70909090909092,
+            "beat": true
+          },
+          {
+            "i": 8,
+            "t": "You stop performing around the equipment",
+            "e": "stop performing",
+            "start": 131.70909090909092,
+            "end": 133.8909090909091,
+            "beat": false
+          },
+          {
+            "i": 9,
+            "t": "and go back to performing.",
+            "e": "performing",
+            "start": 133.8909090909091,
+            "end": 135.90909090909093,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "monitor",
+        "accent": "monitor",
+        "chapter": "HEARING IT",
+        "start": 136.30909090909094,
+        "end": 176.5818181818182,
+        "words": 108,
+        "captions": [
+          {
+            "i": 0,
+            "t": "All of which you have to be able to hear.",
+            "e": "hear",
+            "start": 136.30909090909094,
+            "end": 140.14545454545458,
+            "beat": true
+          },
+          {
+            "i": 1,
+            "t": "Every input has a button marked MON.",
+            "e": "MON",
+            "start": 140.14545454545458,
+            "end": 142.69090909090912,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "Press it and that input goes straight to the outputs,",
+            "e": "straight",
+            "start": 142.69090909090912,
+            "end": 146.32727272727274,
+            "beat": false
+          },
+          {
+            "i": 3,
+            "t": "through the hardware, around the computer entirely.",
+            "e": "around the computer",
+            "start": 146.32727272727274,
+            "end": 149.0727272727273,
+            "beat": true
+          },
+          {
+            "i": 4,
+            "t": "Nothing you sing can arrive late,",
+            "e": "arrive late",
+            "start": 149.0727272727273,
+            "end": 151.25454545454548,
+            "beat": false
+          },
+          {
+            "i": 5,
+            "t": "because nothing you sing is going anywhere first.",
+            "e": "anywhere first",
+            "start": 151.25454545454548,
+            "end": 154.36363636363637,
+            "beat": true
+          },
+          {
+            "i": 6,
+            "t": "On the four and the six there is a knob as well,",
+            "e": "a knob",
+            "start": 154.36363636363637,
+            "end": 158.72727272727275,
+            "beat": false
+          },
+          {
+            "i": 7,
+            "t": "marked input at one end and playback at the other,",
+            "e": "playback",
+            "start": 158.72727272727275,
+            "end": 162.36363636363637,
+            "beat": false
+          },
+          {
+            "i": 8,
+            "t": "so you can sit yourself inside the track",
+            "e": "inside",
+            "start": 162.36363636363637,
+            "end": 165.27272727272728,
+            "beat": false
+          },
+          {
+            "i": 9,
+            "t": "instead of on top of it.",
+            "e": "on top",
+            "start": 165.27272727272728,
+            "end": 167.65454545454546,
+            "beat": true
+          },
+          {
+            "i": 10,
+            "t": "And the screen is not decoration.",
+            "e": "not decoration",
+            "start": 167.65454545454546,
+            "end": 169.83636363636364,
+            "beat": false
+          },
+          {
+            "i": 11,
+            "t": "Full colour, every channel, in and out at once.",
+            "e": "every channel",
+            "start": 169.83636363636364,
+            "end": 173.10909090909092,
+            "beat": false
+          },
+          {
+            "i": 12,
+            "t": "You see a signal clipping before you hear it.",
+            "e": "before",
+            "start": 173.10909090909092,
+            "end": 176.5818181818182,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "m2",
+        "accent": "room",
+        "chapter": "THE SMALLEST ROOM",
+        "start": 176.9818181818182,
+        "end": 200.49090909090913,
+        "words": 63,
+        "captions": [
+          {
+            "i": 0,
+            "t": "So: which one.",
+            "e": "which one",
+            "start": 176.9818181818182,
+            "end": 178.27272727272728,
+            "beat": true
+          },
+          {
+            "i": 1,
+            "t": "Two inputs is a voice and an instrument.",
+            "e": "a voice",
+            "start": 178.27272727272728,
+            "end": 181.1818181818182,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "It is a songwriter at a desk at midnight.",
+            "e": "midnight",
+            "start": 181.1818181818182,
+            "end": 184.45454545454547,
+            "beat": false
+          },
+          {
+            "i": 3,
+            "t": "It is a field recordist on a tailgate",
+            "e": "tailgate",
+            "start": 184.45454545454547,
+            "end": 187.36363636363637,
+            "beat": false
+          },
+          {
+            "i": 4,
+            "t": "with no mains power anywhere in sight.",
+            "e": "no mains",
+            "start": 187.36363636363637,
+            "end": 190.10909090909092,
+            "beat": true
+          },
+          {
+            "i": 5,
+            "t": "One cable carries the audio and the power both,",
+            "e": "One cable",
+            "start": 190.10909090909092,
+            "end": 193.3818181818182,
+            "beat": false
+          },
+          {
+            "i": 6,
+            "t": "so the whole rig is a laptop, a microphone,",
+            "e": "the whole rig",
+            "start": 193.3818181818182,
+            "end": 196.65454545454548,
+            "beat": false
+          },
+          {
+            "i": 7,
+            "t": "and something that fits in the lid of the case.",
+            "e": "fits",
+            "start": 196.65454545454548,
+            "end": 200.49090909090913,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "m4",
+        "accent": "room",
+        "chapter": "THE WORKING ROOM",
+        "start": 200.89090909090913,
+        "end": 223.67272727272734,
+        "words": 61,
+        "captions": [
+          {
+            "i": 0,
+            "t": "Four in and four out is a desk that has grown.",
+            "e": "grown",
+            "start": 200.89090909090913,
+            "end": 204.52727272727276,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "Two microphone inputs on the front,",
+            "e": "on the front",
+            "start": 204.52727272727276,
+            "end": 206.70909090909095,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "two line inputs on the back",
+            "e": "on the back",
+            "start": 206.70909090909095,
+            "end": 208.89090909090913,
+            "beat": false
+          },
+          {
+            "i": 3,
+            "t": "for the synthesiser that never gets unplugged.",
+            "e": "never",
+            "start": 208.89090909090913,
+            "end": 211.63636363636368,
+            "beat": true
+          },
+          {
+            "i": 4,
+            "t": "Four outputs means a second pair of monitors,",
+            "e": "a second pair",
+            "start": 211.63636363636368,
+            "end": 214.5454545454546,
+            "beat": false
+          },
+          {
+            "i": 5,
+            "t": "or a feed to a camera,",
+            "e": "a camera",
+            "start": 214.5454545454546,
+            "end": 216.72727272727278,
+            "beat": false
+          },
+          {
+            "i": 6,
+            "t": "or a headphone mix for somebody else in the room.",
+            "e": "somebody else",
+            "start": 216.72727272727278,
+            "end": 220.56363636363642,
+            "beat": true
+          },
+          {
+            "i": 7,
+            "t": "It is the one that stops you re-patching.",
+            "e": "re-patching",
+            "start": 220.56363636363642,
+            "end": 223.67272727272734,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "m6",
+        "accent": "room",
+        "chapter": "THE FULL ROOM",
+        "start": 224.07272727272735,
+        "end": 253.2363636363637,
+        "words": 78,
+        "captions": [
+          {
+            "i": 0,
+            "t": "Six in and four out is other people.",
+            "e": "other people",
+            "start": 224.07272727272735,
+            "end": 226.98181818181826,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "Four microphone preamps, each with its own gain",
+            "e": "its own gain",
+            "start": 226.98181818181826,
+            "end": 229.89090909090916,
+            "beat": false
+          },
+          {
+            "i": 2,
+            "t": "and its own phantom power.",
+            "e": "phantom",
+            "start": 229.89090909090916,
+            "end": 231.909090909091,
+            "beat": true
+          },
+          {
+            "i": 3,
+            "t": "That is four people at a table,",
+            "e": "four people",
+            "start": 231.909090909091,
+            "end": 234.45454545454552,
+            "beat": false
+          },
+          {
+            "i": 4,
+            "t": "all recorded separately, all fixable separately.",
+            "e": "separately",
+            "start": 234.45454545454552,
+            "end": 236.8363636363637,
+            "beat": true
+          },
+          {
+            "i": 5,
+            "t": "It is a drum kit that still sounds like a drum kit.",
+            "e": "drum kit",
+            "start": 236.8363636363637,
+            "end": 241.20000000000007,
+            "beat": false
+          },
+          {
+            "i": 6,
+            "t": "It is a band playing at the same time",
+            "e": "at the same time",
+            "start": 241.20000000000007,
+            "end": 244.47272727272735,
+            "beat": false
+          },
+          {
+            "i": 7,
+            "t": "because that is the only way they play well.",
+            "e": "play well",
+            "start": 244.47272727272735,
+            "end": 247.94545454545462,
+            "beat": true
+          },
+          {
+            "i": 8,
+            "t": "And two headphone outputs, which sounds small",
+            "e": "two",
+            "start": 247.94545454545462,
+            "end": 250.85454545454553,
+            "beat": false
+          },
+          {
+            "i": 9,
+            "t": "until there are two of you.",
+            "e": "two of you",
+            "start": 250.85454545454553,
+            "end": 253.2363636363637,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "choose",
+        "accent": "monitor",
+        "chapter": "CHOOSING",
+        "start": 253.6363636363637,
+        "end": 278.43636363636375,
+        "words": 66,
+        "captions": [
+          {
+            "i": 0,
+            "t": "Which means the choice is not about quality.",
+            "e": "not about quality",
+            "start": 253.6363636363637,
+            "end": 256.5454545454546,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "It cannot be. The quality is identical.",
+            "e": "identical",
+            "start": 256.5454545454546,
+            "end": 259.29090909090917,
+            "beat": true
+          },
+          {
+            "i": 2,
+            "t": "The choice is a count.",
+            "e": "a count",
+            "start": 259.29090909090917,
+            "end": 261.109090909091,
+            "beat": false
+          },
+          {
+            "i": 3,
+            "t": "How many things need to be happening at once,",
+            "e": "at once",
+            "start": 261.109090909091,
+            "end": 264.38181818181823,
+            "beat": false
+          },
+          {
+            "i": 4,
+            "t": "and how many people need to hear it.",
+            "e": "hear it",
+            "start": 264.38181818181823,
+            "end": 267.49090909090916,
+            "beat": true
+          },
+          {
+            "i": 5,
+            "t": "Answer those two and the model picks itself.",
+            "e": "picks itself",
+            "start": 267.49090909090916,
+            "end": 270.96363636363645,
+            "beat": true
+          },
+          {
+            "i": 6,
+            "t": "And whichever you answer,",
+            "e": "whichever",
+            "start": 270.96363636363645,
+            "end": 272.4181818181819,
+            "beat": false
+          },
+          {
+            "i": 7,
+            "t": "the converters, the preamps and the round trip",
+            "e": "the round trip",
+            "start": 272.4181818181819,
+            "end": 275.3272727272728,
+            "beat": false
+          },
+          {
+            "i": 8,
+            "t": "are the ones you would have chosen anyway.",
+            "e": "anyway",
+            "start": 275.3272727272728,
+            "end": 278.43636363636375,
+            "beat": true
+          }
+        ]
+      },
+      {
+        "id": "close",
+        "accent": "shared",
+        "chapter": "M-SERIES",
+        "start": 278.8363636363637,
+        "end": 288.3272727272728,
+        "words": 25,
+        "captions": [
+          {
+            "i": 0,
+            "t": "You do not step up to a better sound.",
+            "e": "better sound",
+            "start": 278.8363636363637,
+            "end": 282.109090909091,
+            "beat": false
+          },
+          {
+            "i": 1,
+            "t": "The sound was never the thing you were missing.",
+            "e": "never",
+            "start": 282.109090909091,
+            "end": 285.5818181818183,
+            "beat": true
+          },
+          {
+            "i": 2,
+            "t": "You step up to a bigger room.",
+            "e": "bigger room",
+            "start": 285.5818181818183,
+            "end": 288.3272727272728,
+            "beat": true
+          }
+        ]
+      }
+    ]
+  }
+}
