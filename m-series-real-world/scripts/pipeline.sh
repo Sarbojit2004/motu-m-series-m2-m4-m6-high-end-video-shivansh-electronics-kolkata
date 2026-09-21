@@ -23,6 +23,11 @@ log "reel picture done"
 
 # ── 2. the reel's audio ─────────────────────────────────────────────────────
 [ -f out/motu-m-series-reel.mp4 ] || { log "muxing reel"; python3 scripts/mux.py reel; }
+# The silent join has been consumed. This box has a FIXED writable allowance,
+# not a disk — df reports terabytes and still refuses a write — and holding a
+# second copy of a 4K master for no reason is what makes the explainer's join
+# fail four hours in.
+[ -s out/motu-m-series-reel.mp4 ] && rm -f out/motu-m-series-reel-silent.mp4
 
 # ── 3. the explainer ────────────────────────────────────────────────────────
 if [ ! -f out/motu-m-series-explainer-silent.mp4 ]; then
@@ -30,6 +35,7 @@ if [ ! -f out/motu-m-series-explainer-silent.mp4 ]; then
   sh scripts/render.sh Explainer motu-m-series-explainer 8950 358
 fi
 [ -f out/motu-m-series-explainer.mp4 ] || { log "muxing explainer"; python3 scripts/mux.py video; }
+[ -s out/motu-m-series-explainer.mp4 ] && rm -f out/motu-m-series-explainer-silent.mp4
 
 # ── 4. the covers ───────────────────────────────────────────────────────────
 [ -f out/motu-m-series-reel-cover.png ] || \
@@ -42,12 +48,22 @@ log "covers done"
 # Stream copy, so nothing is re-encoded and rejoining is a concatenation rather
 # than a render. The user asked for the uncompressed original, not a smaller
 # version of it — so the master is cut, never squeezed.
-for pair in "motu-m-series-reel 18" "motu-m-series-explainer 22"; do
-  set -- $pair; BASE=$1; SEG=$2
+for BASE in motu-m-series-reel motu-m-series-explainer; do
   D="out/$BASE-parts"
   if [ ! -d "$D" ]; then
     mkdir -p "$D"
-    log "splitting $BASE into ${SEG}s segments"
+    # Solved from THIS render's own size, not from the last one's. Restoring
+    # the camera motion took the reel from 6.1 to 15.7 Mbps and a segment
+    # length that had been comfortable came within 5 MB of the ceiling.
+    SEG=$(python3 -c "
+import os,sys
+mb = os.path.getsize('out/$BASE.mp4') / 1048576
+dur = {'motu-m-series-reel': 95.9, 'motu-m-series-explainer': 308.3}['$BASE']
+# 78 MB a part leaves room for the keyframe alignment ffmpeg needs: a segment
+# boundary lands on the next keyframe, never exactly where it was asked for.
+print(max(6, int(dur * 78.0 / max(mb, 1e-6))))
+")
+    log "splitting $BASE (${SEG}s segments)"
     $FF -v error -y -i "out/$BASE.mp4" -c copy -map 0 -f segment \
       -segment_time "$SEG" -reset_timestamps 1 -movflags +faststart \
       "$D/$BASE-part%02d.mp4"
