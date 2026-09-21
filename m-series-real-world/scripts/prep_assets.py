@@ -28,7 +28,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.dirname(ROOT)                     # the repository root
 IMG_OUT = os.path.join(ROOT, "public", "img")
 BROLL_IN = os.path.join(ROOT, "public", "broll")
-FF = os.path.expanduser("~/bin/ffmpeg")
+FF = "ffmpeg"
 os.makedirs(IMG_OUT, exist_ok=True)
 Image.MAX_IMAGE_PIXELS = None
 
