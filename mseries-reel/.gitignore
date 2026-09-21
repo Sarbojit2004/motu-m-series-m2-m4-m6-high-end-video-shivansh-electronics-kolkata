@@ -18,3 +18,6 @@ out/motu-mseries-reel.mp4
 # public/audio/music-bed.mp3 IS committed: it is the mastered bed the render
 # uses, at 2.2 MB.
 # public/logos/ IS committed: two files, copied from the repository root.
+
+# Transfer-only byte splits of the master; regenerate with `split -b 26m`.
+out/chunks/
