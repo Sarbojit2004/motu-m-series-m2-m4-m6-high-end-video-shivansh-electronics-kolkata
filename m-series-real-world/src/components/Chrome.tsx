@@ -24,6 +24,8 @@ import { ACCENT, FONT, INK, formatFor, type AccentKey } from "../theme.ts";
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const ProductRule: React.FC<{
+  /** Carried here rather than on a full-frame parent — see Film.tsx. */
+  opacity: number;
   accent: AccentKey;
   name: string;
   /** The one-line claim this chapter is actually making. */
@@ -32,7 +34,7 @@ export const ProductRule: React.FC<{
   progress: number;
   /** Frames since the chapter began, for the entrance. */
   f: number;
-}> = ({ accent, name, spec, progress, f }) => {
+}> = ({ opacity, accent, name, spec, progress, f }) => {
   const { width: W, height: H } = useVideoConfig();
   const fmt = formatFor(W, H);
   const acc = ACCENT[accent];
@@ -50,7 +52,7 @@ export const ProductRule: React.FC<{
         left: fmt.safe.left,
         top: P ? fmt.safe.top * 0.52 : fmt.safe.top * 0.46,
         width: fmt.safe.w,
-        opacity: intro,
+        opacity: intro * opacity,
         transform: `translateX(${slide}px)`,
         fontFamily: FONT.display,
       }}
@@ -123,12 +125,14 @@ export const ProductRule: React.FC<{
 
 /** The whole film as one track, with a tick where each chapter begins. */
 export const FilmTimeline: React.FC<{
+  /** Carried here rather than on a full-frame parent — see Film.tsx. */
+  opacity: number;
   accent: AccentKey;
   /** 0..1 through the speech. */
   progress: number;
   /** Chapter start points as fractions of the speech, for the ticks. */
   marks: number[];
-}> = ({ accent, progress, marks }) => {
+}> = ({ opacity, accent, progress, marks }) => {
   const { width: W, height: H } = useVideoConfig();
   const fmt = formatFor(W, H);
   const acc = ACCENT[accent];
@@ -142,8 +146,9 @@ export const FilmTimeline: React.FC<{
         position: "absolute",
         left: fmt.safe.left,
         right: fmt.safe.right,
-        bottom: P ? fmt.safe.bottom * 0.42 : fmt.safe.bottom * 0.42,
+        bottom: fmt.safe.bottom * 0.42,
         height: h,
+        opacity,
         background: "rgba(255,255,255,0.13)",
         borderRadius: h / 2,
       }}
