@@ -145,7 +145,11 @@ export const Film: React.FC = () => {
 
       {/* ── 2. TYPE — the entire layer at 64%, set once ──────────────── */}
       <Sequence durationInFrames={speechEndF}>
-        <AbsoluteFill style={{ opacity: TYPE_OPACITY }}>
+        {/* No opacity here either, for the same reason as the graphics layer:
+            a full-frame opacity is a full-frame rasterisation every frame. The
+            children below never overlap each other, so carrying it on each of
+            them is visually identical and one composite cheaper. */}
+        <AbsoluteFill>
           {film.segments.map((s) =>
             s.captions.map((c) => {
               const from = Math.round(c.start * fps);
@@ -158,6 +162,7 @@ export const Film: React.FC = () => {
                       renders at zero opacity. */}
                   <AbsoluteFill
                     style={{
+                      opacity: TYPE_OPACITY,
                       paddingLeft: fmt.safe.left,
                       paddingRight: fmt.safe.right,
                       paddingBottom: fmt.safe.bottom,
@@ -180,6 +185,7 @@ export const Film: React.FC = () => {
               on a random frame could not tell which chapter they were in, and a
               five-minute film gave no sense of how much was left. */}
           <ProductRule
+            opacity={TYPE_OPACITY}
             accent={seg.accent}
             name={seg.chapter}
             spec={seg.spec}
@@ -187,6 +193,7 @@ export const Film: React.FC = () => {
             f={frame - Math.round(seg.start * fps)}
           />
           <FilmTimeline
+            opacity={TYPE_OPACITY}
             accent={seg.accent}
             progress={frame / speechEndF}
             marks={film.segments.slice(1).map((sg) => sg.start / film.speechEnd)}
