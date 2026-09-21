@@ -79,7 +79,26 @@ export type ResolvedShot = {
    * own shot to here rather than flashing.
    */
   chapterEnd: number;
+  /** Seconds into the clip this shot starts, already fitted to the footage. */
   from: number;
+  /**
+   * How fast the clip plays, so it lasts exactly as long as the shot does.
+   *
+   * The plan was written for eight-second clips; the ten that were generated
+   * are 5.04 s each, because five seconds is what the credits bought. Thirteen
+   * shots therefore asked for footage that does not exist, and an OffthreadVideo
+   * asked for a frame past its end holds the last one — a two-second freeze in
+   * the middle of a deployment shot, which reads as a broken file rather than
+   * as an edit.
+   *
+   * So the reel claws the time back from `from`: it wants a clip's main
+   * section, and a section can start later or earlier without harm. Every reel
+   * shot fits at 1.0 that way. The explainer cannot, because it plays each clip
+   * COMPLETE from its first frame by design, so the clip is eased instead —
+   * between 0.71x and 0.95x, which on b-roll of this kind reads as deliberate
+   * slow motion rather than as a fault.
+   */
+  rate: number;
   seed: number;
   /** True when this is the first shot of its chapter — the transition is harder. */
   boundary: boolean;
@@ -277,6 +296,24 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
  * chapter, or until the chapter ends. `from` is only honoured for the reel;
  * the explainer plays every clip from its first frame.
  */
+/**
+ * Fits a shot to the footage it actually has.
+ *
+ * Pulls the start back as far as it needs to (never past zero), and only when
+ * that is not enough slows the clip down. `MIN_RATE` is a floor, not a target:
+ * below about 0.7 the judder of repeating source frames starts to show, and if
+ * a shot ever needed less than this the honest fix is to split it in the plan
+ * rather than to stretch one clip across it.
+ */
+const MIN_RATE = 0.62;
+
+const fitClip = (c: Clip | null, want: number, len: number): { from: number; rate: number } => {
+  if (!c) return { from: 0, rate: 1 };
+  const from = Math.max(0, Math.min(want, c.dur - len));
+  const avail = c.dur - from;
+  return { from, rate: avail >= len ? 1 : Math.max(MIN_RATE, avail / len) };
+};
+
 export const placeShots = (
   segments: TimedSegment[],
   plan: Record<string, ShotSpec[]>,
@@ -320,7 +357,7 @@ export const placeShots = (
         clip: c ?? undefined,
         graphic: spec.graphic,
         chapterEnd,
-        from: useFrom ? (spec.from ?? 0) : 0,
+        ...fitClip(c, useFrom ? (spec.from ?? 0) : 0, end - start),
         seed: seed++,
         boundary: n === 0,
       });
