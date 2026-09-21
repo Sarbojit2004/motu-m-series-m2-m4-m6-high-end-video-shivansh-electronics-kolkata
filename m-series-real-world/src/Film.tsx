@@ -121,10 +121,13 @@ export const Film: React.FC = () => {
              number rather than beside it. Part of the type layer's opacity
              budget, so it is never brighter than the words. ─────────────── */}
       <Sequence durationInFrames={speechEndF}>
-        {/* A demonstrative is information, not typography, so it is held above
-            the caption layer's 64% — at 64% over a photograph these panels are
-            barely legible, which is the state they shipped in. */}
-        <AbsoluteFill style={{ opacity: GRAPHIC_OPACITY }}>
+        {/* NO opacity on this AbsoluteFill. An opacity on a full-frame element
+            makes Chromium rasterise a separate 2160x3840 surface and composite
+            it EVERY frame, whether or not anything is drawn into it — and this
+            layer is empty for two thirds of the film. Measured: it roughly
+            quadrupled the render. The opacity now sits on the panel itself,
+            which is a small box. */}
+        <AbsoluteFill>
           {film.shots.filter((sh) => sh.graphic).map((sh, i) => {
             const from = Math.round(sh.start * fps);
             // Run to the end of the chapter, capped, so a graphic pinned to a
@@ -215,7 +218,6 @@ const GraphicSlot: React.FC<{ shot: any; fps: number; lengthFrames: number }> = 
   return (
     <AbsoluteFill
       style={{
-        opacity: out,
         display: "flex",
         // Portrait: above the caption block. Landscape: the right half, where
         // the captions never go.
@@ -226,7 +228,13 @@ const GraphicSlot: React.FC<{ shot: any; fps: number; lengthFrames: number }> = 
         paddingBottom: fmt.portrait ? 0 : fmt.safe.bottom * 0.4,
       }}
     >
-      <Graphic kind={shot.graphic} accent={shot.accentKey} p={p} />
+      {/* The opacity is here, on a content-sized box, rather than on the
+          full-frame parent — see the note on the layer above. A demonstrative
+          is information, not typography, so it sits above the caption layer's
+          64%: at 64% over a photograph these panels cannot be read. */}
+      <div style={{ opacity: GRAPHIC_OPACITY * out }}>
+        <Graphic kind={shot.graphic} accent={shot.accentKey} p={p} />
+      </div>
     </AbsoluteFill>
   );
 };
