@@ -2,6 +2,10 @@ import React from "react";
 import { Img, OffthreadVideo, interpolate, random, staticFile, useVideoConfig } from "remotion";
 import { ACCENT, GROUND, formatFor, type AccentKey } from "../theme.ts";
 import type { Asset, Clip, Region } from "../assets.ts";
+import {
+  clampToStage, mayBleed, plateIn, stageFor, stagedCamera,
+  type MoveKind, type Plate, type Stage,
+} from "./Stage.ts";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // STAGING
@@ -37,7 +41,8 @@ import type { Asset, Clip, Region } from "../assets.ts";
 // hoping the viewer finds it.
 // ─────────────────────────────────────────────────────────────────────────────
 
-export type MoveKind = "push" | "pull" | "trackLeft" | "trackRight" | "tiltUp" | "tiltDown" | "orbit";
+/** Declared in Stage.ts, where the staged camera that consumes it also lives. */
+export type { MoveKind } from "./Stage.ts";
 
 const MOVES: MoveKind[] = ["push", "pull", "trackLeft", "trackRight", "tiltUp", "tiltDown", "orbit"];
 
@@ -211,6 +216,115 @@ const ContentFit: React.FC<{ asset: Asset; w: number; h: number; style?: React.C
   );
 };
 
+// ── the stage: how a picture that cannot bleed is put on screen ──────────────
+
+/** The wash: the picture itself, pushed back to become the room it sits in. */
+const WASH_MEDIA: React.CSSProperties = {
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  // Pushed well past the frame as well as darkened. At 1.2x the wash is still
+  // legibly the same photograph, and a picture shown twice reads as a mistake;
+  // at 1.85x it is a magnified corner of it, which reads as the depth of field
+  // the shot would have had. This is the cheap way to get bokeh: blur at 4K is
+  // a convolution over 8.3 million pixels on every frame, and is banned here.
+  filter: "brightness(0.26) saturate(0.42) contrast(1.10)",
+};
+
+/**
+ * The picture itself. `contain` inside a box that already carries the
+ * picture's own aspect ratio is a no-op that cannot stretch it — which is what
+ * makes a rounding error in the box impossible to see rather than a 1-pixel
+ * squeeze across a 4K plate.
+ */
+const PLATE_MEDIA: React.CSSProperties = {
+  width: "100%",
+  height: "100%",
+  objectFit: "contain",
+  filter: "contrast(1.05) saturate(1.03)",
+};
+
+/**
+ * The frame a complete picture is shown in: its own colour behind it, the
+ * chapter's accent lifting off it, and a hairline holding its edge.
+ *
+ * The ring is a box-shadow with ZERO blur radius — a solid rectangle, which
+ * the compositor draws for nothing. A blurred shadow on a plate this size is a
+ * convolution on every frame of the move, and at 4K that single property costs
+ * more than the photograph it is drawn around.
+ */
+const StagedFrame: React.FC<{
+  accent: AccentKey;
+  stage: Stage;
+  plate: Plate;
+  cam: Camera;
+  portrait: boolean;
+  children: (role: "wash" | "plate") => React.ReactNode;
+}> = ({ accent, stage, plate, cam, portrait, children }) => {
+  const { width: W, height: H } = useVideoConfig();
+  const acc = ACCENT[accent];
+  const safe = clampToStage(cam, stage, plate);
+  const ring = Math.max(2, Math.round(W / 760));
+
+  return (
+    <div style={{ position: "absolute", inset: 0, overflow: "hidden", background: GROUND.darkSink }}>
+      {/* the wash — travelling at a quarter of the plate's speed, which is
+          what makes the frame read as a room with depth rather than as a
+          picture on a background. */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          overflow: "hidden",
+          transform: `translate(${safe.x * 0.26}px, ${safe.y * 0.26}px) scale(${(1.85 + (safe.scale - 1) * 0.5).toFixed(4)})`,
+          willChange: "transform",
+        }}
+      >
+        {children("wash")}
+      </div>
+
+      {/* A vignette on the wash, not on the picture. The wash is whatever the
+          photograph happens to contain out at its edges — a white studio wall
+          in one shot, a black control room in the next — and without this the
+          bright ones pull the eye off the subject and into the surround. */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "radial-gradient(ellipse 66% 62% at 50% 50%, rgba(3,4,6,0.22) 0%, rgba(3,4,6,0.58) 62%, rgba(3,4,6,0.86) 100%)",
+        }}
+      />
+
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: `radial-gradient(ellipse 80% 40% at 50% ${((stage.cy / H) * 100).toFixed(2)}%, ${acc.glow}16 0%, rgba(0,0,0,0) 72%)`,
+        }}
+      />
+
+      <div
+        style={{
+          position: "absolute",
+          left: plate.left,
+          top: plate.top,
+          width: plate.w,
+          height: plate.h,
+          overflow: "hidden",
+          transform: `translate(${safe.x}px, ${safe.y}px) scale(${safe.scale}) rotate(${safe.rot}deg)`,
+          transformOrigin: "50% 50%",
+          boxShadow: `0 0 0 ${ring}px ${acc.glow}30, 0 0 0 ${ring * 3}px rgba(0,0,0,0.34)`,
+          willChange: "transform",
+        }}
+      >
+        {children("plate")}
+      </div>
+
+      <Grade glow={acc.glow} portrait={portrait} />
+    </div>
+  );
+};
+
 // ── 1. the transparent product render ────────────────────────────────────────
 
 /**
@@ -306,29 +420,35 @@ export const ProductPlate: React.FC<Base & { asset: Asset }> = ({ asset, accent,
 // ── 2. the opaque photograph ─────────────────────────────────────────────────
 
 /**
- * One photograph filling the frame, under a moving camera.
+ * One photograph, shown COMPLETE, under a moving camera.
  *
- * In the landscape film the picture is 16:9 like the frame, so it is simply
- * bled with overscan for the move to travel in. In the vertical film a 16:9
- * photograph cannot fill a 9:16 frame without throwing two thirds of it away —
- * covering a 0.5625:1 frame with a 1.78:1 picture scales it by HEIGHT — so the
- * complete photograph takes a band across the middle and the rest of the frame
- * is a wash derived from the picture itself. Nothing is letterboxed, nothing is
- * cropped, and the parts of the frame the caption already occupies are exactly
- * the parts the photograph was never going to use.
+ * THE BUG THIS REPLACES. The test that decided whether to bleed was
+ *
+ *     canBleed = asset.ar >= (W / H) * 0.94
+ *
+ * which in the vertical film asks "is this picture wider than 0.53:1". Every
+ * photograph here is — they run 1.03:1 to 2.06:1 — so every one of them was
+ * covered into a 9:16 frame and lost between 46% and 73% OF ITS WIDTH. The
+ * comment above it described the opposite behaviour to the one it computed.
+ *
+ * `mayBleed` states the intent properly: bleed only when covering is cheap, at
+ * most 8% of a picture's height or 15% of its width. In the vertical film that
+ * is never true, so every photograph is now placed complete; in the landscape
+ * film it is true for the six photographs that are already roughly 16:9, and
+ * false for the squarer ones that used to lose up to 42% of their height.
+ *
+ * A complete picture gets the frame's own colour behind it — itself, pushed
+ * back, graded down and travelling at a quarter of the plate's speed. That is
+ * not a letterbox: it is the depth of field the shot would have had, and it is
+ * the reason the type at 64% still has something to sit against.
  */
 export const BleedShot: React.FC<Base & { asset: Asset }> = ({ asset, accent, p, f, seed, move }) => {
   const { width: W, height: H } = useVideoConfig();
   const fmt = formatFor(W, H);
   const acc = ACCENT[accent];
   const kind = move ?? moveFor(seed);
-  const frameAr = W / H;
 
-  // Bleed whenever the picture is at least as wide as the frame; otherwise
-  // plate it, because bleeding would crop the subject away.
-  const canBleed = asset.ar >= frameAr * 0.94;
-
-  if (canBleed) {
+  if (mayBleed(asset.ar, W / H)) {
     const over = fmt.overhang;
     const roomX = (W * (over - 1)) / 2;
     const roomY = (H * (over - 1)) / 2;
@@ -355,70 +475,39 @@ export const BleedShot: React.FC<Base & { asset: Asset }> = ({ asset, accent, p,
     );
   }
 
-  const plateW = W * fmt.overhang;
-  const plateH = plateW / asset.ar;
-  const roomX = (plateW - W) / 2;
-  const cam = plateCamera(kind, p, roomX, H * 0.035);
-  const breath = Math.sin((f + seed * 31) / 150) * (H / 520);
-  const washScale = 1.24 + (cam.scale - 1) * 0.35;
+  const stage = stageFor(fmt, W, H);
+  const plate = plateIn(stage, asset.ar);
+  const cam = stagedCamera(kind, p, f, seed, stage, plate);
 
   return (
-    <div style={{ position: "absolute", inset: 0, overflow: "hidden", background: GROUND.darkSink }}>
-      {/* the wash — the picture's own colour, pushed back. It travels a
-          fraction of what the plate travels, which is the whole reason this
-          reads as a camera in a space: near things move further than far ones. */}
-      <Img
-        src={url(asset)}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          transform: `translate(${cam.x * 0.28}px, ${cam.y * 0.28}px) scale(${washScale})`,
-          filter: "brightness(0.24) saturate(0.55) contrast(1.05)",
-          willChange: "transform",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background: `radial-gradient(ellipse 76% 42% at 50% 46%, ${acc.glow}12 0%, rgba(0,0,0,0) 72%)`,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          left: (W - plateW) / 2,
-          top: H * fmt.plateY - plateH / 2,
-          width: plateW,
-          height: plateH,
-          transform: `translate(${cam.x}px, ${cam.y + breath}px) scale(${cam.scale}) rotate(${cam.rot}deg)`,
-          transformOrigin: "50% 50%",
-          willChange: "transform",
-        }}
-      >
-        <Img
-          src={url(asset)}
-          style={{ width: "100%", height: "100%", objectFit: "cover", filter: "contrast(1.05) saturate(1.03)" }}
-        />
-      </div>
-      <Grade glow={acc.glow} portrait={fmt.portrait} />
-    </div>
+    <StagedFrame accent={accent} stage={stage} plate={plate} cam={cam} portrait={fmt.portrait}>
+      {(role) =>
+        role === "wash" ? (
+          <Img src={url(asset)} style={WASH_MEDIA} />
+        ) : (
+          <Img src={url(asset)} style={PLATE_MEDIA} />
+        )
+      }
+    </StagedFrame>
   );
 };
 
 // ── 3. the b-roll clip ───────────────────────────────────────────────────────
 
 /**
- * A moving shot, staged exactly like a photograph of the same shape.
+ * A deployment clip, staged exactly like a photograph of the same shape.
  *
- * The clips are 2560 x 1440, which is wider than the vertical frame and 1.5x
- * the landscape frame's own long edge, so the landscape film bleeds them and
- * the vertical film plates them. `startFrom` is in SOURCE frames: each clip
- * holds eight seconds and a shot rarely needs all of it, so different shots can
- * take different passes of the same move without repeating.
+ * The clips are 16:9. That is close enough to the landscape frame to bleed and
+ * nowhere near the vertical one, where covering would keep 32% of the width —
+ * and these are the shots with PEOPLE in them, framed by a generative model
+ * that put the engineer, the desk and the interface across the full width. A
+ * 32% centre crop of that is a slab of wall and half a shoulder, which is
+ * exactly what the reel was going to show. So in the vertical film the clip is
+ * placed complete, with itself as its own ground.
+ *
+ * `startFrom` is in SOURCE frames: each clip holds several seconds and a shot
+ * rarely needs all of it, so different shots take different passes of the same
+ * move without repeating.
  */
 export const ClipBleed: React.FC<Base & { clip: Clip; startFrom?: number }> = ({
   clip, accent, p, f, seed, move, startFrom = 0,
@@ -438,7 +527,7 @@ export const ClipBleed: React.FC<Base & { clip: Clip; startFrom?: number }> = ({
     rot: c.rot * 0.35,
   });
 
-  if (clip.ar >= (W / H) * 0.94) {
+  if (mayBleed(clip.ar, W / H)) {
     const over = 1.07;
     const roomX = (W * (over - 1)) / 2;
     const roomY = (H * (over - 1)) / 2;
@@ -466,76 +555,61 @@ export const ClipBleed: React.FC<Base & { clip: Clip; startFrom?: number }> = ({
     );
   }
 
-  const plateW = W * fmt.overhang;
-  const plateH = plateW / clip.ar;
-  const roomX = (plateW - W) / 2;
-  const cam = soft(plateCamera(kind, p, roomX, H * 0.03));
+  const stage = stageFor(fmt, W, H);
+  const plate = plateIn(stage, clip.ar);
+  const cam = clampToStage(soft(stagedCamera(kind, p, f, seed, stage, plate)), stage, plate);
 
   return (
-    <div style={{ position: "absolute", inset: 0, overflow: "hidden", background: GROUND.darkSink }}>
-      {/* The wash is the same clip, pushed back and graded down — one decode
-          serves both layers, so the second copy is close to free. */}
-      <OffthreadVideo
-        src={src}
-        muted
-        startFrom={startFrom}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          transform: `translate(${cam.x * 0.28}px, ${cam.y * 0.28}px) scale(1.26)`,
-          filter: "brightness(0.22) saturate(0.5) contrast(1.05)",
-          willChange: "transform",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          left: (W - plateW) / 2,
-          top: H * fmt.plateY - plateH / 2,
-          width: plateW,
-          height: plateH,
-          transform: `translate(${cam.x}px, ${cam.y}px) scale(${cam.scale})`,
-          transformOrigin: "50% 50%",
-          willChange: "transform",
-        }}
-      >
-        <OffthreadVideo
-          src={src}
-          muted
-          startFrom={startFrom}
-          style={{ width: "100%", height: "100%", objectFit: "cover", filter: "contrast(1.04) saturate(1.03)" }}
-        />
-      </div>
-      <Grade glow={acc.glow} portrait={fmt.portrait} />
-    </div>
+    <StagedFrame accent={accent} stage={stage} plate={plate} cam={cam} portrait={fmt.portrait}>
+      {(role) =>
+        role === "wash" ? (
+          <OffthreadVideo src={src} muted startFrom={startFrom} style={WASH_MEDIA} />
+        ) : (
+          <OffthreadVideo src={src} muted startFrom={startFrom} style={PLATE_MEDIA} />
+        )
+      }
+    </StagedFrame>
   );
 };
 
 // ── 4. the wide panel or plan ────────────────────────────────────────────────
 
 /**
- * An ultra-wide drawing laid across the frame, with the camera tracking ALONG
- * it rather than into it.
+ * An ultra-wide drawing: shown WHOLE first, then read along.
  *
- * The rear panels run from 3.3:1 to 7.5:1. Bleeding one into either frame would
- * crop it to a sliver and destroy the only thing it is for — reading the whole
- * connector row end to end. So it is given a fixed band and the wider ones
- * simply get more lateral travel.
+ * The rear panels run from 3.6:1 to 5.1:1. Laying one straight into the
+ * reading size and tracking from the off — which is what this did — means the
+ * viewer never sees the panel, only a moving 42% window onto it, and has no
+ * idea what they are looking at until the shot is nearly over.
+ *
+ * So the shot now has two phases on one continuous move. For the first third
+ * the complete panel sits across the stage, end to end, at whatever size it
+ * takes to fit — the establishing frame. Then the camera pushes in to the size
+ * at which the legends beside each connector can actually be read, and tracks
+ * along it. Nothing is cut away that was not shown first.
  */
 export const PanelPlate: React.FC<Base & { asset: Asset }> = ({ asset, accent, p, f, seed }) => {
   const { width: W, height: H } = useVideoConfig();
   const fmt = formatFor(W, H);
   const acc = ACCENT[accent];
+  const stage = stageFor(fmt, W, H);
 
-  const bandH = H * (fmt.portrait ? 0.26 : 0.42);
-  const contentW = Math.max(bandH * asset.ar, W * 1.2);
+  /** Phase A: the whole panel, complete, across the stage. */
+  const wholeW = Math.min(stage.w * 0.96, stage.h * 0.96 * asset.ar);
+  /** Phase B: big enough that the legend beside a connector is legible. */
+  const readW = Math.max(wholeW, H * (fmt.portrait ? 0.26 : 0.42) * asset.ar);
+
+  const HOLD = 0.3;
+  const k = ease(clamp01((clamp01(p) - HOLD) / (1 - HOLD)));
+  const contentW = interpolate(k, [0, 1], [wholeW, readW]);
   const box = placeByContent(asset, contentW, W / 2, H * (fmt.portrait ? 0.44 : 0.5));
-  const room = (contentW - W) / 2;
+
+  // How far the panel may travel at the size it is at RIGHT NOW. At the
+  // establishing size this is zero, which is what holds the whole panel still
+  // and centred while it is being established.
+  const room = Math.max(0, (contentW - W * 0.98) / 2);
   const dir = seed % 2 === 0 ? 1 : -1;
-  const x = interpolate(ease(clamp01(p)), [0, 1], [room * 0.86 * dir, -room * 0.86 * dir]);
+  const x = interpolate(k, [0, 0.14, 1], [0, room * 0.9 * dir, -room * 0.9 * dir]);
   const lift = Math.sin(f / 120) * (H / 380);
 
   return (
