@@ -16,7 +16,8 @@
     "pipeline": "sh scripts/pipeline.sh",
     "cover:reel": "remotion still ThumbnailReel out/motu-m-series-reel-cover.png",
     "cover:video": "remotion still ThumbnailVideo out/motu-m-series-explainer-cover.png",
-    "script": "node --experimental-strip-types scripts/script-doc.mjs"
+    "script": "node --experimental-strip-types scripts/script-doc.mjs",
+    "broll": "sh scripts/fetch-broll.sh"
   },
   "dependencies": {
     "@remotion/bundler": "4.0.497",

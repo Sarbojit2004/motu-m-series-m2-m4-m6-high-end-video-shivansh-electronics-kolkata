@@ -19,9 +19,23 @@ an unsigned GET, so there is no round trip.
 
 ## What to do
 
-Download the ten clips from the gallery and drop them in `public/broll/` under
-exactly these names. The shot plan refers to them by name, so anything else
-will not bind.
+One command, **on your own machine** rather than in the build session:
+
+```bash
+npm run broll     # or: sh scripts/fetch-broll.sh
+git add public/broll && git commit -m "Add the ten deployment clips" && git push
+```
+
+Then the films pick them up with no shot re-planned:
+
+```bash
+npm run assets     # measures each clip and writes it into the manifest
+npm run coverage   # re-proves both films
+npm run render:reel && npm run render:video
+```
+
+The script puts them under exactly these names. The shot plan refers to them by
+name, so anything else will not bind.
 
 | file | deployment | hero | generation |
 |---|---|---|---|
