@@ -33,6 +33,7 @@ import { clip, img, type Asset, type Clip, type Region } from "./assets.ts";
 import { REGIONS } from "./assets.ts";
 import type { TimedSegment } from "./script.ts";
 import type { AccentKey } from "./theme.ts";
+import type { GraphicKind } from "./components/Graphics.tsx";
 
 export type ShotKind = "bleed" | "plate" | "panel" | "detail" | "stack" | "mosaic" | "clip";
 
@@ -50,6 +51,12 @@ export type ShotSpec = {
   clipSlug?: string;
   /** Seconds into the clip to start — used to take the main section for the reel. */
   from?: number;
+  /**
+   * An animated demonstrative over the picture for the length of this shot.
+   * Pinned to the caption that makes the claim, so the graphic draws itself
+   * while the voice is saying the number rather than beside it.
+   */
+  graphic?: GraphicKind;
 };
 
 export type ResolvedShot = {
@@ -64,6 +71,14 @@ export type ResolvedShot = {
   /** The panel render a detail pushes into — resolved from region.slug. */
   regionAsset?: Asset;
   clip?: Clip;
+  graphic?: GraphicKind;
+  /**
+   * Where this shot's CHAPTER ends. A demonstrative needs two or three seconds
+   * to draw itself, and some are pinned to captions only three-quarters of a
+   * second long — "Three interfaces." is 22 frames. The graphic runs past its
+   * own shot to here rather than flashing.
+   */
+  chapterEnd: number;
   from: number;
   seed: number;
   /** True when this is the first shot of its chapter — the transition is harder. */
@@ -87,7 +102,7 @@ export const REEL_SHOTS: Record<string, ShotSpec[]> = {
     { at: 3, kind: "bleed", clipSlug: "broll-08-listening-room", from: 1.2, asset: "m6-03" },
   ],
   range: [
-    { at: 0, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"] },
+    { at: 0, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"], graphic: "ioMatrix" },
     { at: 1, kind: "panel", asset: "m6-front" },
     { at: 2, kind: "bleed", clipSlug: "broll-05-location-kit", from: 1.6, asset: "m2-01" },
     { at: 3, kind: "bleed", clipSlug: "broll-02-podcast-table", from: 1.5, asset: "m6-05" },
@@ -96,18 +111,18 @@ export const REEL_SHOTS: Record<string, ShotSpec[]> = {
   signal: [
     { at: 0, kind: "panel", asset: "m4-front" },
     { at: 1, kind: "detail", region: "m4.meter" },
-    { at: 2, kind: "detail", region: "m6.meter" },
+    { at: 2, kind: "detail", region: "m6.meter", graphic: "dynamicRange" },
     { at: 3, kind: "bleed", clipSlug: "broll-10-producers", from: 1.5, asset: "m4-07" },
     { at: 4, kind: "bleed", clipSlug: "broll-04-rehearsal", from: 1.8, asset: "m6-08" },
   ],
   gain: [
     { at: 0, kind: "detail", region: "m6.gains" },
-    { at: 1, kind: "detail", region: "m2.inputs" },
+    { at: 1, kind: "detail", region: "m2.inputs", graphic: "noiseFloor" },
     { at: 2, kind: "bleed", clipSlug: "broll-02-podcast-table", from: 3.0, asset: "m6-02" },
     { at: 3, kind: "detail", region: "m4.inputs" },
   ],
   latency: [
-    { at: 0, kind: "detail", region: "m4.mix" },
+    { at: 0, kind: "detail", region: "m4.mix", graphic: "roundTrip" },
     { at: 1, kind: "bleed", clipSlug: "broll-01-home-studio", from: 3.0, asset: "m2-04" },
     { at: 2, kind: "detail", region: "m2.monitor" },
     { at: 3, kind: "bleed", clipSlug: "broll-10-producers", from: 3.2, asset: "m6-07" },
@@ -117,7 +132,7 @@ export const REEL_SHOTS: Record<string, ShotSpec[]> = {
     { at: 1, kind: "bleed", clipSlug: "broll-02-podcast-table", from: 2.2, asset: "m6-05" },
     { at: 2, kind: "bleed", clipSlug: "broll-04-rehearsal", from: 2.4, asset: "m6-08" },
     { at: 3, kind: "bleed", clipSlug: "broll-09-live-event", from: 2.0, asset: "m6-06" },
-    { at: 4, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"] },
+    { at: 4, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"], graphic: "rangeLadder" },
   ],
   close: [
     { at: 0, kind: "bleed", clipSlug: "broll-07-dealer-counter", from: 1.5, asset: "m6-10" },
@@ -147,7 +162,7 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
     { at: 9, kind: "detail", region: "m4.inputs" },
   ],
   range: [
-    { at: 0, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"] },
+    { at: 0, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"], graphic: "ioMatrix" },
     { at: 1, kind: "panel", asset: "m2-front" },
     { at: 2, kind: "panel", asset: "m4-front" },
     { at: 3, kind: "panel", asset: "m6-front" },
@@ -159,7 +174,7 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
   ],
   signal: [
     { at: 0, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"] },
-    { at: 1, kind: "detail", region: "m4.meter" },
+    { at: 1, kind: "detail", region: "m4.meter", graphic: "dynamicRange" },
     { at: 2, kind: "detail", region: "m6.meter" },
     { at: 3, kind: "bleed", clipSlug: "broll-08-listening-room", asset: "m6-05" },
     { at: 4, kind: "bleed", asset: "m6-02" },
@@ -171,7 +186,7 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
   ],
   gain: [
     { at: 0, kind: "detail", region: "m6.gains" },
-    { at: 1, kind: "detail", region: "m2.inputs" },
+    { at: 1, kind: "detail", region: "m2.inputs", graphic: "noiseFloor" },
     { at: 2, kind: "detail", region: "m4.inputs" },
     { at: 3, kind: "bleed", clipSlug: "broll-02-podcast-table", asset: "m6-05" },
     { at: 4, kind: "panel", asset: "m6-rear" },
@@ -184,7 +199,7 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
   latency: [
     { at: 0, kind: "detail", region: "m4.mix" },
     { at: 1, kind: "bleed", clipSlug: "broll-10-producers", asset: "m4-07" },
-    { at: 2, kind: "detail", region: "m6.meter" },
+    { at: 2, kind: "detail", region: "m6.meter", graphic: "roundTrip" },
     { at: 3, kind: "detail", region: "m2.usbc" },
     { at: 4, kind: "bleed", asset: "m4-01" },
     { at: 5, kind: "bleed", clipSlug: "broll-06-streaming-desk", asset: "m4-03" },
@@ -194,7 +209,7 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
   monitor: [
     { at: 0, kind: "bleed", clipSlug: "broll-08-listening-room", asset: "m6-03" },
     { at: 1, kind: "detail", region: "m2.inputs" },
-    { at: 2, kind: "detail", region: "m2.monitor" },
+    { at: 2, kind: "detail", region: "m2.monitor", graphic: "monitorPath" },
     { at: 3, kind: "panel", asset: "m2-front" },
     { at: 4, kind: "bleed", asset: "m2-06" },
     { at: 5, kind: "detail", region: "m4.monitor" },
@@ -237,7 +252,7 @@ export const VIDEO_SHOTS: Record<string, ShotSpec[]> = {
     { at: 9, kind: "bleed", asset: "m6-04" },
   ],
   choose: [
-    { at: 0, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"] },
+    { at: 0, kind: "mosaic", assets: ["m2-front", "m4-front", "m6-front"], graphic: "rangeLadder" },
     { at: 1, kind: "bleed", clipSlug: "broll-07-dealer-counter", asset: "m6-10" },
     { at: 2, kind: "stack", assets: ["m2-3q", "m4-3q"] },
     { at: 3, kind: "bleed", clipSlug: "broll-03-teaching-lab", asset: "m6-09" },
@@ -303,6 +318,8 @@ export const placeShots = (
         assets: spec.assets ? spec.assets.map(img) : undefined,
         region,
         clip: c ?? undefined,
+        graphic: spec.graphic,
+        chapterEnd,
         from: useFrom ? (spec.from ?? 0) : 0,
         seed: seed++,
         boundary: n === 0,

@@ -53,8 +53,15 @@ export type Caption = {
 export type Segment = {
   id: string;
   accent: AccentKey;
-  /** The chapter name, shown only in the landscape film. */
+  /** The chapter name, carried by the standing ProductRule in both films. */
   chapter: string;
+  /**
+   * The one-line claim this chapter actually makes, striped under its name.
+   * The chapter name alone does not differentiate anything — "THE GAIN" could
+   * be any chapter of any film. The claim is what tells a viewer landing on a
+   * random frame what is being argued.
+   */
+  spec?: string;
   captions: Caption[];
 };
 
@@ -72,6 +79,7 @@ export const REEL_SEGMENTS: Segment[] = [
     id: "hook",
     accent: "shared",
     chapter: "M-SERIES",
+    spec: "THE TAKE YOU ONLY GET ONCE",
     captions: [
       { t: "You only find out afterwards.", e: "afterwards" },
       { t: "The take was right.", e: "right" },
@@ -84,6 +92,7 @@ export const REEL_SEGMENTS: Segment[] = [
     id: "range",
     accent: "shared",
     chapter: "THREE SIZES",
+    spec: "2 IN · 4 IN · 6 IN",
     captions: [
       { t: "Three interfaces.", e: "Three" },
       { t: "Two in. Four in. Six in.", e: "Six", sw: 6 },
@@ -96,6 +105,7 @@ export const REEL_SEGMENTS: Segment[] = [
     id: "signal",
     accent: "signal",
     chapter: "THE SIGNAL",
+    spec: "ESS SABRE32 ULTRA · 120 dB",
     captions: [
       { t: "The converter does not change with the size.", e: "does not change" },
       { t: "ESS Sabre32 Ultra, in all three.", e: "Sabre32", sw: 8 },
@@ -108,6 +118,7 @@ export const REEL_SEGMENTS: Segment[] = [
     id: "gain",
     accent: "gain",
     chapter: "THE GAIN",
+    spec: "−129 dBu EIN · ALL THREE",
     captions: [
       { t: "Four preamps on the six. Two on the others.", e: "Four", sw: 10 },
       { t: "All of them measure minus one twenty-nine dBu.", e: "minus", sw: 11 },
@@ -119,6 +130,7 @@ export const REEL_SEGMENTS: Segment[] = [
     id: "latency",
     accent: "latency",
     chapter: "LATENCY",
+    spec: "2.5 ms ROUND TRIP",
     captions: [
       { t: "Two and a half milliseconds, in and back out.", e: "and back", sw: 10 },
       { t: "Sing into it and hear yourself.", e: "yourself" },
@@ -130,6 +142,7 @@ export const REEL_SEGMENTS: Segment[] = [
     id: "room",
     accent: "room",
     chapter: "THE ROOM",
+    spec: "ONE ENGINE · EVERY ROOM",
     captions: [
       { t: "A bedroom at midnight, one guitar.", e: "midnight" },
       { t: "Four people around a table, four microphones.", e: "Four", sw: 8 },
@@ -142,6 +155,7 @@ export const REEL_SEGMENTS: Segment[] = [
     id: "close",
     accent: "shared",
     chapter: "M-SERIES",
+    spec: "M2 · M4 · M6",
     captions: [
       { t: "You do not step up to a better sound.", e: "better sound" },
       { t: "The sound was never the thing you were missing.", e: "never", beat: true },
@@ -168,6 +182,7 @@ export const VIDEO_SEGMENTS: Segment[] = [
     id: "open",
     accent: "shared",
     chapter: "THE PROBLEM",
+    spec: "THE ONE LINK YOU CANNOT REDO",
     captions: [
       { t: "Everything about a recording is recoverable", e: "recoverable" },
       { t: "except the recording.", e: "except", beat: true },
@@ -185,6 +200,7 @@ export const VIDEO_SEGMENTS: Segment[] = [
     id: "range",
     accent: "shared",
     chapter: "THREE SIZES",
+    spec: "2 IN · 4 IN · 6 IN",
     captions: [
       { t: "There are three of them.", e: "three" },
       { t: "Two in and two out.", e: "Two", sw: 5 },
@@ -201,6 +217,7 @@ export const VIDEO_SEGMENTS: Segment[] = [
     id: "signal",
     accent: "signal",
     chapter: "THE SIGNAL",
+    spec: "ESS SABRE32 ULTRA · 120 dB",
     captions: [
       { t: "Because the converter is the same in all three.", e: "the same" },
       { t: "ESS Sabre32 Ultra.", e: "Sabre32", sw: 5 },
@@ -219,6 +236,7 @@ export const VIDEO_SEGMENTS: Segment[] = [
     id: "gain",
     accent: "gain",
     chapter: "THE GAIN",
+    spec: "−129 dBu EIN · ALL THREE",
     captions: [
       { t: "The preamps are the same as well.", e: "the same" },
       { t: "Minus one hundred and twenty-nine dBu", e: "Minus", sw: 7 },
@@ -237,6 +255,7 @@ export const VIDEO_SEGMENTS: Segment[] = [
     id: "latency",
     accent: "latency",
     chapter: "THE ROUND TRIP",
+    spec: "2.5 ms ROUND TRIP",
     captions: [
       { t: "Two and a half milliseconds.", e: "Two and a half", sw: 5 },
       { t: "In, through the computer, and back out.", e: "and back out", beat: true },
@@ -254,6 +273,7 @@ export const VIDEO_SEGMENTS: Segment[] = [
     id: "monitor",
     accent: "monitor",
     chapter: "HEARING IT",
+    spec: "DIRECT MONITORING · FULL-COLOUR METERS",
     captions: [
       { t: "All of which you have to be able to hear.", e: "hear", beat: true },
       { t: "Every input has a button marked MON.", e: "MON", sw: 7 },
@@ -274,6 +294,7 @@ export const VIDEO_SEGMENTS: Segment[] = [
     id: "m2",
     accent: "room",
     chapter: "THE SMALLEST ROOM",
+    spec: "2 IN / 2 OUT · BUS POWERED",
     captions: [
       { t: "So: which one.", e: "which one", beat: true },
       { t: "Two inputs is a voice and an instrument.", e: "a voice", sw: 8 },
@@ -289,6 +310,7 @@ export const VIDEO_SEGMENTS: Segment[] = [
     id: "m4",
     accent: "room",
     chapter: "THE WORKING ROOM",
+    spec: "4 IN / 4 OUT · INPUT-PLAYBACK MIX",
     captions: [
       { t: "Four in and four out is a desk that has grown.", e: "grown", sw: 10 },
       { t: "Two microphone inputs on the front,", e: "on the front", sw: 6 },
@@ -304,6 +326,7 @@ export const VIDEO_SEGMENTS: Segment[] = [
     id: "m6",
     accent: "room",
     chapter: "THE FULL ROOM",
+    spec: "6 IN / 4 OUT · 4 PREAMPS · 2 HEADPHONES",
     captions: [
       { t: "Six in and four out is other people.", e: "other people", sw: 8 },
       { t: "Four microphone preamps, each with its own gain", e: "its own gain", sw: 8 },
@@ -321,6 +344,7 @@ export const VIDEO_SEGMENTS: Segment[] = [
     id: "choose",
     accent: "monitor",
     chapter: "CHOOSING",
+    spec: "THE CHOICE IS A COUNT",
     captions: [
       { t: "Which means the choice is not about quality.", e: "not about quality" },
       { t: "It cannot be. The quality is identical.", e: "identical", beat: true },
@@ -337,6 +361,7 @@ export const VIDEO_SEGMENTS: Segment[] = [
     id: "close",
     accent: "shared",
     chapter: "M-SERIES",
+    spec: "M2 · M4 · M6",
     captions: [
       { t: "You do not step up to a better sound.", e: "better sound" },
       { t: "The sound was never the thing you were missing.", e: "never", beat: true },

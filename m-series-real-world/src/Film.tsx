@@ -11,6 +11,8 @@ import {
   BleedShot, ClipBleed, DetailZoom, MosaicBleed, PanelPlate, ProductPlate, StackBleed,
 } from "./components/Staged.tsx";
 import { Outro } from "./components/Outro.tsx";
+import { FilmTimeline, ProductRule } from "./components/Chrome.tsx";
+import { Graphic } from "./components/Graphics.tsx";
 import { FONT_FACE_CSS } from "./fonts.ts";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -35,10 +37,19 @@ import { FONT_FACE_CSS } from "./fonts.ts";
 // opacity.
 // ─────────────────────────────────────────────────────────────────────────────
 
+/** How present the demonstratives are. Deliberately above TYPE_OPACITY. */
+const GRAPHIC_OPACITY = 0.88;
+/** The longest a demonstrative holds before the picture moves on. */
+const GRAPHIC_MAX_SECONDS = 4.5;
+
 const Shot: React.FC<{ shot: ReturnType<typeof filmFor>["shots"][number]; fps: number }> = ({ shot, fps }) => {
-  const frame = useCurrentFrame();
-  const startF = Math.round(shot.start * fps);
-  const f = frame - startF;
+  // The Sequence this sits inside has ALREADY rebased useCurrentFrame() to 0 at
+  // the shot's first frame. Subtracting the absolute start frame again drove f
+  // negative for the whole shot and clamped p to 0, which froze every camera
+  // move — the push, the pull, the track, the orbit, the drift and the focus
+  // ramp all stayed at their opening value. The films played as stills that
+  // changed on a transition. This is the same mistake the caption layer had.
+  const f = useCurrentFrame();
   const len = Math.max(1, Math.round((shot.end - shot.start) * fps));
   const p = Math.min(1, Math.max(0, f / len));
   const base = { accent: shot.accentKey, p, f, seed: shot.seed };
@@ -105,6 +116,30 @@ export const Film: React.FC = () => {
         </AbsoluteFill>
       </Sequence>
 
+      {/* ── 1b. DEMONSTRATIVES — animated over the picture, on the shot's
+             own clock, so a graphic draws itself while the voice is saying the
+             number rather than beside it. Part of the type layer's opacity
+             budget, so it is never brighter than the words. ─────────────── */}
+      <Sequence durationInFrames={speechEndF}>
+        {/* A demonstrative is information, not typography, so it is held above
+            the caption layer's 64% — at 64% over a photograph these panels are
+            barely legible, which is the state they shipped in. */}
+        <AbsoluteFill style={{ opacity: GRAPHIC_OPACITY }}>
+          {film.shots.filter((sh) => sh.graphic).map((sh, i) => {
+            const from = Math.round(sh.start * fps);
+            // Run to the end of the chapter, capped, so a graphic pinned to a
+            // three-quarter-second caption still has room to draw and hold.
+            const end = Math.min(sh.chapterEnd, sh.start + GRAPHIC_MAX_SECONDS);
+            const dur = Math.max(Math.round(sh.end * fps) - from, Math.round(end * fps) - from);
+            return (
+              <Sequence key={`g-${i}`} from={from} durationInFrames={Math.max(1, dur)}>
+                <GraphicSlot shot={sh} fps={fps} lengthFrames={Math.max(1, dur)} />
+              </Sequence>
+            );
+          })}
+        </AbsoluteFill>
+      </Sequence>
+
       {/* ── 2. TYPE — the entire layer at 64%, set once ──────────────── */}
       <Sequence durationInFrames={speechEndF}>
         <AbsoluteFill style={{ opacity: TYPE_OPACITY }}>
@@ -137,53 +172,22 @@ export const Film: React.FC = () => {
             }),
           )}
 
-          {/* the chapter tag and the progress rule — landscape only, where
-              there is width to spare and a five-minute film needs signposting */}
-          {!P && (
-            <>
-              <div
-                style={{
-                  position: "absolute",
-                  left: fmt.safe.left,
-                  top: fmt.safe.top * 0.62,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 18 * S,
-                }}
-              >
-                <div style={{ width: 10 * S, height: 10 * S, background: acc.glow, borderRadius: 2 }} />
-                <span
-                  style={{
-                    fontFamily: FONT.display,
-                    fontSize: fmt.type.chapter.size,
-                    letterSpacing: fmt.type.chapter.track,
-                    color: INK.onDark,
-                    textShadow: "0 3px 0 rgba(0,0,0,0.6)",
-                  }}
-                >
-                  {seg.chapter}
-                </span>
-              </div>
-              <div
-                style={{
-                  position: "absolute",
-                  left: fmt.safe.left,
-                  right: fmt.safe.right,
-                  bottom: fmt.safe.bottom * 0.5,
-                  height: Math.max(2, 3 * S),
-                  background: "rgba(255,255,255,0.14)",
-                }}
-              >
-                <div
-                  style={{
-                    width: `${Math.min(100, (frame / speechEndF) * 100)}%`,
-                    height: "100%",
-                    background: acc.glow,
-                  }}
-                />
-              </div>
-            </>
-          )}
+          {/* The standing chrome, in BOTH formats. The earlier films carried
+              this and its absence was the first thing noticed: a viewer landing
+              on a random frame could not tell which chapter they were in, and a
+              five-minute film gave no sense of how much was left. */}
+          <ProductRule
+            accent={seg.accent}
+            name={seg.chapter}
+            spec={seg.spec}
+            progress={Math.min(1, Math.max(0, (now - seg.start) / Math.max(0.001, seg.end - seg.start)))}
+            f={frame - Math.round(seg.start * fps)}
+          />
+          <FilmTimeline
+            accent={seg.accent}
+            progress={frame / speechEndF}
+            marks={film.segments.slice(1).map((sg) => sg.start / film.speechEnd)}
+          />
         </AbsoluteFill>
       </Sequence>
 
@@ -196,6 +200,33 @@ export const Film: React.FC = () => {
       <Audio src={staticFile(film.bed)} volume={1} />
       <Audio src={staticFile(film.transitions)} volume={1} />
       <Audio src={staticFile(film.vo)} volume={1} />
+    </AbsoluteFill>
+  );
+};
+
+/** Places a demonstrative clear of the caption block, per format. */
+const GraphicSlot: React.FC<{ shot: any; fps: number; lengthFrames: number }> = ({ shot, lengthFrames }) => {
+  const f = useCurrentFrame();
+  const { width: W, height: H } = useVideoConfig();
+  const fmt = formatFor(W, H);
+  // Draw over the first 70% and hold, rather than still drawing as it cuts.
+  const p = Math.min(1, Math.max(0, f / (lengthFrames * 0.7)));
+  const out = Math.min(1, Math.max(0, (lengthFrames - f) / 8));
+  return (
+    <AbsoluteFill
+      style={{
+        opacity: out,
+        display: "flex",
+        // Portrait: above the caption block. Landscape: the right half, where
+        // the captions never go.
+        alignItems: fmt.portrait ? "center" : "flex-end",
+        justifyContent: fmt.portrait ? "flex-start" : "center",
+        paddingTop: fmt.portrait ? fmt.safe.top + H * 0.10 : 0,
+        paddingRight: fmt.portrait ? 0 : fmt.safe.right,
+        paddingBottom: fmt.portrait ? 0 : fmt.safe.bottom * 0.4,
+      }}
+    >
+      <Graphic kind={shot.graphic} accent={shot.accentKey} p={p} />
     </AbsoluteFill>
   );
 };
