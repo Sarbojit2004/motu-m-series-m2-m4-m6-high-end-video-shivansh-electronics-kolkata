@@ -24,12 +24,16 @@ out/*-silent.mp4
 # original rather than a smaller version of it — so a master that does not fit
 # is CUT into playable segments, never squeezed.
 #
-# Measured off the render rather than guessed: at this content's bitrate the
-# reel master comes to about 66 MB, so it is committed WHOLE and needs no
-# rejoining. The explainer comes to about 220 MB and ships as stream-copied
-# 90-second segments in out/motu-m-series-explainer-parts/:
+# Measured off each render rather than guessed. Restoring the camera motion and
+# the demonstratives took the bitrate from 6.1 to 15.7 Mbps — there is far more
+# moving detail in every frame now — so the reel no longer fits whole either.
+# Both masters ship as stream-copied segments:
 #
-#     cd out/motu-m-series-explainer-parts
-#     ffmpeg -f concat -safe 0 -i rejoin.txt -c copy ../motu-m-series-explainer.mp4
+#     reel        180 MB  ->  three 30-second parts
+#     explainer   ~600 MB ->  sixty-second parts
 #
+#     cd out/motu-m-series-reel-parts
+#     ffmpeg -f concat -safe 0 -i rejoin.txt -c copy ../motu-m-series-reel.mp4
+#
+out/motu-m-series-reel.mp4
 out/motu-m-series-explainer.mp4
