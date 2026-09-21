@@ -11,6 +11,7 @@
     "audio": "python3 scripts/gen_audio.py",
     "coverage": "node --experimental-strip-types scripts/coverage.mjs",
     "framing": "node --experimental-strip-types scripts/framing.mjs",
+    "verify:parts": "sh scripts/verify-parts.sh",
     "render:reel": "sh scripts/render.sh Reel motu-m-series-reel 2696 344",
     "render:video": "sh scripts/render.sh Explainer motu-m-series-explainer 8950 358",
     "timeline": "node --experimental-strip-types scripts/timeline.mjs",
