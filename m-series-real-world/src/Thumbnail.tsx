@@ -33,6 +33,25 @@ const CHIPS = [
   { k: `${SPEC.roundTrip} ms`, v: "ROUND TRIP" },
 ];
 
+/** A waveform, drawn from a fixed seed so the cover is deterministic. */
+const Wave: React.FC<{ S: number; w: number; h: number; color: string }> = ({ S, w, h, color }) => {
+  const n = 96;
+  const bars = Array.from({ length: n }, (_, i) => {
+    const t = i / n;
+    const env = Math.sin(t * Math.PI) ** 0.6;
+    const detail =
+      0.45 + 0.55 * Math.abs(Math.sin(i * 0.7) * 0.6 + Math.sin(i * 0.23) * 0.3 + Math.sin(i * 1.9) * 0.1);
+    return env * detail;
+  });
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 2 * S, width: w, height: h }}>
+      {bars.map((v, i) => (
+        <div key={i} style={{ flex: 1, height: `${Math.max(4, v * 100)}%`, background: color, opacity: 0.20 + v * 0.55, borderRadius: 1 * S }} />
+      ))}
+    </div>
+  );
+};
+
 /** The colour meter that runs on every one of these units. */
 const Meter: React.FC<{ S: number; w: number; h: number; seed: number }> = ({ S, w, h, seed }) => {
   const bars = 6;
@@ -92,7 +111,7 @@ export const Thumbnail: React.FC = () => {
       <div style={{
         position: "absolute", inset: 0, display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "space-between",
-        padding: `${fmt.safe.top * (P ? 0.72 : 0.62)}px ${fmt.safe.left}px ${fmt.safe.bottom * (P ? 0.34 : 0.50)}px`,
+        padding: `${fmt.safe.top * (P ? 0.72 : 0.50)}px ${fmt.safe.left}px ${fmt.safe.bottom * (P ? 0.34 : 0.40)}px`,
       }}>
 
         {/* ── the shared rail: what does NOT change ─────────────────────── */}
@@ -123,10 +142,42 @@ export const Thumbnail: React.FC = () => {
           </div>
         </div>
 
-        {/* ── the lineup: what DOES change ─────────────────────────────── */}
+        {/* ── the body ─────────────────────────────────────────────────── */}
+        {/* Landscape puts the thesis beside the lineup rather than under it:
+            a 16:9 frame centred on one column leaves both sides empty, which
+            is what made this cover read as blank. */}
         <div style={{
           display: "flex", flexDirection: P ? "column" : "row",
-          alignItems: "center", justifyContent: "center", gap: (P ? 34 : 54) * S, width: "100%",
+          alignItems: "center", justifyContent: P ? "center" : "space-between",
+          gap: (P ? 34 : 54) * S, width: "100%",
+        }}>
+        {!P && (
+          <div style={{ flex: "0 0 44%", display: "flex", flexDirection: "column", gap: 20 * S }}>
+            <div style={{ fontSize: 150 * S, lineHeight: 1.0, letterSpacing: -1 * S, color: INK.onDark, textShadow: `0 ${6 * S}px 0 rgba(0,0,0,0.72)` }}>
+              THE SAME<br />MACHINE
+            </div>
+            <div style={{ fontFamily: FONT.script, fontSize: 212 * S, lineHeight: 0.92, color: sig.glow, textShadow: `0 ${7 * S}px 0 rgba(0,0,0,0.72)` }}>
+              three sizes
+            </div>
+            <div style={{ height: 3 * S, width: "62%", background: `linear-gradient(90deg, ${sig.glow}, transparent)` }} />
+            <div style={{ fontSize: 34 * S, lineHeight: 1.45, letterSpacing: 2 * S, color: INK.onDarkSoft, maxWidth: "88%" }}>
+              You do not step up to a better sound.<br />
+              You step up to a <span style={{ color: sig.glow }}>bigger room</span>.
+            </div>
+            <div style={{ marginTop: 10 * S, display: "flex", gap: 30 * S }}>
+              {[["WHAT IS SHARED", "CONVERTERS · PREAMPS · ROUND TRIP"], ["WHAT CHANGES", "HOW MANY THINGS AT ONCE"]].map(([h, v]) => (
+                <div key={h}>
+                  <div style={{ fontSize: 23 * S, letterSpacing: 5 * S, color: sig.glow }}>{h}</div>
+                  <div style={{ marginTop: 7 * S, fontSize: 25 * S, letterSpacing: 2 * S, color: INK.onDarkDim }}>{v}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        <div style={{
+          display: "flex", flexDirection: "column",
+          alignItems: P ? "center" : "flex-end", justifyContent: "center",
+          gap: (P ? 34 : 26) * S, flex: P ? undefined : "0 0 52%",
         }}>
           {LINEUP_3Q.map(({ slug, rel }, i) => {
             const m = MODELS[i];
@@ -149,8 +200,10 @@ export const Thumbnail: React.FC = () => {
           })}
         </div>
 
-        {/* ── the thesis ───────────────────────────────────────────────── */}
-        <div style={{ textAlign: "center" }}>
+        </div>
+
+        {/* ── the thesis — portrait only; landscape carries it on the left ── */}
+        <div style={{ textAlign: "center", display: P ? "block" : "none" }}>
           <div style={{
             fontSize: (P ? 196 : 158) * S, lineHeight: 1.02, letterSpacing: -1 * S,
             color: INK.onDark, textShadow: `0 ${6 * S}px 0 rgba(0,0,0,0.72)`,
@@ -169,6 +222,8 @@ export const Thumbnail: React.FC = () => {
             YOU DO NOT STEP UP TO A BETTER SOUND
           </div>
         </div>
+
+        {!P && <Wave S={S} w={fmt.safe.w} h={70 * S} color={sig.glow} />}
       </div>
     </AbsoluteFill>
   );
