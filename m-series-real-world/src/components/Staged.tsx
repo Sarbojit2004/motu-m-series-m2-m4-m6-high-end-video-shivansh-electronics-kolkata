@@ -3,7 +3,7 @@ import { Img, OffthreadVideo, interpolate, random, staticFile, useVideoConfig } 
 import { ACCENT, GROUND, formatFor, type AccentKey } from "../theme.ts";
 import type { Asset, Clip, Region } from "../assets.ts";
 import {
-  clampToStage, mayBleed, plateIn, stageFor, stagedCamera,
+  bleedCamera, clampToStage, mayBleed, plateIn, stageFor, stagedCamera,
   type MoveKind, type Plate, type Stage,
 } from "./Stage.ts";
 
@@ -56,26 +56,12 @@ const clamp01 = (p: number) => Math.min(1, Math.max(0, p));
 
 export type Camera = { scale: number; x: number; y: number; rot: number };
 
-/**
- * The camera for a plate that covers the frame in both axes.
- *
- * Travel is expressed as a fraction of the overscan the plate already carries,
- * so at the extreme of any move the plate still covers the frame.
- */
-export const fullCamera = (kind: MoveKind, p: number, roomX: number, roomY: number): Camera => {
-  const e = ease(clamp01(p));
-  const t = (a: number, b: number) => interpolate(e, [0, 1], [a, b]);
-  switch (kind) {
-    case "push":       return { scale: t(1, 1.10),    x: 0,                              y: t(roomY * 0.10, -roomY * 0.10), rot: 0 };
-    case "pull":       return { scale: t(1.12, 1.0),  x: 0,                              y: t(-roomY * 0.10, roomY * 0.08), rot: 0 };
-    case "trackLeft":  return { scale: 1.05,          x: t(roomX * 0.72, -roomX * 0.72), y: 0,                              rot: 0 };
-    case "trackRight": return { scale: 1.05,          x: t(-roomX * 0.72, roomX * 0.72), y: 0,                              rot: 0 };
-    case "tiltUp":     return { scale: 1.06,          x: 0,                              y: t(roomY * 0.70, -roomY * 0.70), rot: 0 };
-    case "tiltDown":   return { scale: 1.06,          x: 0,                              y: t(-roomY * 0.70, roomY * 0.70), rot: 0 };
-    case "orbit":
-    default:           return { scale: t(1.02, 1.12), x: t(roomX * 0.30, -roomX * 0.30), y: t(-roomY * 0.14, roomY * 0.10), rot: t(-0.9, 0.9) };
-  }
-};
+// `fullCamera` used to live here: the camera for a plate laid out LARGER than
+// the frame. It is gone rather than deprecated. Its contract — "travel inside
+// the overscan the plate already carries" — is what let a 1.10 overscan and a
+// 1.12 scale multiply into a 19% crop that nothing in the project measured.
+// Bled shots use bleedCamera in Stage.ts, which makes its own room and so has
+// to declare how much of the picture it is spending.
 
 /**
  * The camera for a plate that is wider than the frame but not as tall.
@@ -449,20 +435,21 @@ export const BleedShot: React.FC<Base & { asset: Asset }> = ({ asset, accent, p,
   const kind = move ?? moveFor(seed);
 
   if (mayBleed(asset.ar, W / H)) {
-    const over = fmt.overhang;
-    const roomX = (W * (over - 1)) / 2;
-    const roomY = (H * (over - 1)) / 2;
-    const cam = fullCamera(kind, p, roomX, roomY);
+    // The plate is EXACTLY the frame. It used to be laid out at fmt.overhang —
+    // 10% larger — and then scaled up to 1.12 on top of that, so a pull ended
+    // with 19% of the photograph outside the frame before objectFit: cover had
+    // been counted. bleedCamera makes its own room instead: at scale 1 there is
+    // none and the picture is whole.
+    const cam = bleedCamera(kind, p, W, H);
     return (
       <div style={{ position: "absolute", inset: 0, overflow: "hidden", background: GROUND.darkSink }}>
         <Img
           src={url(asset)}
           style={{
             position: "absolute",
-            left: -roomX,
-            top: -roomY,
-            width: W * over,
-            height: H * over,
+            inset: 0,
+            width: W,
+            height: H,
             objectFit: "cover",
             transform: `translate(${cam.x}px, ${cam.y}px) scale(${cam.scale}) rotate(${cam.rot}deg)`,
             transformOrigin: "50% 50%",
@@ -528,10 +515,10 @@ export const ClipBleed: React.FC<Base & { clip: Clip; startFrom?: number }> = ({
   });
 
   if (mayBleed(clip.ar, W / H)) {
-    const over = 1.07;
-    const roomX = (W * (over - 1)) / 2;
-    const roomY = (H * (over - 1)) / 2;
-    const cam = soft(fullCamera(kind, p, roomX, roomY));
+    // Gentler still than a photograph's: the clip carries its own move, and a
+    // 16:9 clip in a 16:9 frame is the one case where a bleed costs nothing at
+    // all until the camera asks it to.
+    const cam = bleedCamera(kind, p, W, H, 1.05);
     return (
       <div style={{ position: "absolute", inset: 0, overflow: "hidden", background: GROUND.darkSink }}>
         <OffthreadVideo
@@ -540,10 +527,9 @@ export const ClipBleed: React.FC<Base & { clip: Clip; startFrom?: number }> = ({
           startFrom={startFrom}
           style={{
             position: "absolute",
-            left: -roomX,
-            top: -roomY,
-            width: W * over,
-            height: H * over,
+            inset: 0,
+            width: W,
+            height: H,
             objectFit: "cover",
             transform: `translate(${cam.x}px, ${cam.y}px) scale(${cam.scale})`,
             transformOrigin: "50% 50%",

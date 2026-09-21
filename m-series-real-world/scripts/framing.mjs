@@ -23,8 +23,10 @@
 
 import { REEL, VIDEO } from "../src/films.ts";
 import { FORMATS } from "../src/theme.ts";
+import { REEL_SHOTS, VIDEO_SHOTS } from "../src/shots.ts";
+import { clip as clipFor } from "../src/assets.ts";
 import {
-  clampToStage, coverKeeps, mayBleed, plateIn, stageFor, stagedCamera,
+  bleedCamera, bleedKeeps, clampToStage, mayBleed, plateIn, stageFor, stagedCamera,
 } from "../src/components/Stage.ts";
 
 const MOVES = ["push", "pull", "trackLeft", "trackRight", "tiltUp", "tiltDown", "orbit"];
@@ -45,6 +47,9 @@ const span = (w, h, scale, rot) => {
 
 const SAMPLES = 41;
 
+/** A bled picture may not lose more than this much of either axis, ever. */
+const BLEED_FLOOR = 0.85;
+
 for (const film of [REEL, VIDEO]) {
   const fmt = FORMATS[film.id];
   const { width: W, height: H, fps } = fmt;
@@ -53,6 +58,14 @@ for (const film of [REEL, VIDEO]) {
 
   let bled = 0, staged = 0, worstBleed = 1, tightest = Infinity, motion = [];
 
+  // Counted from the PLAN, not from the resolved shots: placeShots rewrites a
+  // clip shot whose footage is missing into a still, so by the time it reaches
+  // the film there is nothing left to say it ever wanted a clip. That is the
+  // right behaviour for the render and the wrong one for a report.
+  const plan = film.id === "reel" ? REEL_SHOTS : VIDEO_SHOTS;
+  const wanted = Object.values(plan).flat().filter((sp) => sp.clipSlug);
+  const bound = wanted.filter((sp) => clipFor(sp.clipSlug));
+
   console.log(`\n${film.id.toUpperCase()}  ${W}x${H}   stage ${Math.round(stage.w)}x${Math.round(stage.h)} at y=${Math.round(stage.y)}`);
 
   for (const shot of film.shots) {
@@ -60,17 +73,27 @@ for (const film of [REEL, VIDEO]) {
     if (kind !== "bleed" && kind !== "clip") continue;
 
     // placeShots resolves each reference into the asset record itself.
+    // placeShots resolves each reference into the asset record itself.
     const src = kind === "clip" ? shot.clip : shot.asset;
-    if (!src) continue; // a clip that has not been downloaded yet
+    if (!src) continue;
     const ar = src.ar;
     const where = `${film.id} ${src.slug} ar=${ar.toFixed(3)}`;
 
     if (mayBleed(ar, frameAr)) {
       bled += 1;
-      const { axis, keep } = coverKeeps(ar, frameAr);
-      worstBleed = Math.min(worstBleed, keep);
-      const tol = axis === "width" ? 0.85 : 0.92;
-      if (keep < tol - 1e-9) fail(`${where} bled but keeps only ${(keep * 100).toFixed(1)}% of its ${axis}`);
+      // The TOTAL cost, not just the cover: the camera's own magnification
+      // takes a slice of both axes on top, and measuring only the first is how
+      // 19% went missing without appearing in anyone's budget.
+      const zoom = kind === "clip" ? 1.05 : 1.1;
+      let worst = 1;
+      for (let i = 0; i < SAMPLES; i += 1) {
+        const p = i / (SAMPLES - 1);
+        const k = bleedKeeps(ar, W, H, bleedCamera(moveFor(shot.seed), p, W, H, zoom));
+        worst = Math.min(worst, k.w, k.h);
+      }
+      worstBleed = Math.min(worstBleed, worst);
+      if (worst < BLEED_FLOOR - 1e-9)
+        fail(`${where} bled and loses ${((1 - worst) * 100).toFixed(1)}% of an axis at the far end of its move`);
       continue;
     }
 
@@ -118,7 +141,8 @@ for (const film of [REEL, VIDEO]) {
   motion.sort((a, b) => a - b);
   const med = motion.length ? motion[Math.floor(motion.length / 2)] : 0;
   console.log(`  ${staged} shots placed complete, ${bled} bled`);
-  if (bled) console.log(`  worst bleed keeps ${(worstBleed * 100).toFixed(1)}% of the picture`);
+  console.log(`  ${bound.length} of ${wanted.length} deployment shots on real footage, ${wanted.length - bound.length} falling back to a photograph`);
+  if (bled) console.log(`  worst bled shot keeps ${(worstBleed * 100).toFixed(1)}% of both axes at every frame of its move`);
   if (staged) {
     console.log(`  tightest clearance to the stage edge: ${tightest.toFixed(1)} px`);
     console.log(`  camera travel per shot: min ${motion[0].toFixed(0)} px, median ${med.toFixed(0)} px, max ${motion[motion.length - 1].toFixed(0)} px`);

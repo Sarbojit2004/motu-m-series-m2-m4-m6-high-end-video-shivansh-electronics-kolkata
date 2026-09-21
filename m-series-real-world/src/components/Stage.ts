@@ -47,15 +47,16 @@ import type { Format } from "../theme.ts";
 export const PLATE_FILL = 0.94;
 
 /**
- * How much a picture may lose to a bleed before it is placed complete instead.
+ * How close to the frame's own shape a picture must be before it may bleed.
  *
- * The two numbers are deliberately different. Trimming the SIDES of a picture
- * that is wider than the frame costs the extreme left and right, where a
- * photographer rarely puts the subject. Trimming the TOP AND BOTTOM of a
- * picture that is squarer than the frame costs the desk and the head, which is
- * where the subject always is. So sideways is forgiven three times as far.
+ * 0.94 means "within 6%". In the landscape film that is 1.67:1 to 1.89:1, so
+ * the 16:9 deployment clips and the two photographs already cut to roughly
+ * that shape fill the frame, and everything else — including the 2.06:1 desk
+ * shots and the 1.03:1 drum kit — is placed complete. In the vertical film,
+ * where the frame is 0.5625:1, nothing qualifies and nothing ever will, which
+ * is the correct answer and the one the old test got backwards.
  */
-const BLEED_TOLERANCE = { width: 0.85, height: 0.92 } as const;
+const BLEED_TOLERANCE = 0.94;
 
 /** The fraction of a picture that survives objectFit: cover in a given frame. */
 export const coverKeeps = (ar: number, frameAr: number): { axis: "width" | "height"; keep: number } =>
@@ -64,10 +65,8 @@ export const coverKeeps = (ar: number, frameAr: number): { axis: "width" | "heig
     : { axis: "height", keep: ar / frameAr };
 
 /** True when covering costs the picture little enough to be worth the full frame. */
-export const mayBleed = (ar: number, frameAr: number): boolean => {
-  const { axis, keep } = coverKeeps(ar, frameAr);
-  return keep >= BLEED_TOLERANCE[axis];
-};
+export const mayBleed = (ar: number, frameAr: number): boolean =>
+  coverKeeps(ar, frameAr).keep >= BLEED_TOLERANCE;
 
 export type Stage = { x: number; y: number; w: number; h: number; cx: number; cy: number };
 
@@ -247,4 +246,74 @@ export const stagedCamera = (
     case "orbit":
     default:           return { scale: t(1, hi),    x: t(rx * 0.6, -rx * 0.6),   y: breath + t(-ry * 0.4, ry * 0.4), rot: t(-ORBIT_ROT, ORBIT_ROT) };
   }
+};
+
+/**
+ * The camera for a picture that DOES fill the frame.
+ *
+ * The old one drove a plate laid out 10% larger than the frame and then scaled
+ * it up to 1.12 on top, so at the far end of a pull 19% of the picture was
+ * outside the frame before objectFit: cover had even been counted. That is not
+ * a large crop, but it is an invisible one, and it was not in anyone's budget.
+ *
+ * Here the plate is EXACTLY the frame, and the room a move needs is made by
+ * the move itself: at scale 1 there is none and the picture is whole, and the
+ * travel at any other scale is the room that scale just created. So every
+ * push begins on the complete picture, every pull ends on it, and nothing ever
+ * loses more than `maxZoom`.
+ */
+export const bleedCamera = (
+  kind: MoveKind, p: number, W: number, H: number, maxZoom: number = 1.1,
+): Camera => {
+  const e = ease(clamp01(p));
+  const t = (a: number, b: number) => a + (b - a) * e;
+  const mid = 1 + (maxZoom - 1) * 0.55;
+
+  let scale = mid;
+  let fx = 0;
+  let fy = 0;
+  let rot = 0;
+  switch (kind) {
+    case "push":       scale = t(1, maxZoom);     fy = t(0.3, -0.3);   break;
+    case "pull":       scale = t(maxZoom, 1);     fy = t(-0.3, 0.3);   break;
+    case "trackLeft":  fx = t(0.86, -0.86);                            break;
+    case "trackRight": fx = t(-0.86, 0.86);                            break;
+    case "tiltUp":     fy = t(0.86, -0.86);                            break;
+    case "tiltDown":   fy = t(-0.86, 0.86);                            break;
+    case "orbit":
+    default:           scale = t(1.01, maxZoom);  fx = t(0.4, -0.4); fy = t(-0.2, 0.2);
+                       rot = t(-ORBIT_ROT, ORBIT_ROT);                 break;
+  }
+  // The room this scale has made, and no more. A rotation eats into it in both
+  // axes, exactly as it does on the staged path.
+  const rad = (Math.abs(rot) * Math.PI) / 180;
+  const spanW = W * Math.cos(rad) + H * Math.sin(rad);
+  const spanH = W * Math.sin(rad) + H * Math.cos(rad);
+  return {
+    scale,
+    x: fx * Math.max(0, (spanW * scale - W) / 2),
+    y: fy * Math.max(0, (spanH * scale - H) / 2),
+    rot,
+  };
+};
+
+/**
+ * The fraction of a bled picture that reaches the screen at a given camera.
+ *
+ * cover throws away one axis to make the picture the frame's shape; the
+ * camera's own magnification then throws away a slice of BOTH. Measuring only
+ * the first is how 19% went missing without anyone budgeting for it, so this
+ * returns the product, per axis, and scripts/framing.mjs holds it to account.
+ */
+export const bleedKeeps = (
+  ar: number, W: number, H: number, cam: Camera,
+): { w: number; h: number } => {
+  const { axis, keep } = coverKeeps(ar, W / H);
+  const rad = (Math.abs(cam.rot) * Math.PI) / 180;
+  const spanW = (W * Math.cos(rad) + H * Math.sin(rad)) * cam.scale;
+  const spanH = (W * Math.sin(rad) + H * Math.cos(rad)) * cam.scale;
+  return {
+    w: (axis === "width" ? keep : 1) * Math.min(1, W / spanW),
+    h: (axis === "height" ? keep : 1) * Math.min(1, H / spanH),
+  };
 };
