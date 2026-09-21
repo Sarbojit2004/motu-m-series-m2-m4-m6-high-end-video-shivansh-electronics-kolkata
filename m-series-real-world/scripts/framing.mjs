@@ -15,6 +15,10 @@
 //      edge of the picture is ever outside the frame;
 //   2. the plate's aspect ratio is the picture's own, so nothing is stretched.
 //
+// And on every clip shot, that the footage is long enough for the shot: an
+// OffthreadVideo asked for a frame past its end holds the last one, which is a
+// freeze in the middle of a shot rather than an error anyone would notice.
+//
 // A shot that is allowed to bleed is held to the tolerance instead: it must
 // keep at least 92% of its height, or 85% of its width.
 //
@@ -78,6 +82,18 @@ for (const film of [REEL, VIDEO]) {
     if (!src) continue;
     const ar = src.ar;
     const where = `${film.id} ${src.slug} ar=${ar.toFixed(3)}`;
+
+    // A clip asked for a frame past its end holds the last one. The plan was
+    // written for eight-second footage and the clips are 5.04 s, so this is
+    // not hypothetical: thirteen shots overran before `from` and `rate` were
+    // fitted to what actually exists.
+    if (kind === "clip") {
+      const used = shot.from + (shot.end - shot.start) * shot.rate;
+      if (used > src.dur + 1e-6)
+        fail(`${where} runs ${(used - src.dur).toFixed(2)} s past the end of its footage`);
+      if (shot.rate < 0.62 - 1e-9)
+        fail(`${where} is eased to ${shot.rate.toFixed(3)}, below the judder floor`);
+    }
 
     if (mayBleed(ar, frameAr)) {
       bled += 1;

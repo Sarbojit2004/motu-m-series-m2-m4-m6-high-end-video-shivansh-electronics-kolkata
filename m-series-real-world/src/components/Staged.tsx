@@ -496,10 +496,16 @@ export const BleedShot: React.FC<Base & { asset: Asset }> = ({ asset, accent, p,
  * rarely needs all of it, so different shots take different passes of the same
  * move without repeating.
  */
-export const ClipBleed: React.FC<Base & { clip: Clip; startFrom?: number }> = ({
-  clip, accent, p, f, seed, move, startFrom = 0,
+export const ClipBleed: React.FC<Base & { clip: Clip; fromSeconds?: number; rate?: number }> = ({
+  clip, accent, p, f, seed, move, fromSeconds = 0, rate = 1,
 }) => {
-  const { width: W, height: H } = useVideoConfig();
+  const { width: W, height: H, fps } = useVideoConfig();
+  // The shot plan states this offset in SECONDS, which is how an editor thinks
+  // about a clip. Remotion counts startFrom in FRAMES, and the two were being
+  // passed straight through each other: "start three seconds in" arrived as
+  // "start three frames in", so the reel has never once shown the section of a
+  // deployment it was written to show.
+  const startFrom = Math.round(fromSeconds * fps);
   const fmt = formatFor(W, H);
   const acc = ACCENT[accent];
   const kind = move ?? moveFor(seed);
@@ -525,6 +531,7 @@ export const ClipBleed: React.FC<Base & { clip: Clip; startFrom?: number }> = ({
           src={src}
           muted
           startFrom={startFrom}
+          playbackRate={rate}
           style={{
             position: "absolute",
             inset: 0,
@@ -549,9 +556,9 @@ export const ClipBleed: React.FC<Base & { clip: Clip; startFrom?: number }> = ({
     <StagedFrame accent={accent} stage={stage} plate={plate} cam={cam} portrait={fmt.portrait}>
       {(role) =>
         role === "wash" ? (
-          <OffthreadVideo src={src} muted startFrom={startFrom} style={WASH_MEDIA} />
+          <OffthreadVideo src={src} muted startFrom={startFrom} playbackRate={rate} style={WASH_MEDIA} />
         ) : (
-          <OffthreadVideo src={src} muted startFrom={startFrom} style={PLATE_MEDIA} />
+          <OffthreadVideo src={src} muted startFrom={startFrom} playbackRate={rate} style={PLATE_MEDIA} />
         )
       }
     </StagedFrame>

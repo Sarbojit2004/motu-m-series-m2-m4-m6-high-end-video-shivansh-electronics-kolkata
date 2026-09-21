@@ -56,7 +56,7 @@ const Shot: React.FC<{ shot: ReturnType<typeof filmFor>["shots"][number]; fps: n
 
   switch (shot.kind) {
     case "clip":
-      return <ClipBleed {...base} clip={shot.clip!} startFrom={shot.from} />;
+      return <ClipBleed {...base} clip={shot.clip!} fromSeconds={shot.from} rate={shot.rate} />;
     case "plate":
       return <ProductPlate {...base} asset={shot.asset!} />;
     case "panel":
